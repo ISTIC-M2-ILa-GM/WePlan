@@ -9,9 +9,9 @@
     <name>WePlan</name>
 
     <modules>
-        <module>weplan-server</module>
-        <module>weplan-domain</module>
-        <module>weplan-infra</module>
+        <module>server</module>
+        <module>domain</module>
+        <module>infra</module>
     </modules>
 
     <inceptionYear>2018</inceptionYear>
@@ -41,6 +41,9 @@
         <maven-dependency.version>2.4</maven-dependency.version>
         <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
 
+        <springboot.version>2.0.5.RELEASE</springboot.version>
+        <hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
+
         <slf4j.version>1.7.25</slf4j.version>
         <lombok.version>1.18.2</lombok.version>
         <mapstruct.version>1.2.0.Final</mapstruct.version>
@@ -55,6 +58,30 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- SpringBoot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.javax.persistence</groupId>
+                <artifactId>hibernate-jpa-2.1-api</artifactId>
+                <version>${hibernate-jpa.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
 
             <!-- Map Struct -->
             <dependency>
@@ -131,4 +158,14 @@
             </plugins>
         </pluginManagement>
     </build>
+    <repositories>
+        <repository>
+            <id>spring-libs-release</id>
+            <name>Spring Releases</name>
+            <url>https://repo.spring.io/libs-release</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>
