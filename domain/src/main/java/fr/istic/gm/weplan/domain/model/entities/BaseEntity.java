@@ -1,4 +1,4 @@
-package fr.istic.gm.weplan.domain.model;
+package fr.istic.gm.weplan.domain.model.entities;
 
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
