@@ -54,6 +54,7 @@
         <maven-surefire-plugin.version>2.19</maven-surefire-plugin.version>
         <mockito.core.version>2.22.0</mockito.core.version>
         <podam.version>7.2.0.RELEASE</podam.version>
+        <h2.version>1.4.197</h2.version>
     </properties>
 
     <dependencyManagement>
@@ -112,6 +113,12 @@
 
             <!-- TEST Dep -->
             <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${springboot.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.hamcrest</groupId>
                 <artifactId>hamcrest-all</artifactId>
                 <version>${hamcrest.version}</version>
@@ -127,6 +134,12 @@
                 <groupId>uk.co.jemos.podam</groupId>
                 <artifactId>podam</artifactId>
                 <version>${podam.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
