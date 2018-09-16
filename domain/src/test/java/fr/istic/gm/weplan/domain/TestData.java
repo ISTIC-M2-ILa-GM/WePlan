@@ -1,8 +1,9 @@
-package fr.istic.gm.weplan.server;
+package fr.istic.gm.weplan.domain;
 
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.entities.City;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -16,15 +17,19 @@ public class TestData {
         return FACTORY.manufacturePojoWithFullData(PageOptions.class);
     }
 
-    public static PageDto<CityDto> somePageCities() {
+    public static PageDto<CityDto> somePageDtoCities() {
         return PageDto.<CityDto>builder()
-                .results(Collections.singletonList(someCity()))
+                .results(Collections.singletonList(someCityDto()))
                 .totalPages(10)
                 .size(10)
                 .build();
     }
 
-    public static CityDto someCity() {
+    public static CityDto someCityDto() {
         return FACTORY.manufacturePojoWithFullData(CityDto.class);
+    }
+
+    public static City someCity() {
+        return FACTORY.manufacturePojoWithFullData(City.class);
     }
 }

@@ -27,9 +27,9 @@ public class CityController {
      */
     public PageDto<CityDto> getCities(PageOptions pageOptions) {
 
-        log.info(API_MESSAGE, GET_CITIES, pageOptions);
+        log.info(API_MESSAGE, "", GET_CITIES, pageOptions);
         PageDto<CityDto> cities = cityService.getCities(pageOptions);
-        log.info(API_MESSAGE, CITIES_GOTTEN, "");
+        log.info(API_MESSAGE, "", CITIES_GOTTEN, "");
 
         return cities;
     }
