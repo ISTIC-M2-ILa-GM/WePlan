@@ -9,7 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import static fr.istic.gm.weplan.server.log.LogMessage.API_MESSAGE;
 import static fr.istic.gm.weplan.server.log.LogMessage.CITIES_GOTTEN;
+import static fr.istic.gm.weplan.server.log.LogMessage.CITY_GOTTEN;
 import static fr.istic.gm.weplan.server.log.LogMessage.GET_CITIES;
+import static fr.istic.gm.weplan.server.log.LogMessage.GET_CITY;
 
 /**
  * City Controller
@@ -32,5 +34,14 @@ public class CityController {
         log.info(API_MESSAGE, "", CITIES_GOTTEN, "");
 
         return cities;
+    }
+
+    public CityDto getCity(Long id) {
+
+        log.info(API_MESSAGE, id, GET_CITY, "");
+        CityDto city = cityService.getCity(id);
+        log.info(API_MESSAGE, "", CITY_GOTTEN, city);
+
+        return city;
     }
 }

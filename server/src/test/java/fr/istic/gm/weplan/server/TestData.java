@@ -10,6 +10,8 @@ import java.util.Collections;
 
 public class TestData {
 
+    public static final Long ID = 10L;
+
     private static final PodamFactory FACTORY = new PodamFactoryImpl();
 
     public static PageOptions somePageOptions() {

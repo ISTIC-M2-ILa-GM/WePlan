@@ -6,4 +6,6 @@ import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 
 public interface CityService {
     PageDto<CityDto> getCities(PageOptions pageOptions);
+
+    CityDto getCity(Long id);
 }

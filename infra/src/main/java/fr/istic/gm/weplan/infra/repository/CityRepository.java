@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * The City repository
  */
@@ -15,4 +17,7 @@ public interface CityRepository extends JpaRepository<City, Long>, CityAdapter {
 
     @Override
     Page<City> findAll(Pageable pageable);
+
+    @Override
+    Optional<City> findById(Long id);
 }

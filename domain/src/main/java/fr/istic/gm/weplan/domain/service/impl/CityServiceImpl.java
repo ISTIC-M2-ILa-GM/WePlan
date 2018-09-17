@@ -1,6 +1,8 @@
 package fr.istic.gm.weplan.domain.service.impl;
 
 import fr.istic.gm.weplan.domain.adapter.CityAdapter;
+import fr.istic.gm.weplan.domain.exception.DomainException;
+import fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType;
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
@@ -12,8 +14,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.Optional;
+
+import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.*;
+import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
 import static fr.istic.gm.weplan.domain.log.LogMessage.CITIES_GOTTEN;
+import static fr.istic.gm.weplan.domain.log.LogMessage.CITY_GOTTEN;
 import static fr.istic.gm.weplan.domain.log.LogMessage.GET_CITIES;
+import static fr.istic.gm.weplan.domain.log.LogMessage.GET_CITY;
 import static fr.istic.gm.weplan.domain.log.LogMessage.SERVICE_MESSAGE;
 
 @AllArgsConstructor
@@ -39,5 +47,28 @@ public class CityServiceImpl implements CityService {
         log.info(SERVICE_MESSAGE, "", CITIES_GOTTEN, "");
 
         return citiesDto;
+    }
+
+    @Override
+    public CityDto getCity(Long id) {
+
+        log.info(SERVICE_MESSAGE, id, GET_CITY, "");
+
+        Optional<City> city = getAndVerifyCity(id);
+        CityDto cityDto = persistenceMapper.toCityDto(city.get());
+
+        log.info(SERVICE_MESSAGE, id, CITY_GOTTEN, cityDto);
+
+        return cityDto;
+    }
+
+    private Optional<City> getAndVerifyCity(Long id) {
+        Optional<City> city = cityAdapter.findById(id);
+        if (!city.isPresent()) {
+            DomainException e = new DomainException(NOT_FOUND_MSG, "city", NOT_FOUND);
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+        return city;
     }
 }
