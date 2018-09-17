@@ -36,6 +36,12 @@ public class CityController {
         return cities;
     }
 
+
+    /**
+     * Retrieve a city.
+     * @param id the id to retrieve
+     * @return the city
+     */
     public CityDto getCity(Long id) {
 
         log.info(API_MESSAGE, id, GET_CITY, "");
