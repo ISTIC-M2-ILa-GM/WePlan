@@ -12,16 +12,23 @@ import java.util.Optional;
 public interface CityAdapter {
 
     /**
-     * Find all city with pageable
+     * Find all city with pageable.
      * @param pageable the pageable
      * @return the city page
      */
     Page<City> findAll(Pageable pageable);
 
     /**
-     * Find a city by id
+     * Find a city by id.
      * @param id the id to search
      * @return the optional city
      */
     Optional<City> findById(Long id);
+
+    /**
+     * Save a city.
+     * @param city the city to save
+     * @return the saved city.
+     */
+    City save(City city);
 }

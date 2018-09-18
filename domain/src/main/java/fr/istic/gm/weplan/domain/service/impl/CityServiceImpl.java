@@ -10,6 +10,7 @@ import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.service.CityService;
+import fr.istic.gm.weplan.domain.service.DepartmentService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,9 @@ import java.util.Optional;
 import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.*;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
 import static fr.istic.gm.weplan.domain.log.LogMessage.CITIES_GOTTEN;
+import static fr.istic.gm.weplan.domain.log.LogMessage.CITY_CREATED;
 import static fr.istic.gm.weplan.domain.log.LogMessage.CITY_GOTTEN;
+import static fr.istic.gm.weplan.domain.log.LogMessage.CREATE_CITY;
 import static fr.istic.gm.weplan.domain.log.LogMessage.GET_CITIES;
 import static fr.istic.gm.weplan.domain.log.LogMessage.GET_CITY;
 import static fr.istic.gm.weplan.domain.log.LogMessage.SERVICE_MESSAGE;
@@ -30,6 +33,8 @@ import static fr.istic.gm.weplan.domain.log.LogMessage.SERVICE_MESSAGE;
 public class CityServiceImpl implements CityService {
 
     private CityAdapter cityAdapter;
+
+    private DepartmentService departmentService;
 
     private PersistenceMapper persistenceMapper;
 
@@ -65,7 +70,17 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public CityDto createCity(CityRequest cityRequest) {
-        return null;
+
+        log.info(SERVICE_MESSAGE, "", CREATE_CITY, cityRequest);
+
+        City city = persistenceMapper.toCity(cityRequest);
+        city.setDepartment(departmentService.getDepartmentDao(cityRequest.getDepartmentId()));
+        City result = cityAdapter.save(city);
+        CityDto cityDto = persistenceMapper.toCityDto(result);
+
+        log.info(SERVICE_MESSAGE, "", CITY_CREATED, cityDto);
+
+        return cityDto;
     }
 
     private Optional<City> getAndVerifyCity(Long id) {

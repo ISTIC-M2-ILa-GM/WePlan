@@ -76,4 +76,21 @@ public class CityRepositoryTest {
         assertThat(city.get().getPostalCode(), equalTo(entity1.getPostalCode()));
         assertThat(city.get().getId(), equalTo(entity1.getId()));
     }
+
+    @Test
+    public void shouldCreateACity() {
+
+        City city = someCity();
+        city.setId(null);
+        city.setCreatedAt(null);
+        city.setUpdatedAt(null);
+        city.setDepartment(null);
+
+        city = cityRepository.save(city);
+
+        assertThat(city, notNullValue());
+        assertThat(city.getId(), notNullValue());
+        assertThat(city.getCreatedAt(), notNullValue());
+        assertThat(city.getUpdatedAt(), notNullValue());
+    }
 }
