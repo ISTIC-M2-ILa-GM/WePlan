@@ -8,12 +8,20 @@ import fr.istic.gm.weplan.domain.service.RegionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import static fr.istic.gm.weplan.server.log.LogMessage.*;
+
 @AllArgsConstructor
 @Slf4j
 public class RegionController {
     private RegionService regionService;
 
     public PageDto<RegionDto> getRegions(PageOptions pageOptions) {
-        return null;
+        log.info(API_MESSAGE, "", GET_REGIONS, pageOptions);
+        PageDto<RegionDto> regions = regionService.getRegions(pageOptions);
+        log.info(API_MESSAGE, "", REGIONS_GOTTEN, "");
+
+        return regions;
     }
+
+
 }

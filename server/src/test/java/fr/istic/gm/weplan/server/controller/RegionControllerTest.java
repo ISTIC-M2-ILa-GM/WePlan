@@ -37,6 +37,7 @@ public class RegionControllerTest {
         PageOptions pageOptions = somePageOptions();
         PageDto<RegionDto> pageCities = somePageRegions();
 
+        // prepare stub for getRegions method
         when(mockRegionService.getRegions(any())).thenReturn(pageCities);
 
         PageDto<RegionDto> result = this.regionController.getRegions(pageOptions);
