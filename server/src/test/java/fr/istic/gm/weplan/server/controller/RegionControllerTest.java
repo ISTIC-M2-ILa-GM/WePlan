@@ -3,6 +3,7 @@ package fr.istic.gm.weplan.server.controller;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
+import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.service.RegionService;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,5 +47,25 @@ public class RegionControllerTest {
 
         assertThat(result, notNullValue());
         assertThat(result, equalTo(pageCities));
+    }
+
+/*
+    @Test
+    public void shouldGetRegion() {
+
+    }
+*/
+
+    @Test
+    public void shouldPostRegion() {
+        RegionDto region = new RegionDto();
+        when(this.mockRegionService.createRegion(any())).thenReturn(region);
+
+        RegionDto result = regionController.createRegion(region);
+
+        verify(this.mockRegionService).createRegion(region);
+
+        assertThat(result, notNullValue());
+        assertThat(result, equalTo(region));
     }
 }

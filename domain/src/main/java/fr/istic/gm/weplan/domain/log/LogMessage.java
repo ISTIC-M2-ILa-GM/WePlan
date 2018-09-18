@@ -7,4 +7,7 @@ public interface LogMessage {
     String SERVICE_MESSAGE = "SERVICE({}): {} {}";
     String GET_CITIES = "Get cities:";
     String CITIES_GOTTEN = "Cities gotten.";
+
+    String POST_REGION = "Post region: ";
+    String REGION_POSTED = "Region posted.";
 }

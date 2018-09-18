@@ -6,4 +6,8 @@ import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 
 public interface RegionService {
     PageDto<RegionDto> getRegions(PageOptions pageOptions);
+
+    RegionDto getRegion(Long id);
+
+    RegionDto createRegion(RegionDto region);
 }
