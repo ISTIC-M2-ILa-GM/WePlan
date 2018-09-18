@@ -2,6 +2,7 @@ package fr.istic.gm.weplan.domain.model.mapper;
 
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
+import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
@@ -10,6 +11,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mapstruct.factory.Mappers;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +40,7 @@ public class PersistenceMapperTest {
     @Test
     public void shouldMapCity() {
 
-        assertThat(mapper.toCityDto(null), equalTo(null));
+        assertThat(mapper.toCityDto(null), nullValue());
 
         City city = someCity();
         CityDto cityDto = mapper.toCityDto(city);
@@ -54,7 +57,7 @@ public class PersistenceMapperTest {
     @Test
     public void shouldMapCities() {
 
-        assertThat(mapper.toCitiesDto(null), equalTo(null));
+        assertThat(mapper.toCitiesDto(null), nullValue());
         assertThat(mapper.toCitiesDto(new ArrayList<>()), hasSize(0));
         assertThat(mapper.toCitiesDto(Collections.singletonList(someCity())), hasSize(1));
 
@@ -67,7 +70,7 @@ public class PersistenceMapperTest {
     @Test
     public void shouldMapCityRequest() {
 
-        assertThat(mapper.toCity(null), equalTo(null));
+        assertThat(mapper.toCity(null), nullValue());
 
         CityRequest cityRequest = someCityRequest();
         City city = mapper.toCity(cityRequest);
@@ -80,7 +83,7 @@ public class PersistenceMapperTest {
     @Test
     public void shouldMapADepartment() {
 
-        assertThat(mapper.toDepartmentDto(null), equalTo(null));
+        assertThat(mapper.toDepartmentDto(null), nullValue());
 
         Department department = someDepartment();
         DepartmentDto departmentDto = mapper.toDepartmentDto(department);
@@ -88,5 +91,21 @@ public class PersistenceMapperTest {
         assertThat(departmentDto.getName(), equalTo(department.getName()));
         assertThat(departmentDto.getCode(), equalTo(department.getCode()));
         assertThat(departmentDto.getRegion(), notNullValue());
+    }
+
+    @Test
+    public void shouldMapAPageCity() {
+        assertThat(mapper.toCitiesPageDto(null), nullValue());
+
+        City city = someCity();
+        PageImpl<City> page = new PageImpl<>(Collections.singletonList(city), PageRequest.of(1, 2), 10);
+
+        PageDto<CityDto> citiesPageDto = mapper.toCitiesPageDto(page);
+
+        assertThat(citiesPageDto, notNullValue());
+        assertThat(citiesPageDto.getSize(), equalTo(2));
+        assertThat(citiesPageDto.getTotalPages(), equalTo(5));
+        assertThat(citiesPageDto.getResults(), hasSize(1));
+        assertThat(citiesPageDto.getResults().get(0).getId(), equalTo(city.getId()));
     }
 }

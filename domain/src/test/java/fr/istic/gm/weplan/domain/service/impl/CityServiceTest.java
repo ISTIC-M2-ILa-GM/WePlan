@@ -9,7 +9,7 @@ import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
-import fr.istic.gm.weplan.domain.service.DepartmentService;
+import fr.istic.gm.weplan.domain.service.DepartmentDaoService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -49,7 +49,7 @@ public class CityServiceTest {
     private CityAdapter mockCityAdapter;
 
     @Mock
-    private DepartmentService mockDepartmentService;
+    private DepartmentDaoService mockDepartmentService;
 
     @Mock
     private Clock mockClock;

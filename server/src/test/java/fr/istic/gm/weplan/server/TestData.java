@@ -29,11 +29,11 @@ public class TestData {
     }
 
     public static PageDto<CityDto> somePageCities() {
-        return PageDto.<CityDto>builder()
-                .results(Collections.singletonList(someCity()))
-                .totalPages(10)
-                .size(10)
-                .build();
+        PageDto<CityDto> citiesDto = new PageDto<>();
+        citiesDto.setSize(10);
+        citiesDto.setTotalPages(10);
+        citiesDto.setResults(Collections.singletonList(someCity()));
+        return citiesDto;
     }
 
     public static CityDto someCity() {

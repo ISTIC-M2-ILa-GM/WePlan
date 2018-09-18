@@ -1,10 +1,14 @@
 package fr.istic.gm.weplan.server.controller;
 
+import fr.istic.gm.weplan.domain.model.dto.CityDto;
+import fr.istic.gm.weplan.domain.model.dto.PageDto;
+import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.entities.City;
-import fr.istic.gm.weplan.domain.service.CityService;
+import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.infra.repository.CityRepository;
 import fr.istic.gm.weplan.server.App;
 import fr.istic.gm.weplan.server.config.CommonConfiguration;
+import fr.istic.gm.weplan.server.utils.JsonUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,12 +18,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.LinkedHashMap;
+import java.util.List;
 
 import static fr.istic.gm.weplan.server.TestData.someCityDao;
 import static fr.istic.gm.weplan.server.config.ApiRoutes.CITY;
-import static org.hamcrest.core.Is.is;
+import static fr.istic.gm.weplan.server.utils.JsonUtils.parseToJson;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -33,6 +44,9 @@ public class CityControllerIT {
     @Autowired
     private CityRepository cityRepository;
 
+    @Autowired
+    private PersistenceMapper persistenceMapper;
+
     private City entity1;
     private City entity2;
 
@@ -42,8 +56,10 @@ public class CityControllerIT {
 
         entity1 = someCityDao();
         entity1.setDepartment(null);
+        entity1.setDeletedAt(null);
         entity2 = someCityDao();
         entity2.setDepartment(null);
+        entity2.setDeletedAt(null);
 
         entity1 = cityRepository.save(entity1);
         entity2 = cityRepository.save(entity2);
@@ -51,17 +67,23 @@ public class CityControllerIT {
 
     @Test
     public void shouldGetCities() throws Exception {
-        mockMvc.perform(get(CITY)
+
+        PageOptions pageOptions = new PageOptions();
+        pageOptions.setPage(0);
+        pageOptions.setSize(10);
+
+        MvcResult mvcResult = mockMvc.perform(get(CITY)
+                .content(parseToJson(pageOptions))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id", is(entity1.getId())))
-                .andExpect(jsonPath("$[0].createdAt", is(entity1.getCreatedAt())))
-                .andExpect(jsonPath("$[0].updatedAt", is(entity1.getUpdatedAt())))
-                .andExpect(jsonPath("$[0].postalCode", is(entity1.getPostalCode())))
-                .andExpect(jsonPath("$[1].id", is(entity2.getId())))
-                .andExpect(jsonPath("$[1].createdAt", is(entity2.getCreatedAt())))
-                .andExpect(jsonPath("$[1].updatedAt", is(entity2.getUpdatedAt())))
-                .andExpect(jsonPath("$[1].postalCode", is(entity2.getPostalCode())));
+                .andReturn();
+
+        PageDto<CityDto> response = (PageDto<CityDto>) JsonUtils.fromJson(mvcResult, PageDto.class);
+
+        assertThat(response, notNullValue());
+        assertThat(response.getTotalPages(), equalTo(1));
+        assertThat(response.getSize(), equalTo(10));
+        assertThat(response.getResults(), hasSize(2));
     }
 }

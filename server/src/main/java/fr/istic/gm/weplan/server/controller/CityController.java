@@ -7,6 +7,10 @@ import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.service.CityService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static fr.istic.gm.weplan.server.log.LogMessage.API_MESSAGE;
 import static fr.istic.gm.weplan.server.log.LogMessage.CITIES_GOTTEN;
@@ -23,6 +27,8 @@ import static fr.istic.gm.weplan.server.log.LogMessage.GET_CITY;
  */
 @AllArgsConstructor
 @Slf4j
+@RestController
+@RequestMapping(path = "/city", produces = "application/json")
 public class CityController {
 
     private CityService cityService;
@@ -33,7 +39,8 @@ public class CityController {
      * @param pageOptions the page options
      * @return the cities pageable
      */
-    public PageDto<CityDto> getCities(PageOptions pageOptions) {
+    @GetMapping
+    public PageDto<CityDto> getCities(@RequestBody PageOptions pageOptions) {
 
         log.info(API_MESSAGE, "", GET_CITIES, pageOptions);
         PageDto<CityDto> cities = cityService.getCities(pageOptions);
