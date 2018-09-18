@@ -25,6 +25,7 @@ public class CityRepositoryTest {
 
     @Autowired
     private CityRepository cityRepository;
+
     private City entity1;
     private City entity2;
 
