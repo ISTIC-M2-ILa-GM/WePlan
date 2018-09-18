@@ -42,6 +42,8 @@
         <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
 
         <springboot.version>2.0.5.RELEASE</springboot.version>
+        <aspectj.version>1.9.1</aspectj.version>
+
         <hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
 
         <slf4j.version>1.7.25</slf4j.version>
@@ -62,6 +64,16 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
                 <version>${springboot.version}</version>
             </dependency>
             <dependency>
