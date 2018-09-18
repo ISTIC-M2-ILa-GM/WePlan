@@ -22,6 +22,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -49,6 +51,9 @@ public class CityServiceTest {
     @Mock
     private DepartmentService mockDepartmentService;
 
+    @Mock
+    private Clock mockClock;
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
@@ -57,7 +62,7 @@ public class CityServiceTest {
     @Before
     public void setUp() {
         persistenceMapper = Mappers.getMapper(PersistenceMapper.class);
-        service = new CityServiceImpl(mockCityAdapter, mockDepartmentService, persistenceMapper);
+        service = new CityServiceImpl(mockCityAdapter, mockDepartmentService, persistenceMapper, mockClock);
     }
 
     @Test
@@ -145,5 +150,41 @@ public class CityServiceTest {
         assertThat(results, notNullValue());
         assertThat(results.getDepartment(), notNullValue());
         assertThat(results.getDepartment(), equalTo(persistenceMapper.toDepartmentDto(city.getDepartment())));
+    }
+
+    @Test
+    public void shouldDeleteACity() {
+
+        Instant now = Instant.now();
+        City city = someCity();
+        city.setDeletedAt(null);
+        city.setDepartment(null);
+        Optional<City> optionalCity = Optional.of(city);
+
+        when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
+        when(mockCityAdapter.save(any())).thenReturn(city);
+        when(mockClock.instant()).thenReturn(now);
+
+        service.deleteCity(ID);
+
+        verify(mockCityAdapter).findById(ID);
+        verify(mockCityAdapter).save(city);
+        verify(mockClock).instant();
+
+        assertThat(city.getDeletedAt(), notNullValue());
+        assertThat(city.getDeletedAt(), equalTo(now));
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenDeleteANullCity() {
+
+        Optional<City> optionalCity = Optional.empty();
+
+        when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, "city"));
+
+        service.deleteCity(ID);
     }
 }

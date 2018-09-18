@@ -16,14 +16,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.time.Clock;
 import java.util.Optional;
 
 import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.*;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
 import static fr.istic.gm.weplan.domain.log.LogMessage.CITIES_GOTTEN;
 import static fr.istic.gm.weplan.domain.log.LogMessage.CITY_CREATED;
+import static fr.istic.gm.weplan.domain.log.LogMessage.CITY_DELETED;
 import static fr.istic.gm.weplan.domain.log.LogMessage.CITY_GOTTEN;
 import static fr.istic.gm.weplan.domain.log.LogMessage.CREATE_CITY;
+import static fr.istic.gm.weplan.domain.log.LogMessage.DELETE_CITY;
 import static fr.istic.gm.weplan.domain.log.LogMessage.GET_CITIES;
 import static fr.istic.gm.weplan.domain.log.LogMessage.GET_CITY;
 import static fr.istic.gm.weplan.domain.log.LogMessage.SERVICE_MESSAGE;
@@ -37,6 +40,8 @@ public class CityServiceImpl implements CityService {
     private DepartmentService departmentService;
 
     private PersistenceMapper persistenceMapper;
+
+    private Clock clock;
 
     @Override
     public PageDto<CityDto> getCities(PageOptions pageOptions) {
@@ -60,8 +65,8 @@ public class CityServiceImpl implements CityService {
 
         log.info(SERVICE_MESSAGE, id, GET_CITY, "");
 
-        Optional<City> city = getAndVerifyCity(id);
-        CityDto cityDto = persistenceMapper.toCityDto(city.get());
+        City city = getAndVerifyCity(id);
+        CityDto cityDto = persistenceMapper.toCityDto(city);
 
         log.info(SERVICE_MESSAGE, id, CITY_GOTTEN, cityDto);
 
@@ -83,13 +88,25 @@ public class CityServiceImpl implements CityService {
         return cityDto;
     }
 
-    private Optional<City> getAndVerifyCity(Long id) {
+    @Override
+    public void deleteCity(Long id) {
+
+        log.info(SERVICE_MESSAGE, id, DELETE_CITY, "");
+
+        City city = getAndVerifyCity(id);
+        city.setDeletedAt(clock.instant());
+        cityAdapter.save(city);
+
+        log.info(SERVICE_MESSAGE, id, CITY_DELETED, "");
+    }
+
+    private City getAndVerifyCity(Long id) {
         Optional<City> city = cityAdapter.findById(id);
         if (!city.isPresent()) {
             DomainException e = new DomainException(NOT_FOUND_MSG, "city", NOT_FOUND);
             log.error(e.getMessage(), e);
             throw e;
         }
-        return city;
+        return city.get();
     }
 }

@@ -12,6 +12,7 @@ public interface CityService {
 
     /**
      * Retrieve all cities.
+     *
      * @param pageOptions the page options
      * @return The pages of Cities
      */
@@ -19,6 +20,7 @@ public interface CityService {
 
     /**
      * Retrieve a city.
+     *
      * @param id the id of the city
      * @return the city
      */
@@ -26,8 +28,16 @@ public interface CityService {
 
     /**
      * Create a city.
+     *
      * @param cityRequest the city to create
      * @return the created city
      */
     CityDto createCity(CityRequest cityRequest);
+
+    /**
+     * Delete a city.
+     *
+     * @param id the id of the city to delete
+     */
+    void deleteCity(Long id);
 }

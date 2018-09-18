@@ -3,7 +3,6 @@ package fr.istic.gm.weplan.server.controller;
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
-import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.service.CityService;
 import org.junit.Before;
@@ -82,5 +81,13 @@ public class CityControllerTest {
 
         assertThat(result, notNullValue());
         assertThat(result, equalTo(cityDto));
+    }
+
+    @Test
+    public void shouldDeleteACity() {
+
+        controller.deleteCity(ID);
+
+        verify(mockCityService).deleteCity(ID);
     }
 }
