@@ -8,6 +8,7 @@ import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
+import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.service.CityService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +61,11 @@ public class CityServiceImpl implements CityService {
         log.info(SERVICE_MESSAGE, id, CITY_GOTTEN, cityDto);
 
         return cityDto;
+    }
+
+    @Override
+    public CityDto createCity(CityRequest cityRequest) {
+        return null;
     }
 
     private Optional<City> getAndVerifyCity(Long id) {

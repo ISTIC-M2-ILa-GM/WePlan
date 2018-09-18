@@ -3,6 +3,7 @@ package fr.istic.gm.weplan.server;
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -13,6 +14,10 @@ public class TestData {
     public static final Long ID = 10L;
 
     private static final PodamFactory FACTORY = new PodamFactoryImpl();
+
+    public static CityRequest someCityRequest() {
+        return FACTORY.manufacturePojoWithFullData(CityRequest.class);
+    }
 
     public static PageOptions somePageOptions() {
         return FACTORY.manufacturePojoWithFullData(PageOptions.class);
