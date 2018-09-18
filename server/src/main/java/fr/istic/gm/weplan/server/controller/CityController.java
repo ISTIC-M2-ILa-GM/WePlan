@@ -73,6 +73,10 @@ public class CityController {
         return cityDto;
     }
 
+    /**
+     * Delete a city.
+     * @param id the id to delete
+     */
     public void deleteCity(Long id) {
 
         log.info(API_MESSAGE, id, DELETE_CITY, "");
