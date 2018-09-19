@@ -124,7 +124,8 @@ public class CityServiceImpl extends PatchService<City> implements CityService {
     }
 
     private City getAndVerifyCity(Long id) {
-        Optional<City> city = cityAdapter.findById(id);
+
+        Optional<City> city = id != null ? cityAdapter.findById(id) : Optional.empty();
         if (!city.isPresent() || city.get().getDeletedAt() != null) {
             DomainException e = new DomainException(NOT_FOUND_MSG, City.class.getSimpleName(), NOT_FOUND);
             log.error(SERVICE_MESSAGE, id, e.getMessage(), "", e);

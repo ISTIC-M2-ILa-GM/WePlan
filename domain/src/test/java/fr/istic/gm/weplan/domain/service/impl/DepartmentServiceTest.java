@@ -46,7 +46,7 @@ public class DepartmentServiceTest {
     }
 
     @Test
-    public void shouldGetDaoDepartment() {
+    public void shouldGetDepartmentDao() {
 
         Department department = someDepartment();
         Optional<Department> optionalDepartment = Optional.of(department);
@@ -62,9 +62,24 @@ public class DepartmentServiceTest {
     }
 
     @Test
-    public void shouldThrowDomainExceptionWhenGetANullCity() {
+    public void shouldThrowDomainExceptionWhenGetANullDepartmentDao() {
 
         Optional<Department> optionalDepartment = Optional.empty();
+
+        when(mockDepartmentAdapter.findById(any())).thenReturn(optionalDepartment);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Department.class.getSimpleName()));
+
+        service.getDepartmentDao(ID);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetADeletedDepartmentDao() {
+
+        Department department = someDepartment();
+        department.setDeletedAt(Instant.now());
+        Optional<Department> optionalDepartment = Optional.of(department);
 
         when(mockDepartmentAdapter.findById(any())).thenReturn(optionalDepartment);
 
@@ -78,7 +93,6 @@ public class DepartmentServiceTest {
     public void shouldThrowDomainExceptionWhenGetADeletedDao() {
 
         Department department = someDepartment();
-        department.setDeletedAt(Instant.now());
         Optional<Department> optionalDepartment = Optional.of(department);
 
         when(mockDepartmentAdapter.findById(any())).thenReturn(optionalDepartment);
@@ -86,6 +100,6 @@ public class DepartmentServiceTest {
         thrown.expect(DomainException.class);
         thrown.expectMessage(String.format(NOT_FOUND_MSG, Department.class.getSimpleName()));
 
-        service.getDepartmentDao(ID);
+        service.getDepartmentDao(null);
     }
 }
