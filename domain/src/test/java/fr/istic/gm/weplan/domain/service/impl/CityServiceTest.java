@@ -75,13 +75,13 @@ public class CityServiceTest {
         PageOptions pageOptions = somePageOptions();
         Page<City> cities = new PageImpl<>(Collections.singletonList(someCity()), PageRequest.of(1, 1), 2);
 
-        when(mockCityAdapter.findAll(any())).thenReturn(cities);
+        when(mockCityAdapter.findAllByDeletedAtIsNull(any())).thenReturn(cities);
 
         PageDto<CityDto> results = service.getCities(pageOptions);
 
         PageRequest expectedPageable = PageRequest.of(pageOptions.getPage(), pageOptions.getSize());
 
-        verify(mockCityAdapter).findAll(expectedPageable);
+        verify(mockCityAdapter).findAllByDeletedAtIsNull(expectedPageable);
 
         assertThat(results, notNullValue());
         assertThat(results.getResults(), equalTo(persistenceMapper.toCitiesDto(cities.getContent())));

@@ -9,7 +9,9 @@ public class TestData {
     private static final PodamFactory FACTORY = new PodamFactoryImpl();
 
     public static City someCity() {
-        return FACTORY.manufacturePojoWithFullData(City.class);
+        City city = FACTORY.manufacturePojoWithFullData(City.class);
+        city.setDeletedAt(null);
+        return city;
     }
 
 }

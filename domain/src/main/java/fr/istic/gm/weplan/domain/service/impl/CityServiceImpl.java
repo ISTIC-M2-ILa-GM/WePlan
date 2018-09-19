@@ -55,7 +55,7 @@ public class CityServiceImpl extends PatchService<City> implements CityService {
 
         log.info(SERVICE_MESSAGE, "", GET_CITIES, pageOptions);
 
-        Page<City> cities = cityAdapter.findAll(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
+        Page<City> cities = cityAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
         PageDto<CityDto> citiesDto = persistenceMapper.toCitiesPageDto(cities);
 
         log.info(SERVICE_MESSAGE, "", CITIES_GOTTEN, "");
