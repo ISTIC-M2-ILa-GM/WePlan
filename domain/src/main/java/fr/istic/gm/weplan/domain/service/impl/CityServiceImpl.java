@@ -110,7 +110,7 @@ public class CityServiceImpl extends PatchService<City> implements CityService {
 
         City city = getAndVerifyCity(id);
         if (data == null || data.isEmpty()) {
-            DomainException e = new DomainException(NOTHING_TO_PATCH, "city", BAD_REQUEST);
+            DomainException e = new DomainException(NOTHING_TO_PATCH, City.class.getSimpleName(), BAD_REQUEST);
             log.error(e.getMessage(), e);
             throw e;
         }
@@ -125,9 +125,9 @@ public class CityServiceImpl extends PatchService<City> implements CityService {
 
     private City getAndVerifyCity(Long id) {
         Optional<City> city = cityAdapter.findById(id);
-        if (!city.isPresent()) {
-            DomainException e = new DomainException(NOT_FOUND_MSG, "city", NOT_FOUND);
-            log.error(e.getMessage(), e);
+        if (!city.isPresent() || city.get().getDeletedAt() != null) {
+            DomainException e = new DomainException(NOT_FOUND_MSG, City.class.getSimpleName(), NOT_FOUND);
+            log.error(SERVICE_MESSAGE, id, e.getMessage(), "", e);
             throw e;
         }
         return city.get();

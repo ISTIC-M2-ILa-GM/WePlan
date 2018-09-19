@@ -42,6 +42,8 @@ public class TestData {
     }
 
     public static City someCity() {
-        return FACTORY.manufacturePojoWithFullData(City.class);
+        City city = FACTORY.manufacturePojoWithFullData(City.class);
+        city.setDeletedAt(null);
+        return city;
     }
 }

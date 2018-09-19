@@ -113,7 +113,22 @@ public class CityServiceTest {
         when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
 
         thrown.expect(DomainException.class);
-        thrown.expectMessage(String.format(NOT_FOUND_MSG, "city"));
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
+
+        service.getCity(ID);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetADeletedCity() {
+
+        City city = someCity();
+        city.setDeletedAt(Instant.now());
+        Optional<City> optionalCity = Optional.of(city);
+
+        when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
 
         service.getCity(ID);
     }
@@ -161,7 +176,6 @@ public class CityServiceTest {
 
         Instant now = Instant.now();
         City city = someCity();
-        city.setDeletedAt(null);
         city.setDepartment(null);
         Optional<City> optionalCity = Optional.of(city);
 
@@ -187,7 +201,22 @@ public class CityServiceTest {
         when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
 
         thrown.expect(DomainException.class);
-        thrown.expectMessage(String.format(NOT_FOUND_MSG, "city"));
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
+
+        service.deleteCity(ID);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenDeleteADeletedCity() {
+
+        City city = someCity();
+        city.setDeletedAt(Instant.now());
+        Optional<City> optionalCity = Optional.of(city);
+
+        when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
 
         service.deleteCity(ID);
     }
@@ -196,7 +225,6 @@ public class CityServiceTest {
     public void shouldPatchACity() {
 
         City city = someCity();
-        city.setDeletedAt(null);
         city.setDepartment(null);
         Optional<City> optionalCity = Optional.of(city);
 
@@ -218,6 +246,21 @@ public class CityServiceTest {
     }
 
     @Test
+    public void shouldThrowDomainExceptionWhenPatchADeletedCity() {
+
+        City city = someCity();
+        city.setDeletedAt(Instant.now());
+        Optional<City> optionalCity = Optional.of(city);
+
+        when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
+
+        service.patchCity(ID, new HashMap<>());
+    }
+
+    @Test
     public void shouldThrowDomainExceptionWhenPatchANullCity() {
 
         Optional<City> optionalCity = Optional.empty();
@@ -225,7 +268,7 @@ public class CityServiceTest {
         when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
 
         thrown.expect(DomainException.class);
-        thrown.expectMessage(String.format(NOT_FOUND_MSG, "city"));
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
 
         service.patchCity(null, new HashMap<>());
     }

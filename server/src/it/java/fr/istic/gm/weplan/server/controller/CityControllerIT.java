@@ -131,9 +131,7 @@ public class CityControllerIT {
     @Test
     public void shouldDeleteACity() throws Exception {
 
-        mockMvc.perform(delete(CITY + ID, entity1.getId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete(CITY + ID, entity1.getId()))
                 .andExpect(status().isNoContent());
     }
 
