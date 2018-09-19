@@ -11,6 +11,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static fr.istic.gm.weplan.server.TestData.ID;
 import static fr.istic.gm.weplan.server.TestData.someCity;
 import static fr.istic.gm.weplan.server.TestData.someCityRequest;
@@ -89,5 +92,20 @@ public class CityControllerTest {
         controller.deleteCity(ID);
 
         verify(mockCityService).deleteCity(ID);
+    }
+
+    @Test
+    public void shouldPatchACity() {
+
+        Map<String, Object> patch = new HashMap<>();
+
+        CityDto cityDto = someCity();
+
+        when(mockCityService.patchCity(any(), any())).thenReturn(cityDto);
+
+        CityDto result = controller.patchCity(ID, patch);
+
+        assertThat(result, notNullValue());
+        assertThat(result, equalTo(cityDto));
     }
 }

@@ -4,7 +4,6 @@ import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.entities.City;
-import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.infra.repository.CityRepository;
 import fr.istic.gm.weplan.server.App;
 import fr.istic.gm.weplan.server.config.CommonConfiguration;
@@ -19,9 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
-import java.util.LinkedHashMap;
-import java.util.List;
 
 import static fr.istic.gm.weplan.server.TestData.someCityDao;
 import static fr.istic.gm.weplan.server.config.ApiRoutes.CITY;
@@ -43,9 +39,6 @@ public class CityControllerIT {
 
     @Autowired
     private CityRepository cityRepository;
-
-    @Autowired
-    private PersistenceMapper persistenceMapper;
 
     private City entity1;
     private City entity2;

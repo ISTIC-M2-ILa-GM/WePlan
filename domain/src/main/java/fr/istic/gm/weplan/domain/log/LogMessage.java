@@ -4,6 +4,8 @@ package fr.istic.gm.weplan.domain.log;
  * Logging message.
  */
 public interface LogMessage {
+    String PATCH_CITY = "Patch city:";
+    String CITY_PATCHED = "City patched:";
     String CREATE_CITY = "Create city:";
     String CITY_CREATED = "City created:";
     String GET_CITY = "Get city...";

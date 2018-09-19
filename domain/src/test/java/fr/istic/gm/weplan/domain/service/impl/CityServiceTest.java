@@ -25,6 +25,8 @@ import org.springframework.data.domain.PageRequest;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static fr.istic.gm.weplan.domain.TestData.ID;
@@ -32,7 +34,9 @@ import static fr.istic.gm.weplan.domain.TestData.someCity;
 import static fr.istic.gm.weplan.domain.TestData.someCityRequest;
 import static fr.istic.gm.weplan.domain.TestData.someDepartment;
 import static fr.istic.gm.weplan.domain.TestData.somePageOptions;
+import static fr.istic.gm.weplan.domain.exception.DomainException.NOTHING_TO_PATCH;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
+import static fr.istic.gm.weplan.domain.exception.DomainException.WRONG_DATA_TO_PATCH;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -186,5 +190,94 @@ public class CityServiceTest {
         thrown.expectMessage(String.format(NOT_FOUND_MSG, "city"));
 
         service.deleteCity(ID);
+    }
+
+    @Test
+    public void shouldPatchACity() {
+
+        City city = someCity();
+        city.setDeletedAt(null);
+        city.setDepartment(null);
+        Optional<City> optionalCity = Optional.of(city);
+
+        Map<String, Object> patch = new HashMap<>();
+        patch.put("name", "a-new-name");
+        patch.put("postalCode", 10000);
+
+        when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
+        when(mockCityAdapter.save(any())).thenReturn(city);
+
+        CityDto result = service.patchCity(ID, patch);
+
+        verify(mockCityAdapter).findById(ID);
+        verify(mockCityAdapter).save(city);
+
+        assertThat(result, notNullValue());
+        assertThat(result.getName(), equalTo("a-new-name"));
+        assertThat(result.getPostalCode(), equalTo(10000));
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenPatchANullCity() {
+
+        Optional<City> optionalCity = Optional.empty();
+
+        when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, "city"));
+
+        service.patchCity(null, new HashMap<>());
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenPatchACityWithANullPatch() {
+
+        City city = someCity();
+        city.setDeletedAt(null);
+        city.setDepartment(null);
+        Optional<City> optionalCity = Optional.of(city);
+
+        when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(NOTHING_TO_PATCH);
+
+        service.patchCity(ID, null);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenPatchACityWithAnEmptyPatch() {
+
+        City city = someCity();
+        city.setDeletedAt(null);
+        city.setDepartment(null);
+        Optional<City> optionalCity = Optional.of(city);
+
+        when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(NOTHING_TO_PATCH);
+
+        service.patchCity(ID, new HashMap<>());
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenPatchACityWithWrongType() {
+
+        City city = someCity();
+        city.setDeletedAt(null);
+        city.setDepartment(null);
+        Optional<City> optionalCity = Optional.of(city);
+
+        Map<String, Object> patch = new HashMap<>();
+        patch.put("name", new Object());
+
+        when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(WRONG_DATA_TO_PATCH);
+
+        service.patchCity(ID, patch);
     }
 }

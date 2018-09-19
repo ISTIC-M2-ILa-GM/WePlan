@@ -12,15 +12,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 import static fr.istic.gm.weplan.server.log.LogMessage.API_MESSAGE;
 import static fr.istic.gm.weplan.server.log.LogMessage.CITIES_GOTTEN;
 import static fr.istic.gm.weplan.server.log.LogMessage.CITY_CREATED;
 import static fr.istic.gm.weplan.server.log.LogMessage.CITY_DELETED;
 import static fr.istic.gm.weplan.server.log.LogMessage.CITY_GOTTEN;
+import static fr.istic.gm.weplan.server.log.LogMessage.CITY_PATCHED;
 import static fr.istic.gm.weplan.server.log.LogMessage.CREATE_CITY;
 import static fr.istic.gm.weplan.server.log.LogMessage.DELETE_CITY;
 import static fr.istic.gm.weplan.server.log.LogMessage.GET_CITIES;
 import static fr.istic.gm.weplan.server.log.LogMessage.GET_CITY;
+import static fr.istic.gm.weplan.server.log.LogMessage.PATCH_CITY;
 
 /**
  * City Controller
@@ -82,6 +86,7 @@ public class CityController {
 
     /**
      * Delete a city.
+     *
      * @param id the id to delete
      */
     public void deleteCity(Long id) {
@@ -89,5 +94,21 @@ public class CityController {
         log.info(API_MESSAGE, id, DELETE_CITY, "");
         cityService.deleteCity(id);
         log.info(API_MESSAGE, id, CITY_DELETED, "");
+    }
+
+    /**
+     * Patch a city with new data.
+     *
+     * @param id    the id of the city to patch
+     * @param patch the map of the field to patch
+     * @return the updated city
+     */
+    public CityDto patchCity(Long id, Map<String, Object> patch) {
+
+        log.info(API_MESSAGE, id, PATCH_CITY, patch);
+        CityDto cityDto = cityService.patchCity(id, patch);
+        log.info(API_MESSAGE, id, CITY_PATCHED, cityDto);
+
+        return cityDto;
     }
 }
