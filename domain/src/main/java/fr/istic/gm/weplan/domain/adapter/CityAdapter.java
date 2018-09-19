@@ -13,13 +13,23 @@ public interface CityAdapter {
 
     /**
      * Find all city with pageable.
+     *
      * @param pageable the pageable
      * @return the city page
      */
     Page<City> findAll(Pageable pageable);
 
     /**
+     * Find all city which is not deleted with pageable.
+     *
+     * @param pageable the pageable
+     * @return the city page
+     */
+    Page<City> findAllByDeletedAtIsNull(Pageable pageable);
+
+    /**
      * Find a city by id.
+     *
      * @param id the id to search
      * @return the optional city
      */
@@ -27,6 +37,7 @@ public interface CityAdapter {
 
     /**
      * Save a city.
+     *
      * @param city the city to save
      * @return the saved city.
      */

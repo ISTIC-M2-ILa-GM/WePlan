@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import static fr.istic.gm.weplan.infra.TestData.someCity;
@@ -18,6 +19,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {TestConfiguration.class})
@@ -51,6 +53,20 @@ public class CityRepositoryTest {
         assertThat(cities, notNullValue());
         assertThat(cities.getTotalPages(), equalTo(1));
         assertThat(cities.getContent(), hasSize(2));
+        assertThat(cities.getSize(), equalTo(10));
+    }
+
+    @Test
+    public void shouldFindAllByDeletedAtIsNull() {
+
+        entity1.setDeletedAt(Instant.now());
+        entity1 = cityRepository.save(entity1);
+
+        Page<City> cities = cityRepository.findAllByDeletedAtIsNull(PageRequest.of(0, 10));
+
+        assertThat(cities, notNullValue());
+        assertThat(cities.getTotalPages(), equalTo(1));
+        assertThat(cities.getContent(), hasSize(1));
         assertThat(cities.getSize(), equalTo(10));
     }
 

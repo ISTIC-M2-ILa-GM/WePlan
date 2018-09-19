@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.BAD_REQUEST;
+import static fr.istic.gm.weplan.domain.exception.DomainException.NOTHING_TO_PATCH;
 import static fr.istic.gm.weplan.domain.exception.DomainException.WRONG_DATA_TO_PATCH;
 
 /**
@@ -24,6 +25,7 @@ public abstract class PatchService<T> {
      * @param data the data to patch
      */
     protected void patch(T o, Map<String, Object> data) {
+        verifyData(o, data);
         for (Method m : o.getClass().getDeclaredMethods()) {
             if (m.getName().startsWith("set")) {
                 String dataField = toDataField(m.getName());
@@ -37,6 +39,20 @@ public abstract class PatchService<T> {
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Verify if data is null or empty.
+     *
+     * @param o    the object for logging
+     * @param data the data to test
+     */
+    private void verifyData(T o, Map<String, Object> data) {
+        if (data == null || data.isEmpty()) {
+            DomainException e = new DomainException(NOTHING_TO_PATCH, o.getClass().getSimpleName(), BAD_REQUEST);
+            log.error(e.getMessage(), e);
+            throw e;
         }
     }
 
