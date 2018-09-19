@@ -9,6 +9,7 @@ import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
+import fr.istic.gm.weplan.domain.service.PatchService;
 import fr.istic.gm.weplan.domain.service.RegionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ import static fr.istic.gm.weplan.domain.log.LogMessage.*;
 @AllArgsConstructor
 @Slf4j
 @Service
-public class RegionServiceImpl implements RegionService {
+public class RegionServiceImpl extends PatchService<Region> implements RegionService {
     private RegionAdapter regionAdapter;
 
     private PersistenceMapper persistenceMapper;
@@ -77,24 +78,11 @@ public class RegionServiceImpl implements RegionService {
     public RegionDto updateRegion(Long id, Map<String, Object> map) {
         Region region = this.getAndVerifyRegion(id);
 
-        map.keySet().forEach(key -> {
-            if (map.get(key) != null){
-                switch (key) {
-                    case "name":
-                        region.setName(map.get(key).toString());
-                        break;
-                    default:
-                        // do nothing
-                        break;
-                }
-            }
-        });
+        this.patch(region, map);
 
         Region result = this.regionAdapter.save(region);
 
-        RegionDto output = this.persistenceMapper.toRegionDto(result);
-
-        return output;
+        return this.persistenceMapper.toRegionDto(result);
     }
 
     @Override
