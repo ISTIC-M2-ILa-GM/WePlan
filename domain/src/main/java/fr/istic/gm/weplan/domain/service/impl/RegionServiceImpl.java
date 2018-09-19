@@ -1,9 +1,11 @@
 package fr.istic.gm.weplan.domain.service.impl;
 
 import fr.istic.gm.weplan.domain.adapter.RegionAdapter;
+import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
+import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.service.RegionService;
@@ -13,9 +15,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Optional;
 
+import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.NOT_FOUND;
+import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
 import static fr.istic.gm.weplan.domain.log.LogMessage.*;
 
 @AllArgsConstructor
@@ -25,6 +31,8 @@ public class RegionServiceImpl implements RegionService {
     private RegionAdapter regionAdapter;
 
     private PersistenceMapper persistenceMapper;
+
+    private Clock clock;
 
     @Override
     public PageDto<RegionDto> getRegions(PageOptions pageOptions) {
@@ -65,13 +73,14 @@ public class RegionServiceImpl implements RegionService {
 
     @Override
     public RegionDto updateRegion(Long id, HashMap<String, Object> map) {
-        RegionDto region = this.getRegion(id);
+        Region region = this.getAndVerifyRegion(id);
+        RegionDto regionDto = this.persistenceMapper.toRegionDto(region);
 
         map.keySet().forEach(key -> {
             if (map.get(key) != null){
                 switch (key) {
                     case "name":
-                        region.setName(map.get(key).toString());
+                        regionDto.setName(map.get(key).toString());
                         break;
                     default:
                         // do nothing
@@ -80,11 +89,29 @@ public class RegionServiceImpl implements RegionService {
             }
         });
 
-        Region input = this.persistenceMapper.toRegion(region);
-        Region result = this.regionAdapter.update(input);
+        Region input = this.persistenceMapper.toRegion(regionDto);
+        Region result = this.regionAdapter.save(input);
 
         RegionDto output = this.persistenceMapper.toRegionDto(result);
 
         return output;
+    }
+
+    @Override
+    public void deleteRegion(Long id) {
+        Region region = this.getAndVerifyRegion(id);
+        region.setDeletedAt(this.clock.instant());
+
+        this.regionAdapter.save(region);
+    }
+
+    private Region getAndVerifyRegion(Long id) {
+        Optional<Region> region = regionAdapter.findById(id);
+        if (!region.isPresent()) {
+            DomainException e = new DomainException(NOT_FOUND_MSG, "region", NOT_FOUND);
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+        return region.get();
     }
 }

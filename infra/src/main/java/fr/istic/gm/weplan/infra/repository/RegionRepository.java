@@ -23,7 +23,4 @@ public interface RegionRepository extends JpaRepository<Region, Long>, RegionAda
 
     @Override
     Region save(Region region);
-
-    @Override
-    Region update(Region region);
 }

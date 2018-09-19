@@ -42,11 +42,11 @@ public class TestData {
     }
 
     public static PageDto<RegionDto> somePageRegions() {
-        return PageDto.<RegionDto>builder()
-                .results(Collections.singletonList(someRegions()))
-                .totalPages(10)
-                .size(10)
-                .build();
+        PageDto<RegionDto> regionsDto = new PageDto<>();
+        regionsDto.setSize(10);
+        regionsDto.setTotalPages(10);
+        regionsDto.setResults(Collections.singletonList(someRegions()));
+        return regionsDto;
     }
 
     public static RegionDto someRegions() {

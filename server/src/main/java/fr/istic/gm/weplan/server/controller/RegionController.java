@@ -8,6 +8,7 @@ import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.service.RegionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
@@ -18,11 +19,11 @@ import static fr.istic.gm.weplan.server.log.LogMessage.*;
 
 @AllArgsConstructor
 @Slf4j
-@RestController("/region")
+@RestController
+@RequestMapping(path = "/region", produces = "application/json")
 public class RegionController {
     private RegionService regionService;
 
-    // GET /region
     @GetMapping
     public PageDto<RegionDto> getRegions(PageOptions pageOptions) {
         log.info(API_MESSAGE, "", GET_REGIONS, pageOptions);
@@ -32,27 +33,25 @@ public class RegionController {
         return regions;
     }
 
-    // POST /region
     @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
     public RegionDto createRegion(RegionDto region) {
         return this.regionService.createRegion(region);
     }
 
-    // GET /region/{id}
     @GetMapping(path = "/{id}")
     public RegionDto getRegion(@PathVariable Long id) {
         return this.regionService.getRegion(id);
     }
 
-    // PATCH /region/{id}
     @PatchMapping(path = "/{id}")
     public RegionDto getRegion(@PathVariable Long id, HashMap<String, Object> map) {
         return this.regionService.updateRegion(id, map);
     }
 
-    // DELETE /region/{id}
     @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteRegion(@PathVariable Long id) {
-        // TODO: implement DELETE route
+        this.regionService.deleteRegion(id);
     }
 }
