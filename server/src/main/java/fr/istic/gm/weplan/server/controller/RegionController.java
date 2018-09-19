@@ -38,12 +38,12 @@ public class RegionController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(code = HttpStatus.CREATED)
-    public RegionDto postRegion(RegionDto region) {
+    public RegionDto postRegion(@RequestBody RegionDto region) {
         return this.regionService.createRegion(region);
     }
 
     @PatchMapping(path = ID)
-    public RegionDto patchRegion(@PathVariable Long id, HashMap<String, Object> map) {
+    public RegionDto patchRegion(@PathVariable Long id, @RequestBody HashMap<String, Object> map) {
         return this.regionService.updateRegion(id, map);
     }
 

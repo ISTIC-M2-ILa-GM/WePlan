@@ -7,6 +7,7 @@ import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.infra.repository.RegionRepository;
 import fr.istic.gm.weplan.server.App;
+import fr.istic.gm.weplan.server.TestData;
 import fr.istic.gm.weplan.server.config.ApiRoutes;
 import fr.istic.gm.weplan.server.config.CommonConfiguration;
 import fr.istic.gm.weplan.server.utils.JsonUtils;
@@ -23,14 +24,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static fr.istic.gm.weplan.server.TestData.someRegionDao;
+import static fr.istic.gm.weplan.server.config.ApiRoutes.ID;
 import static fr.istic.gm.weplan.server.config.ApiRoutes.REGION;
 import static fr.istic.gm.weplan.server.utils.JsonUtils.parseToJson;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -86,6 +87,58 @@ public class RegionControllerIT {
         assertThat(response.getTotalPages(), equalTo(1));
         assertThat(response.getSize(), equalTo(10));
         assertThat(response.getResults(), hasSize(2));
+    }
+
+    @Test
+    public void shouldGetRegion() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(get(REGION + ID, this.entity1.getId())
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        RegionDto response = (RegionDto) JsonUtils.fromJson(mvcResult, RegionDto.class);
+
+        assertThat(response, notNullValue());
+        assertThat(response.getId(), equalTo(this.entity1.getId()));
+        assertThat(response.getName(), equalTo(this.entity1.getName()));
+    }
+
+    @Test
+    public void shouldPostRegion() throws Exception {
+        RegionDto regionDto = new RegionDto();
+        regionDto.setName("Bretagne");
+
+        MvcResult mvcResult = mockMvc.perform(post(REGION)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parseToJson(regionDto))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        RegionDto response = (RegionDto) JsonUtils.fromJson(mvcResult, RegionDto.class);
+
+        assertThat(response, notNullValue());
+        assertThat(response.getId(), notNullValue());
+        assertThat(response.getName(), equalTo(regionDto.getName()));
+    }
+
+    @Test
+    public void shouldPatchRegion() throws Exception {
+        RegionDto regionDto = new RegionDto();
+        regionDto.setName("Bretagne");
+
+        MvcResult mvcResult = mockMvc.perform(patch(REGION + ID, this.entity1.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(parseToJson(regionDto))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        RegionDto response = (RegionDto) JsonUtils.fromJson(mvcResult, RegionDto.class);
+
+        assertThat(response, notNullValue());
+        assertThat(response.getId(), equalTo(this.entity1.getId()));
+        assertThat(response.getName(), equalTo(regionDto.getName()));
     }
 
 

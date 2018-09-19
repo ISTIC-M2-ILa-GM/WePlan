@@ -32,6 +32,10 @@
             <id>mlh</id>
             <name>Gwenole LE HENAFF</name>
         </developer>
+        <developer>
+            <id>grl</id>
+            <name>Gautier Rouleau</name>
+        </developer>
     </developers>
 
     <properties>
