@@ -53,6 +53,6 @@ public class RegionController {
     // DELETE /region/{id}
     @DeleteMapping(path = "/{id}")
     public void deleteRegion(@PathVariable Long id) {
-
+        // TODO: implement DELETE route
     }
 }

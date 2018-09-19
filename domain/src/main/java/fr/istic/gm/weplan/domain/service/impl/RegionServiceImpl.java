@@ -31,15 +31,12 @@ public class RegionServiceImpl implements RegionService {
         log.info(SERVICE_MESSAGE, "", GET_CITIES, pageOptions);
 
         Page<Region> regions = regionAdapter.findAll(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
-        PageDto<RegionDto> regionDto = PageDto.<RegionDto>builder()
-                .results(persistenceMapper.toRegionsDto(regions.getContent()))
-                .totalPages(regions.getTotalPages())
-                .size(regions.getSize())
-                .build();
+
+        PageDto<RegionDto> regionsDto = persistenceMapper.toRegionsPageDto(regions);
 
         log.info(SERVICE_MESSAGE, "", CITIES_GOTTEN, "");
 
-        return regionDto;
+        return regionsDto;
     }
 
     @Override

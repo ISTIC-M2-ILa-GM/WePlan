@@ -24,6 +24,17 @@ public interface PersistenceMapper {
 
     List<RegionDto> toRegionsDto(List<Region> regions);
 
+    default PageDto<RegionDto> toRegionsPageDto(Page<Region> regions) {
+        if (regions == null)
+            return null;
+
+        PageDto<RegionDto> regionsDto = new PageDto<>();
+        regionsDto.setSize(regions.getSize());
+        regionsDto.setTotalPages(regions.getTotalPages());
+        regionsDto.setResults(toRegionsDto(regions.getContent()));
+        return regionsDto;
+    }
+
     Region toRegion(RegionDto regionDto);
 
     City toCity(CityRequest cityRequest);

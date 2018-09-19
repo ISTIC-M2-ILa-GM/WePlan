@@ -3,13 +3,9 @@ package fr.istic.gm.weplan.server;
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
-<<<<<<< HEAD
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
-import fr.istic.gm.weplan.domain.model.entities.Region;
-=======
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
->>>>>>> feature/6_add-city-api
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
