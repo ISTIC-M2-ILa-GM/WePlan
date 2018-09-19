@@ -94,8 +94,8 @@ public class RegionServiceImpl extends PatchService<Region> implements RegionSer
     }
 
     private Region getAndVerifyRegion(Long id) {
-        Optional<Region> region = regionAdapter.findById(id);
-        if (!region.isPresent()) {
+        Optional<Region> region = id != null ? regionAdapter.findById(id) : Optional.empty();
+        if (!region.isPresent() || region.get().getDeletedAt() != null) {
             DomainException e = new DomainException(NOT_FOUND_MSG, "region", NOT_FOUND);
             log.error(e.getMessage(), e);
             throw e;
