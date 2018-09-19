@@ -41,7 +41,7 @@ public class RegionServiceImpl extends PatchService<Region> implements RegionSer
     public PageDto<RegionDto> getRegions(PageOptions pageOptions) {
         log.info(SERVICE_MESSAGE, "", GET_CITIES, pageOptions);
 
-        Page<Region> regions = regionAdapter.findAll(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
+        Page<Region> regions = regionAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
 
         PageDto<RegionDto> regionsDto = persistenceMapper.toRegionsPageDto(regions);
 

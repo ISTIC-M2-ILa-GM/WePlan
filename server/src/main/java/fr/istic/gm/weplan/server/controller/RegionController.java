@@ -38,8 +38,8 @@ public class RegionController {
         return this.regionService.getRegion(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(code = HttpStatus.CREATED)
+    @PostMapping
     public RegionDto postRegion(@RequestBody RegionRequest region) {
         return this.regionService.createRegion(region);
     }
