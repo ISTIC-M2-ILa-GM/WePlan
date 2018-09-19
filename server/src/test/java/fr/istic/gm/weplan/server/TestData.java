@@ -5,6 +5,7 @@ import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.City;
+import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -51,5 +52,9 @@ public class TestData {
 
     public static RegionDto someRegions() {
         return FACTORY.manufacturePojoWithFullData(RegionDto.class);
+    }
+
+    public static Region someRegionDao() {
+        return FACTORY.manufacturePojoWithFullData(Region.class);
     }
 }

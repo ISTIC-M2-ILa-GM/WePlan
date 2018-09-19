@@ -61,7 +61,7 @@ public class RegionControllerTest {
         RegionDto region = new RegionDto();
         when(this.mockRegionService.createRegion(any())).thenReturn(region);
 
-        RegionDto result = regionController.createRegion(region);
+        RegionDto result = regionController.postRegion(region);
 
         verify(this.mockRegionService).createRegion(region);
 
