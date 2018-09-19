@@ -7,4 +7,6 @@ public interface ApiRoutes {
 
     String CITY = "/city";
     String ID = "/{id}";
+
+    String REGION = "/region";
 }
