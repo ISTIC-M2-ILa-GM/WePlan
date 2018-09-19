@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- * The City repository
+ * The Region repository
  */
 @Repository
 public interface RegionRepository extends JpaRepository<Region, Long>, RegionAdapter {

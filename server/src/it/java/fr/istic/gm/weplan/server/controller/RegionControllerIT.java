@@ -45,9 +45,6 @@ public class RegionControllerIT {
     @Autowired
     private RegionRepository regionRepository;
 
-    @Autowired
-    private PersistenceMapper persistenceMapper;
-
     private Region entity1;
     private Region entity2;
 
