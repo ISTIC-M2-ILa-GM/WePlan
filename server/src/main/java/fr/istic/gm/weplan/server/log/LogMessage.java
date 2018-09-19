@@ -13,6 +13,10 @@ public interface LogMessage {
     String CITY_PATCHED = "City patched:";
     String CITY_GOTTEN = "City gotten:";
     String API_MESSAGE = "CONTROLLER({}): {} {}";
+
     String GET_CITIES = "Get cities:";
     String CITIES_GOTTEN = "Cities gotten.";
+
+    String GET_REGIONS = "Get regions:";
+    String REGIONS_GOTTEN = "Regions gotten.";
 }
