@@ -4,17 +4,26 @@ package fr.istic.gm.weplan.server.controller;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
+import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.service.RegionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+
+import javax.websocket.server.PathParam;
+import java.util.HashMap;
+import java.util.Map;
 
 import static fr.istic.gm.weplan.server.log.LogMessage.*;
 
 @AllArgsConstructor
 @Slf4j
+@RestController("/region")
 public class RegionController {
     private RegionService regionService;
 
+    // GET /region
+    @GetMapping
     public PageDto<RegionDto> getRegions(PageOptions pageOptions) {
         log.info(API_MESSAGE, "", GET_REGIONS, pageOptions);
         PageDto<RegionDto> regions = this.regionService.getRegions(pageOptions);
@@ -23,11 +32,27 @@ public class RegionController {
         return regions;
     }
 
-    public RegionDto getRegion(Long id) {
+    // POST /region
+    @RequestMapping(method = RequestMethod.POST)
+    public RegionDto createRegion(RegionDto region) {
+        return this.regionService.createRegion(region);
+    }
+
+    // GET /region/{id}
+    @GetMapping(path = "/{id}")
+    public RegionDto getRegion(@PathVariable Long id) {
         return this.regionService.getRegion(id);
     }
 
-    public RegionDto createRegion(RegionDto region) {
-        return this.regionService.createRegion(region);
+    // PATCH /region/{id}
+    @PatchMapping(path = "/{id}")
+    public RegionDto getRegion(@PathVariable Long id, HashMap<String, Object> map) {
+        return this.regionService.updateRegion(id, map);
+    }
+
+    // DELETE /region/{id}
+    @DeleteMapping(path = "/{id}")
+    public void deleteRegion(@PathVariable Long id) {
+
     }
 }

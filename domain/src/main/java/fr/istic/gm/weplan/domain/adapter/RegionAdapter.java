@@ -12,4 +12,6 @@ public interface RegionAdapter {
     Optional<Region> findById(Long id);
 
     Region save(Region region);
+
+    Region update(Region region);
 }
