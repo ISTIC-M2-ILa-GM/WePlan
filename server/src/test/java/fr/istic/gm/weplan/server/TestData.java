@@ -46,11 +46,11 @@ public class TestData {
         PageDto<RegionDto> regionsDto = new PageDto<>();
         regionsDto.setSize(10);
         regionsDto.setTotalPages(10);
-        regionsDto.setResults(Collections.singletonList(someRegions()));
+        regionsDto.setResults(Collections.singletonList(someRegion()));
         return regionsDto;
     }
 
-    public static RegionDto someRegions() {
+    public static RegionDto someRegion() {
         return FACTORY.manufacturePojoWithFullData(RegionDto.class);
     }
 

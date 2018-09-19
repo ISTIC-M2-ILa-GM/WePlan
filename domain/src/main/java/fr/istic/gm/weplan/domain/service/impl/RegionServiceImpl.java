@@ -8,6 +8,7 @@ import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
+import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 import fr.istic.gm.weplan.domain.service.RegionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.NOT_FOUND;
@@ -58,10 +60,10 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public RegionDto createRegion(RegionDto regionDto) {
-        log.info(SERVICE_MESSAGE, "", POST_REGION, regionDto);
+    public RegionDto createRegion(RegionRequest regionRequest) {
+        log.info(SERVICE_MESSAGE, "", POST_REGION, regionRequest);
 
-        Region input = this.persistenceMapper.toRegion(regionDto);
+        Region input = this.persistenceMapper.toRegion(regionRequest);
         Region result = this.regionAdapter.save(input);
 
         RegionDto output = this.persistenceMapper.toRegionDto(result);
@@ -72,15 +74,14 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public RegionDto updateRegion(Long id, HashMap<String, Object> map) {
+    public RegionDto updateRegion(Long id, Map<String, Object> map) {
         Region region = this.getAndVerifyRegion(id);
-        RegionDto regionDto = this.persistenceMapper.toRegionDto(region);
 
         map.keySet().forEach(key -> {
             if (map.get(key) != null){
                 switch (key) {
                     case "name":
-                        regionDto.setName(map.get(key).toString());
+                        region.setName(map.get(key).toString());
                         break;
                     default:
                         // do nothing
@@ -89,8 +90,7 @@ public class RegionServiceImpl implements RegionService {
             }
         });
 
-        Region input = this.persistenceMapper.toRegion(regionDto);
-        Region result = this.regionAdapter.save(input);
+        Region result = this.regionAdapter.save(region);
 
         RegionDto output = this.persistenceMapper.toRegionDto(result);
 

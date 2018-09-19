@@ -4,6 +4,7 @@ package fr.istic.gm.weplan.server.controller;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
+import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 import fr.istic.gm.weplan.domain.service.RegionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static fr.istic.gm.weplan.server.log.LogMessage.*;
 import static fr.istic.gm.weplan.server.config.ApiRoutes.*;
@@ -38,12 +40,12 @@ public class RegionController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(code = HttpStatus.CREATED)
-    public RegionDto postRegion(@RequestBody RegionDto region) {
+    public RegionDto postRegion(@RequestBody RegionRequest region) {
         return this.regionService.createRegion(region);
     }
 
     @PatchMapping(path = ID)
-    public RegionDto patchRegion(@PathVariable Long id, @RequestBody HashMap<String, Object> map) {
+    public RegionDto patchRegion(@PathVariable Long id, @RequestBody Map<String, Object> map) {
         return this.regionService.updateRegion(id, map);
     }
 

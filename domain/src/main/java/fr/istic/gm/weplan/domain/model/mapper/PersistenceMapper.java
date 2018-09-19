@@ -8,6 +8,7 @@ import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
+import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 import org.mapstruct.Mapper;
 import org.springframework.data.domain.Page;
 
@@ -35,7 +36,7 @@ public interface PersistenceMapper {
         return regionsDto;
     }
 
-    Region toRegion(RegionDto regionDto);
+    Region toRegion(RegionRequest regionDto);
 
     City toCity(CityRequest cityRequest);
 

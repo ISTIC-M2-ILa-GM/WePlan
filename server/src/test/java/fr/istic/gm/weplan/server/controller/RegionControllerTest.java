@@ -4,6 +4,7 @@ import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.Region;
+import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 import fr.istic.gm.weplan.domain.service.RegionService;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import static fr.istic.gm.weplan.server.TestData.somePageOptions;
 import static fr.istic.gm.weplan.server.TestData.somePageRegions;
+import static fr.istic.gm.weplan.server.TestData.someRegion;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -58,14 +60,17 @@ public class RegionControllerTest {
 
     @Test
     public void shouldPostRegion() {
-        RegionDto region = new RegionDto();
-        when(this.mockRegionService.createRegion(any())).thenReturn(region);
+        RegionRequest regionRequest = new RegionRequest();
+        regionRequest.setName("Bretagne");
 
-        RegionDto result = regionController.postRegion(region);
+        RegionDto someRegion = someRegion();
+        when(this.mockRegionService.createRegion(any())).thenReturn(someRegion);
 
-        verify(this.mockRegionService).createRegion(region);
+        RegionDto postResult = regionController.postRegion(regionRequest);
 
-        assertThat(result, notNullValue());
-        assertThat(result, equalTo(region));
+        verify(this.mockRegionService).createRegion(regionRequest);
+
+        assertThat(postResult, notNullValue());
+        assertThat(postResult, equalTo(someRegion));
     }
 }
