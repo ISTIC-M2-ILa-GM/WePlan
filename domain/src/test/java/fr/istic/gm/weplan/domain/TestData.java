@@ -18,7 +18,9 @@ public class TestData {
     private static final PodamFactory FACTORY = new PodamFactoryImpl();
 
     public static Department someDepartment() {
-        return FACTORY.manufacturePojoWithFullData(Department.class);
+        Department department = FACTORY.manufacturePojoWithFullData(Department.class);
+        department.setDeletedAt(null);
+        return department;
     }
 
     public static CityRequest someCityRequest() {

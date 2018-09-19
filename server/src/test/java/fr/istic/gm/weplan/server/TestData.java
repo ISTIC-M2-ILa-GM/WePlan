@@ -4,6 +4,7 @@ import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.entities.City;
+import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -15,6 +16,12 @@ public class TestData {
     public static final Long ID = 10L;
 
     private static final PodamFactory FACTORY = new PodamFactoryImpl();
+
+    public static Department someDepartmentDao() {
+        Department department = FACTORY.manufacturePojoWithFullData(Department.class);
+        department.setDeletedAt(null);
+        return department;
+    }
 
     public static City someCityDao() {
         return FACTORY.manufacturePojoWithFullData(City.class);

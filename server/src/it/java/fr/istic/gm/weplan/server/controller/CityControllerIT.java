@@ -4,8 +4,10 @@ import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.entities.City;
+import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.infra.repository.CityRepository;
+import fr.istic.gm.weplan.infra.repository.DepartmentRepository;
 import fr.istic.gm.weplan.server.App;
 import fr.istic.gm.weplan.server.config.CommonConfiguration;
 import fr.istic.gm.weplan.server.utils.JsonUtils;
@@ -24,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static fr.istic.gm.weplan.server.TestData.someCityDao;
+import static fr.istic.gm.weplan.server.TestData.someDepartmentDao;
 import static fr.istic.gm.weplan.server.config.ApiRoutes.CITY;
 import static fr.istic.gm.weplan.server.config.ApiRoutes.ID;
 import static fr.istic.gm.weplan.server.utils.JsonUtils.parseToJson;
@@ -48,12 +51,16 @@ public class CityControllerIT {
     @Autowired
     private CityRepository cityRepository;
 
+    @Autowired
+    private DepartmentRepository departmentRepository;
+
     private City entity1;
     private City entity2;
 
     @Before
     public void setUp() {
         cityRepository.deleteAll();
+        departmentRepository.deleteAll();
 
         entity1 = someCityDao();
         entity1.setDepartment(null);
@@ -109,9 +116,14 @@ public class CityControllerIT {
     @Test
     public void shouldCreateACity() throws Exception {
 
+        Department department = someDepartmentDao();
+        department.setRegion(null);
+        department = departmentRepository.save(department);
+
         CityRequest cityRequest = new CityRequest();
         cityRequest.setName("a-name");
         cityRequest.setPostalCode(1000);
+        cityRequest.setDepartmentId(department.getId());
 
         MvcResult mvcResult = mockMvc.perform(post(CITY)
                 .content(parseToJson(cityRequest))
