@@ -52,12 +52,9 @@ public class RegionServiceImpl extends PatchService<Region> implements RegionSer
 
     @Override
     public RegionDto getRegion(Long id) {
-        Optional<Region> result = this.regionAdapter.findById(id);
-        if (result.isPresent()) {
-            return this.persistenceMapper.toRegionDto(result.get());
-        }else{
-            throw new RuntimeException();
-        }
+        Region region = this.getAndVerifyRegion(id);
+
+        return this.persistenceMapper.toRegionDto(region);
     }
 
     @Override
