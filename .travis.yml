@@ -5,7 +5,19 @@ addons:
 
 before_install:
 - mysql -e 'CREATE DATABASE IF NOT EXISTS weplan;'
+- mysql -u root -e "CREATE USER 'weplan'@'localhost' IDENTIFIED BY 'weplan';"
+- mysql -u root -e "GRANT ALL ON weplan.* TO 'weplan'@'localhost';"
 
 cache:
   directories:
   - '$HOME/.m2/repository'
+
+jobs:
+  include:
+  - stage: compile
+    script: mvn -B clean package -DskipTests
+  - stage: test
+    script: mvn -B test
+    name: "Unit Tests"
+  - script: mvn -B failsafe:integration-test
+    name: "Integration Tests"
