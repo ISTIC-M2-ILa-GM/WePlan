@@ -51,15 +51,15 @@ public class User extends BaseEntity {
     @Column(name = CITIES)
     private List<City> cities;
 
-    @OneToMany
+    @ManyToMany
     @Column(name = DEPARTMENTS)
     private List<Department> departments;
 
-    @OneToMany
+    @ManyToMany
     @Column(name = REGIONS)
     private List<Region> regions;
 
-    @OneToMany
+    @ManyToMany
     @Column(name = EVENTS)
     private List<Event> events;
 }

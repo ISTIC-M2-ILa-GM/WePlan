@@ -1,8 +1,8 @@
 package fr.istic.gm.weplan.domain.model.entities;
 
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -22,11 +22,11 @@ public abstract class BaseEntity {
     @GeneratedValue
     private Long id;
 
-    @CreatedDate
+    @CreationTimestamp
     @Column(name = CREATED_AT)
     private Instant createdAt;
 
-    @LastModifiedDate
+    @UpdateTimestamp
     @Column(name = UPDATED_AT)
     private Instant updatedAt;
 

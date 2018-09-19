@@ -1,26 +1,20 @@
 package fr.istic.gm.weplan.server;
 
-import fr.istic.gm.weplan.server.controller.RegionController;
-import io.undertow.Undertow;
-import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import javax.ws.rs.core.Application;
-import java.util.HashSet;
-import java.util.Set;
+/**
+ * The application
+ */
+@SpringBootApplication
+public class App {
 
-public class App extends Application {
+    /**
+     * The main application.
+     *
+     * @param args the args of the application
+     */
     public static void main(String[] args) {
-        UndertowJaxrsServer ut = new UndertowJaxrsServer();
-
-        ut.deploy(new App());
-
-        ut.start(Undertow.builder().addHttpListener(8080, "localhost"));
-    }
-
-    @Override
-    public Set<Class<?>> getClasses() {
-        Set<Class<?>> classes = new HashSet<>();
-        classes.add(RegionController.class);
-        return classes;
+        SpringApplication.run(App.class, args);
     }
 }

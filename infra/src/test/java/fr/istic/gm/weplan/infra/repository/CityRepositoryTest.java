@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 import static fr.istic.gm.weplan.infra.TestData.someCity;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -24,21 +26,25 @@ public class CityRepositoryTest {
     @Autowired
     private CityRepository cityRepository;
 
+    private City entity1;
+    private City entity2;
+
     @Before
     public void setUp() {
+
         cityRepository.deleteAll();
+
+        entity1 = someCity();
+        entity1.setDepartment(null);
+        entity2 = someCity();
+        entity2.setDepartment(null);
+
+        entity1 = cityRepository.save(entity1);
+        entity2 = cityRepository.save(entity2);
     }
 
     @Test
     public void shouldFindAll() {
-
-        City entity1 = someCity();
-        entity1.setDepartment(null);
-        City entity2 = someCity();
-        entity2.setDepartment(null);
-
-        cityRepository.save(entity1);
-        cityRepository.save(entity2);
 
         Page<City> cities = cityRepository.findAll(PageRequest.of(0, 10));
 
@@ -51,19 +57,41 @@ public class CityRepositoryTest {
     @Test
     public void shouldFindAllWithPage() {
 
-        City entity1 = someCity();
-        entity1.setDepartment(null);
-        City entity2 = someCity();
-        entity2.setDepartment(null);
-
-        cityRepository.save(entity1);
-        cityRepository.save(entity2);
-
         Page<City> cities = cityRepository.findAll(PageRequest.of(0, 1));
 
         assertThat(cities, notNullValue());
         assertThat(cities.getTotalPages(), equalTo(2));
         assertThat(cities.getContent(), hasSize(1));
         assertThat(cities.getSize(), equalTo(1));
+    }
+
+    @Test
+    public void shouldGetOneCity() {
+
+        Optional<City> city = cityRepository.findById(entity1.getId());
+
+        assertThat(city, notNullValue());
+        assertThat(city.isPresent(), equalTo(true));
+        assertThat(city.get().getName(), equalTo(entity1.getName()));
+        assertThat(city.get().getDepartment(), equalTo(entity1.getDepartment()));
+        assertThat(city.get().getPostalCode(), equalTo(entity1.getPostalCode()));
+        assertThat(city.get().getId(), equalTo(entity1.getId()));
+    }
+
+    @Test
+    public void shouldCreateACity() {
+
+        City city = someCity();
+        city.setId(null);
+        city.setCreatedAt(null);
+        city.setUpdatedAt(null);
+        city.setDepartment(null);
+
+        city = cityRepository.save(city);
+
+        assertThat(city, notNullValue());
+        assertThat(city.getId(), notNullValue());
+        assertThat(city.getCreatedAt(), notNullValue());
+        assertThat(city.getUpdatedAt(), notNullValue());
     }
 }
