@@ -6,13 +6,11 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.Instant;
 
-import static fr.istic.gm.weplan.domain.config.PersistsDefinition.ACTIVITY;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.CANCELED;
-import static fr.istic.gm.weplan.domain.config.PersistsDefinition.CITY;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.DATE;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.EVENT;
 
@@ -29,11 +27,9 @@ public class Event extends BaseEntity {
     @Column(name = DATE)
     private Instant date;
 
-    @OneToMany
-    @Column(name = ACTIVITY)
+    @ManyToOne
     private Activity activity;
 
-    @OneToMany
-    @Column(name = CITY)
+    @ManyToOne
     private City city;
 }

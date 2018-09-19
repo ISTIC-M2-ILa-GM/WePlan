@@ -6,12 +6,12 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.CODE;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.DEPARTMENT;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.NAME;
-import static fr.istic.gm.weplan.domain.config.PersistsDefinition.REGION;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -26,6 +26,6 @@ public class Department extends BaseEntity {
     @Column(name = CODE)
     private int code;
 
-    @Column(name = REGION)
+    @ManyToOne
     private Region region;
 }

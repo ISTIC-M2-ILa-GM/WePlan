@@ -6,11 +6,10 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.CITY;
-import static fr.istic.gm.weplan.domain.config.PersistsDefinition.DEPARTMENT;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.NAME;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.POSTAL_CODE;
 
@@ -27,7 +26,6 @@ public class City extends BaseEntity {
     @Column(name = POSTAL_CODE)
     private Integer postalCode;
 
-    @OneToMany
-    @Column(name = DEPARTMENT)
+    @ManyToOne
     private Department department;
 }

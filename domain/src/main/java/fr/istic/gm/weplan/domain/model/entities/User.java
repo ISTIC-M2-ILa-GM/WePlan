@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
@@ -36,7 +37,7 @@ public class User extends BaseEntity {
     @Column(name = LAST_NAME)
     private String lastName;
 
-    @Column(name = EMAIL, unique = true, nullable = false)
+    @Column(name = EMAIL)
     private String email;
 
     @Column(name = PASSWORD)
@@ -46,19 +47,19 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany
+    @ManyToMany
     @Column(name = CITIES)
     private List<City> cities;
 
-    @OneToMany
+    @ManyToMany
     @Column(name = DEPARTMENTS)
     private List<Department> departments;
 
-    @OneToMany
+    @ManyToMany
     @Column(name = REGIONS)
     private List<Region> regions;
 
-    @OneToMany
+    @ManyToMany
     @Column(name = EVENTS)
     private List<Event> events;
 }

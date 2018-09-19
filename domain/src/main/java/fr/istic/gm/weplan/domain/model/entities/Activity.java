@@ -8,9 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
 import java.util.List;
 
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.ACTIVITY;
@@ -40,7 +39,7 @@ public class Activity extends BaseEntity {
     @Column(name = ACTIVITY_TYPE)
     private ActivityType activityType;
 
-    @OneToMany
+    @ManyToMany
     @Column(name = CITIES)
     private List<City> cities;
 }
