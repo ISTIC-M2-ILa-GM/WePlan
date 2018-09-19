@@ -5,6 +5,8 @@ import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 
+import java.util.Map;
+
 /**
  * City Service
  */
@@ -40,4 +42,13 @@ public interface CityService {
      * @param id the id of the city to delete
      */
     void deleteCity(Long id);
+
+    /**
+     * Patch a city.
+     *
+     * @param id    the id of the city to patch
+     * @param patch the map of field to patch
+     * @return the updated city
+     */
+    CityDto patchCity(Long id, Map<String, Object> patch);
 }

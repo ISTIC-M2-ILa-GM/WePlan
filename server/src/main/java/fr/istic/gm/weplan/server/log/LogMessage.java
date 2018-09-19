@@ -9,6 +9,8 @@ public interface LogMessage {
     String GET_CITY = "Get city...";
     String DELETE_CITY = "Delete city...";
     String CITY_DELETED = "City deleted.";
+    String PATCH_CITY = "Patch city:";
+    String CITY_PATCHED = "City patched:";
     String CITY_GOTTEN = "City gotten:";
     String API_MESSAGE = "CONTROLLER({}): {} {}";
 

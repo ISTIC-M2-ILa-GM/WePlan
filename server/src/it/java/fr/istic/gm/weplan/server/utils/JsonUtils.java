@@ -17,6 +17,7 @@ import java.util.List;
 public class JsonUtils {
 
     private static final ObjectMapper MAPPER = new ObjectMapper()
+            .findAndRegisterModules()
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
             .configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
 

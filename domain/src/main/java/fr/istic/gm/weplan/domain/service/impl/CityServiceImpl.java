@@ -10,6 +10,7 @@ import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.service.CityService;
 import fr.istic.gm.weplan.domain.service.DepartmentDaoService;
+import fr.istic.gm.weplan.domain.service.PatchService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,24 +18,29 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
+import java.util.Map;
 import java.util.Optional;
 
+import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.BAD_REQUEST;
 import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.NOT_FOUND;
+import static fr.istic.gm.weplan.domain.exception.DomainException.NOTHING_TO_PATCH;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
 import static fr.istic.gm.weplan.domain.log.LogMessage.CITIES_GOTTEN;
 import static fr.istic.gm.weplan.domain.log.LogMessage.CITY_CREATED;
 import static fr.istic.gm.weplan.domain.log.LogMessage.CITY_DELETED;
 import static fr.istic.gm.weplan.domain.log.LogMessage.CITY_GOTTEN;
+import static fr.istic.gm.weplan.domain.log.LogMessage.CITY_PATCHED;
 import static fr.istic.gm.weplan.domain.log.LogMessage.CREATE_CITY;
 import static fr.istic.gm.weplan.domain.log.LogMessage.DELETE_CITY;
 import static fr.istic.gm.weplan.domain.log.LogMessage.GET_CITIES;
 import static fr.istic.gm.weplan.domain.log.LogMessage.GET_CITY;
+import static fr.istic.gm.weplan.domain.log.LogMessage.PATCH_CITY;
 import static fr.istic.gm.weplan.domain.log.LogMessage.SERVICE_MESSAGE;
 
 @AllArgsConstructor
 @Slf4j
 @Service
-public class CityServiceImpl implements CityService {
+public class CityServiceImpl extends PatchService<City> implements CityService {
 
     private CityAdapter cityAdapter;
 
@@ -95,6 +101,26 @@ public class CityServiceImpl implements CityService {
         cityAdapter.save(city);
 
         log.info(SERVICE_MESSAGE, id, CITY_DELETED, "");
+    }
+
+    @Override
+    public CityDto patchCity(Long id, Map<String, Object> data) {
+
+        log.info(SERVICE_MESSAGE, id, PATCH_CITY, data);
+
+        City city = getAndVerifyCity(id);
+        if (data == null || data.isEmpty()) {
+            DomainException e = new DomainException(NOTHING_TO_PATCH, "city", BAD_REQUEST);
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+        patch(city, data);
+        city = cityAdapter.save(city);
+        CityDto cityDto = persistenceMapper.toCityDto(city);
+
+        log.info(SERVICE_MESSAGE, id, CITY_PATCHED, cityDto);
+
+        return cityDto;
     }
 
     private City getAndVerifyCity(Long id) {
