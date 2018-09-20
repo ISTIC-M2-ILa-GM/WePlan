@@ -5,7 +5,6 @@ import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
-import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
@@ -18,14 +17,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
-import java.time.Instant;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.NOT_FOUND;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
-import static fr.istic.gm.weplan.domain.log.LogMessage.*;
 
 @AllArgsConstructor
 @Slf4j
@@ -39,15 +35,9 @@ public class RegionServiceImpl extends PatchService<Region> implements RegionSer
 
     @Override
     public PageDto<RegionDto> getRegions(PageOptions pageOptions) {
-        log.info(SERVICE_MESSAGE, "", GET_CITIES, pageOptions);
-
         Page<Region> regions = regionAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
 
-        PageDto<RegionDto> regionsDto = persistenceMapper.toRegionsPageDto(regions);
-
-        log.info(SERVICE_MESSAGE, "", CITIES_GOTTEN, "");
-
-        return regionsDto;
+        return persistenceMapper.toRegionsPageDto(regions);
     }
 
     @Override
@@ -59,16 +49,11 @@ public class RegionServiceImpl extends PatchService<Region> implements RegionSer
 
     @Override
     public RegionDto createRegion(RegionRequest regionRequest) {
-        log.info(SERVICE_MESSAGE, "", POST_REGION, regionRequest);
-
         Region input = this.persistenceMapper.toRegion(regionRequest);
+
         Region result = this.regionAdapter.save(input);
 
-        RegionDto output = this.persistenceMapper.toRegionDto(result);
-
-        log.info(SERVICE_MESSAGE, "", POST_REGION, "");
-
-        return output;
+        return this.persistenceMapper.toRegionDto(result);
     }
 
     @Override
@@ -93,9 +78,7 @@ public class RegionServiceImpl extends PatchService<Region> implements RegionSer
     private Region getAndVerifyRegion(Long id) {
         Optional<Region> region = id != null ? regionAdapter.findById(id) : Optional.empty();
         if (!region.isPresent() || region.get().getDeletedAt() != null) {
-            DomainException e = new DomainException(NOT_FOUND_MSG, Region.class.getSimpleName(), NOT_FOUND);
-            log.error(e.getMessage(), e);
-            throw e;
+            throw new DomainException(NOT_FOUND_MSG, Region.class.getSimpleName(), NOT_FOUND);
         }
         return region.get();
     }
