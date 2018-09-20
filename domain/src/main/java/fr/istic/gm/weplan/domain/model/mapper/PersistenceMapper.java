@@ -8,6 +8,7 @@ import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
+import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 import org.mapstruct.Mapper;
 import org.springframework.data.domain.Page;
@@ -51,5 +52,20 @@ public interface PersistenceMapper {
         citiesDto.setTotalPages(cities.getTotalPages());
         citiesDto.setResults(toCitiesDto(cities.getContent()));
         return citiesDto;
+    }
+
+    Department toDepartment(DepartmentRequest departmentRequest);
+
+    List<DepartmentDto> toDepartmentsDto(List<Department> departments);
+
+    default PageDto<DepartmentDto> toDepartmentsPageDto(Page<Department> departments) {
+        if (departments == null) {
+            return null;
+        }
+        PageDto<DepartmentDto> departmentsDto = new PageDto<>();
+        departmentsDto.setSize(departments.getSize());
+        departmentsDto.setTotalPages(departments.getTotalPages());
+        departmentsDto.setResults(toDepartmentsDto(departments.getContent()));
+        return departmentsDto;
     }
 }

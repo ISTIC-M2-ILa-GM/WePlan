@@ -9,6 +9,7 @@ import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 import fr.istic.gm.weplan.domain.service.PatchService;
+import fr.istic.gm.weplan.domain.service.RegionDaoService;
 import fr.istic.gm.weplan.domain.service.RegionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +27,22 @@ import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
 @AllArgsConstructor
 @Slf4j
 @Service
-public class RegionServiceImpl extends PatchService<Region> implements RegionService {
+public class RegionServiceImpl extends PatchService<Region> implements RegionService, RegionDaoService {
     private RegionAdapter regionAdapter;
 
     private PersistenceMapper persistenceMapper;
 
     private Clock clock;
+
+    @Override
+    public Region getRegionDao(Long id) {
+
+        Optional<Region> region = id != null ? regionAdapter.findById(id) : Optional.empty();
+        if (!region.isPresent() || region.get().getDeletedAt() != null) {
+            throw new DomainException(NOT_FOUND_MSG, Region.class.getSimpleName(), NOT_FOUND);
+        }
+        return region.get();
+    }
 
     @Override
     public PageDto<RegionDto> getRegions(PageOptions pageOptions) {
@@ -42,7 +53,7 @@ public class RegionServiceImpl extends PatchService<Region> implements RegionSer
 
     @Override
     public RegionDto getRegion(Long id) {
-        Region region = this.getAndVerifyRegion(id);
+        Region region = this.getRegionDao(id);
 
         return this.persistenceMapper.toRegionDto(region);
     }
@@ -58,7 +69,7 @@ public class RegionServiceImpl extends PatchService<Region> implements RegionSer
 
     @Override
     public RegionDto updateRegion(Long id, Map<String, Object> map) {
-        Region region = this.getAndVerifyRegion(id);
+        Region region = this.getRegionDao(id);
 
         this.patch(region, map);
 
@@ -69,17 +80,9 @@ public class RegionServiceImpl extends PatchService<Region> implements RegionSer
 
     @Override
     public void deleteRegion(Long id) {
-        Region region = this.getAndVerifyRegion(id);
+        Region region = this.getRegionDao(id);
         region.setDeletedAt(this.clock.instant());
 
         this.regionAdapter.save(region);
-    }
-
-    private Region getAndVerifyRegion(Long id) {
-        Optional<Region> region = id != null ? regionAdapter.findById(id) : Optional.empty();
-        if (!region.isPresent() || region.get().getDeletedAt() != null) {
-            throw new DomainException(NOT_FOUND_MSG, Region.class.getSimpleName(), NOT_FOUND);
-        }
-        return region.get();
     }
 }

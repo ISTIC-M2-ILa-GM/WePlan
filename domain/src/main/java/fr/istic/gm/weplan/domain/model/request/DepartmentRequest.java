@@ -3,11 +3,11 @@ package fr.istic.gm.weplan.domain.model.request;
 import lombok.Data;
 
 /**
- * The city request
+ * The department request
  */
 @Data
-public class CityRequest {
+public class DepartmentRequest {
     private String name;
-    private Integer postalCode;
-    private Long departmentId;
+    private int code;
+    private Long regionId;
 }

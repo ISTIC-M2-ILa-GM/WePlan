@@ -5,8 +5,8 @@ package fr.istic.gm.weplan.server.config;
  */
 public interface ApiRoutes {
 
-    String CITY = "/city";
     String ID = "/{id}";
-
+    String CITY = "/city";
+    String DEPARTMENT = "/department";
     String REGION = "/region";
 }
