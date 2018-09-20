@@ -4,6 +4,7 @@ import fr.istic.gm.weplan.domain.adapter.DepartmentAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
+import fr.istic.gm.weplan.domain.service.RegionDaoService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.time.Clock;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -34,6 +36,12 @@ public class DepartmentServiceTest {
     @Mock
     private DepartmentAdapter mockDepartmentAdapter;
 
+    @Mock
+    private RegionDaoService mockRegionDaoService;
+
+    @Mock
+    private Clock mockClock;
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
@@ -42,7 +50,7 @@ public class DepartmentServiceTest {
     @Before
     public void setUp() {
         persistenceMapper = Mappers.getMapper(PersistenceMapper.class);
-        service = new DepartmentServiceImpl(mockDepartmentAdapter, persistenceMapper);
+        service = new DepartmentServiceImpl(mockDepartmentAdapter, mockRegionDaoService, persistenceMapper, mockClock);
     }
 
     @Test
@@ -91,11 +99,6 @@ public class DepartmentServiceTest {
 
     @Test
     public void shouldThrowDomainExceptionWhenGetADeletedDao() {
-
-        Department department = someDepartment();
-        Optional<Department> optionalDepartment = Optional.of(department);
-
-        when(mockDepartmentAdapter.findById(any())).thenReturn(optionalDepartment);
 
         thrown.expect(DomainException.class);
         thrown.expectMessage(String.format(NOT_FOUND_MSG, Department.class.getSimpleName()));

@@ -1,13 +1,15 @@
 package fr.istic.gm.weplan.server;
 
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
+import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.City;
-import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.entities.Department;
+import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
+import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -23,6 +25,22 @@ public class TestData {
         Department department = FACTORY.manufacturePojoWithFullData(Department.class);
         department.setDeletedAt(null);
         return department;
+    }
+
+    public static DepartmentRequest someDepartmentRequest() {
+        return FACTORY.manufacturePojoWithFullData(DepartmentRequest.class);
+    }
+
+    public static DepartmentDto someDepartment() {
+        return FACTORY.manufacturePojoWithFullData(DepartmentDto.class);
+    }
+
+    public static PageDto<DepartmentDto> somePageDepartments() {
+        PageDto<DepartmentDto> departmentsDto = new PageDto<>();
+        departmentsDto.setSize(10);
+        departmentsDto.setTotalPages(10);
+        departmentsDto.setResults(Collections.singletonList(someDepartment()));
+        return departmentsDto;
     }
 
     public static City someCityDao() {

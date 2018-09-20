@@ -136,11 +136,6 @@ public class CityServiceTest {
     @Test
     public void shouldThrowDomainExceptionWhenGetACityWithNullId() {
 
-        City city = someCity();
-        Optional<City> optionalCity = Optional.of(city);
-
-        when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
-
         thrown.expect(DomainException.class);
         thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
 
@@ -279,10 +274,6 @@ public class CityServiceTest {
 
     @Test
     public void shouldThrowDomainExceptionWhenPatchANullCity() {
-
-        Optional<City> optionalCity = Optional.empty();
-
-        when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
 
         thrown.expect(DomainException.class);
         thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
