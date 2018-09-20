@@ -3,12 +3,13 @@ package fr.istic.gm.weplan.domain.model.mapper;
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
+import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.City;
+import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
+import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -19,6 +20,23 @@ public interface PersistenceMapper {
     CityDto toCityDto(City city);
 
     List<CityDto> toCitiesDto(List<City> cities);
+
+    RegionDto toRegionDto(Region region);
+
+    List<RegionDto> toRegionsDto(List<Region> regions);
+
+    default PageDto<RegionDto> toRegionsPageDto(Page<Region> regions) {
+        if (regions == null)
+            return null;
+
+        PageDto<RegionDto> regionsDto = new PageDto<>();
+        regionsDto.setSize(regions.getSize());
+        regionsDto.setTotalPages(regions.getTotalPages());
+        regionsDto.setResults(toRegionsDto(regions.getContent()));
+        return regionsDto;
+    }
+
+    Region toRegion(RegionRequest regionDto);
 
     City toCity(CityRequest cityRequest);
 

@@ -109,11 +109,6 @@ public class CityServiceImpl extends PatchService<City> implements CityService {
         log.info(SERVICE_MESSAGE, id, PATCH_CITY, data);
 
         City city = getAndVerifyCity(id);
-        if (data == null || data.isEmpty()) {
-            DomainException e = new DomainException(NOTHING_TO_PATCH, City.class.getSimpleName(), BAD_REQUEST);
-            log.error(e.getMessage(), e);
-            throw e;
-        }
         patch(city, data);
         city = cityAdapter.save(city);
         CityDto cityDto = persistenceMapper.toCityDto(city);

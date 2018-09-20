@@ -240,11 +240,13 @@ public class CityServiceTest {
 
         City city = someCity();
         city.setDepartment(null);
+        city.setId(ID);
         Optional<City> optionalCity = Optional.of(city);
 
         Map<String, Object> patch = new HashMap<>();
         patch.put("name", "a-new-name");
         patch.put("postalCode", 10000);
+        patch.put("id", 18);
 
         when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
         when(mockCityAdapter.save(any())).thenReturn(city);
@@ -255,6 +257,7 @@ public class CityServiceTest {
         verify(mockCityAdapter).save(city);
 
         assertThat(result, notNullValue());
+        assertThat(result.getId(), equalTo(ID));
         assertThat(result.getName(), equalTo("a-new-name"));
         assertThat(result.getPostalCode(), equalTo(10000));
     }

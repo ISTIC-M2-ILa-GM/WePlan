@@ -3,7 +3,9 @@ package fr.istic.gm.weplan.server;
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.City;
+import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import uk.co.jemos.podam.api.PodamFactory;
@@ -45,5 +47,21 @@ public class TestData {
 
     public static CityDto someCity() {
         return FACTORY.manufacturePojoWithFullData(CityDto.class);
+    }
+
+    public static PageDto<RegionDto> somePageRegions() {
+        PageDto<RegionDto> regionsDto = new PageDto<>();
+        regionsDto.setSize(10);
+        regionsDto.setTotalPages(10);
+        regionsDto.setResults(Collections.singletonList(someRegion()));
+        return regionsDto;
+    }
+
+    public static RegionDto someRegion() {
+        return FACTORY.manufacturePojoWithFullData(RegionDto.class);
+    }
+
+    public static Region someRegionDao() {
+        return FACTORY.manufacturePojoWithFullData(Region.class);
     }
 }
