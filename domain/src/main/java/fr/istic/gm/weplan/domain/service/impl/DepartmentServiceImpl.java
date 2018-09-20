@@ -26,10 +26,10 @@ public class DepartmentServiceImpl implements DepartmentService, DepartmentDaoSe
 
     @Override
     public Department getDepartmentDao(Long id) {
+
         Optional<Department> department = id != null ? departmentAdapter.findById(id) : Optional.empty();
         if (!department.isPresent() || department.get().getDeletedAt() != null) {
-            DomainException e = new DomainException(NOT_FOUND_MSG, Department.class.getSimpleName(), NOT_FOUND);
-            throw e;
+            throw new DomainException(NOT_FOUND_MSG, Department.class.getSimpleName(), NOT_FOUND);
         }
         return department.get();
     }

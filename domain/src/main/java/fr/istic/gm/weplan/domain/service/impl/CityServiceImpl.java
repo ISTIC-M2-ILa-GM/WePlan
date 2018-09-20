@@ -12,7 +12,6 @@ import fr.istic.gm.weplan.domain.service.CityService;
 import fr.istic.gm.weplan.domain.service.DepartmentDaoService;
 import fr.istic.gm.weplan.domain.service.PatchService;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -21,24 +20,10 @@ import java.time.Clock;
 import java.util.Map;
 import java.util.Optional;
 
-import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.BAD_REQUEST;
 import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.NOT_FOUND;
-import static fr.istic.gm.weplan.domain.exception.DomainException.NOTHING_TO_PATCH;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
-import static fr.istic.gm.weplan.domain.log.LogMessage.CITIES_GOTTEN;
-import static fr.istic.gm.weplan.domain.log.LogMessage.CITY_CREATED;
-import static fr.istic.gm.weplan.domain.log.LogMessage.CITY_DELETED;
-import static fr.istic.gm.weplan.domain.log.LogMessage.CITY_GOTTEN;
-import static fr.istic.gm.weplan.domain.log.LogMessage.CITY_PATCHED;
-import static fr.istic.gm.weplan.domain.log.LogMessage.CREATE_CITY;
-import static fr.istic.gm.weplan.domain.log.LogMessage.DELETE_CITY;
-import static fr.istic.gm.weplan.domain.log.LogMessage.GET_CITIES;
-import static fr.istic.gm.weplan.domain.log.LogMessage.GET_CITY;
-import static fr.istic.gm.weplan.domain.log.LogMessage.PATCH_CITY;
-import static fr.istic.gm.weplan.domain.log.LogMessage.SERVICE_MESSAGE;
 
 @AllArgsConstructor
-@Slf4j
 @Service
 public class CityServiceImpl extends PatchService<City> implements CityService {
 
@@ -53,78 +38,48 @@ public class CityServiceImpl extends PatchService<City> implements CityService {
     @Override
     public PageDto<CityDto> getCities(PageOptions pageOptions) {
 
-        log.info(SERVICE_MESSAGE, "", GET_CITIES, pageOptions);
-
         Page<City> cities = cityAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
-        PageDto<CityDto> citiesDto = persistenceMapper.toCitiesPageDto(cities);
-
-        log.info(SERVICE_MESSAGE, "", CITIES_GOTTEN, "");
-
-        return citiesDto;
+        return persistenceMapper.toCitiesPageDto(cities);
     }
 
     @Override
     public CityDto getCity(Long id) {
 
-        log.info(SERVICE_MESSAGE, id, GET_CITY, "");
-
         City city = getAndVerifyCity(id);
-        CityDto cityDto = persistenceMapper.toCityDto(city);
-
-        log.info(SERVICE_MESSAGE, id, CITY_GOTTEN, cityDto);
-
-        return cityDto;
+        return persistenceMapper.toCityDto(city);
     }
 
     @Override
     public CityDto createCity(CityRequest cityRequest) {
 
-        log.info(SERVICE_MESSAGE, "", CREATE_CITY, cityRequest);
-
         City city = persistenceMapper.toCity(cityRequest);
         city.setDepartment(departmentDaoService.getDepartmentDao(cityRequest.getDepartmentId()));
         City result = cityAdapter.save(city);
-        CityDto cityDto = persistenceMapper.toCityDto(result);
-
-        log.info(SERVICE_MESSAGE, "", CITY_CREATED, cityDto);
-
-        return cityDto;
+        return persistenceMapper.toCityDto(result);
     }
 
     @Override
     public void deleteCity(Long id) {
 
-        log.info(SERVICE_MESSAGE, id, DELETE_CITY, "");
-
         City city = getAndVerifyCity(id);
         city.setDeletedAt(clock.instant());
         cityAdapter.save(city);
-
-        log.info(SERVICE_MESSAGE, id, CITY_DELETED, "");
     }
 
     @Override
     public CityDto patchCity(Long id, Map<String, Object> data) {
 
-        log.info(SERVICE_MESSAGE, id, PATCH_CITY, data);
-
         City city = getAndVerifyCity(id);
         patch(city, data);
         city = cityAdapter.save(city);
-        CityDto cityDto = persistenceMapper.toCityDto(city);
-
-        log.info(SERVICE_MESSAGE, id, CITY_PATCHED, cityDto);
-
-        return cityDto;
+        return persistenceMapper.toCityDto(city);
     }
 
     private City getAndVerifyCity(Long id) {
 
         Optional<City> city = id != null ? cityAdapter.findById(id) : Optional.empty();
         if (!city.isPresent() || city.get().getDeletedAt() != null) {
-            DomainException e = new DomainException(NOT_FOUND_MSG, City.class.getSimpleName(), NOT_FOUND);
-            log.error(SERVICE_MESSAGE, id, e.getMessage(), "", e);
-            throw e;
+            throw new DomainException(NOT_FOUND_MSG, City.class.getSimpleName(), NOT_FOUND);
         }
         return city.get();
     }

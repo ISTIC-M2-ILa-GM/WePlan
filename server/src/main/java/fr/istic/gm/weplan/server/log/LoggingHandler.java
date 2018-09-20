@@ -59,7 +59,7 @@ public class LoggingHandler {
      */
     @Before("restController() && loggingPublicOperation() && args(..)")
     public void logControllerBefore(JoinPoint joinPoint) {
-        log.info("REQUEST({}) {} {}: {}", "User", request.getMethod(), request.getRequestURI(), Arrays.toString(joinPoint.getArgs()));
+        log.info("CONTROLLER REQUEST({}) {} {}: {}", "User", request.getMethod(), request.getRequestURI(), Arrays.toString(joinPoint.getArgs()));
     }
 
     /**
@@ -69,7 +69,7 @@ public class LoggingHandler {
      */
     @Before("service() && loggingPublicOperation() && args(..)")
     public void logServiceBefore(JoinPoint joinPoint) {
-        log.info("SERVICE({}) {} {}: {}", "User", joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
+        log.info("SERVICE REQUEST({}) {} {}: {}", "User", joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
     }
 
     /**
@@ -79,7 +79,7 @@ public class LoggingHandler {
      */
     @Before("component() && loggingPublicOperation() && args(..)")
     public void logComponentBefore(JoinPoint joinPoint) {
-        log.info("COMPONENT({}) {} {}: {}", "User", joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
+        log.info("COMPONENT REQUEST({}) {} {}: {}", "User", joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
     }
 
     /**
@@ -90,7 +90,7 @@ public class LoggingHandler {
      */
     @AfterReturning(pointcut = "component() && loggingPublicOperation()", returning = "result")
     public void logComponentAfter(JoinPoint joinPoint, Object result) {
-        log.info("COMPONENT({}) {} {}: {}", "User", joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), result);
+        log.info("COMPONENT RESPONSE({}) {} {}: {}", "User", joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), result);
     }
 
     /**
@@ -101,7 +101,7 @@ public class LoggingHandler {
      */
     @AfterReturning(pointcut = "service() && loggingPublicOperation()", returning = "result")
     public void logServiceAfter(JoinPoint joinPoint, Object result) {
-        log.info("SERVICE({}) {} {}: {}", "User", joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), result);
+        log.info("SERVICE RESPONSE({}) {} {}: {}", "User", joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), result);
     }
 
     /**
@@ -112,7 +112,7 @@ public class LoggingHandler {
      */
     @AfterReturning(pointcut = "restController() && loggingPublicOperation()", returning = "result")
     public void logControllerAfter(JoinPoint joinPoint, Object result) {
-        log.info("RESPONSE({}) {} {}: {}", "User", request.getMethod(), request.getRequestURI(), result);
+        log.info("CONTROLLER RESPONSE({}) {} {}: {}", "User", request.getMethod(), request.getRequestURI(), result);
     }
 
     /**
