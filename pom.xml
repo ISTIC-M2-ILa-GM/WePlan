@@ -218,10 +218,14 @@
                     <version>${jacoco.version}</version>
                     <configuration>
                         <excludes>
-                            <exclude>fr/istic/gm/weplan/domain/model/dto/*</exclude>
-                            <exclude>fr/istic/gm/weplan/domain/model/entities/*</exclude>
-                            <exclude>fr/istic/gm/weplan/domain/model/entity/*</exclude>
-                            <exclude>fr/istic/gm/weplan/domain/model/request/*</exclude>
+                            <exclude>src/main/java/fr/istic/gm/weplan/domain/model/dto/*</exclude>
+                            <exclude>src/main/java/fr/istic/gm/weplan/domain/model/entities/*</exclude>
+                            <exclude>src/main/java/fr/istic/gm/weplan/domain/model/entity/*</exclude>
+                            <exclude>src/main/java/fr/istic/gm/weplan/domain/model/request/*</exclude>
+                            <exclude>**/*Exception.java</exclude>
+                            <exclude>**/*DTO.java</exclude>
+                            <exclude>**/*Request.java</exclude>
+                            <exclude>**/*Response.java</exclude>
                             <exclude>**/LoggingHandler.java</exclude>
                         </excludes>
                     </configuration>

@@ -15,7 +15,7 @@ public interface PersistsDefinition {
     String COST = "cost";
     String USER = "user";
     String EMAIL = "email";
-    String PASSWORD = "password";
+    String PASWORD = "password";
     String ROLE = "role";
     String REGION = "region";
     String REGIONS = "regions";
