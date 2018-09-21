@@ -45,6 +45,7 @@
         <maven-assembly.version>3.1.0</maven-assembly.version>
         <maven-dependency.version>2.4</maven-dependency.version>
         <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
+        <jacoco.version>0.8.2</jacoco.version>
 
         <springboot.version>2.0.5.RELEASE</springboot.version>
         <aspectj.version>1.9.1</aspectj.version>
@@ -207,6 +208,34 @@
                             <goals>
                                 <goal>integration-test</goal>
                                 <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco.version}</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>fr/istic/gm/weplan/domain/model/dto/*</exclude>
+                            <exclude>fr/istic/gm/weplan/domain/model/entities/*</exclude>
+                            <exclude>fr/istic/gm/weplan/domain/model/entity/*</exclude>
+                            <exclude>fr/istic/gm/weplan/domain/model/request/*</exclude>
+                            <exclude>**/LoggingHandler.java</exclude>
+                        </excludes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <phase>prepare-package</phase>
+                            <goals>
+                                <goal>report</goal>
                             </goals>
                         </execution>
                     </executions>
