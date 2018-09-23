@@ -49,6 +49,7 @@
 
         <springboot.version>2.0.5.RELEASE</springboot.version>
         <aspectj.version>1.9.1</aspectj.version>
+        <springfox.version>2.9.2</springfox.version>
 
         <hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
         <mariadb.version>2.3.0</mariadb.version>
@@ -116,6 +117,18 @@
                 <groupId>org.mariadb.jdbc</groupId>
                 <artifactId>mariadb-java-client</artifactId>
                 <version>${mariadb.version}</version>
+            </dependency>
+
+            <!-- Swagger -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox.version}</version>
             </dependency>
 
             <!-- Lombok -->

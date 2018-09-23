@@ -5,6 +5,11 @@ import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.service.CityService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +30,7 @@ import static fr.istic.gm.weplan.server.config.ApiRoutes.ID;
 /**
  * City Controller
  */
+@Api(tags = "City Controller", description = "City API")
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = CITY, produces = "application/json")
@@ -38,8 +44,12 @@ public class CityController {
      * @param pageOptions the page options
      * @return the cities pageable
      */
+    @ApiOperation("Get cities")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Get cities")
+    })
     @GetMapping
-    public PageDto<CityDto> getCities(@RequestBody PageOptions pageOptions) {
+    public PageDto<CityDto> getCities(@ApiParam(value = "Page request", required = true) @RequestBody PageOptions pageOptions) {
         return cityService.getCities(pageOptions);
     }
 
@@ -50,8 +60,13 @@ public class CityController {
      * @param id the id to retrieve
      * @return the city
      */
+    @ApiOperation("Get a city")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Get a city with a given id"),
+            @ApiResponse(code = 404, message = "City not found")
+    })
     @GetMapping(path = ID)
-    public CityDto getCity(@PathVariable Long id) {
+    public CityDto getCity(@ApiParam(value = "City id", required = true) @PathVariable Long id) {
         return cityService.getCity(id);
     }
 
@@ -61,9 +76,13 @@ public class CityController {
      * @param cityRequest the city to create.
      * @return the city created
      */
+    @ApiOperation("Create a city")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Create a city")
+    })
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public CityDto createCity(@RequestBody CityRequest cityRequest) {
+    public CityDto createCity(@ApiParam(value = "City request", required = true) @RequestBody CityRequest cityRequest) {
         return cityService.createCity(cityRequest);
     }
 
@@ -72,9 +91,14 @@ public class CityController {
      *
      * @param id the id to delete
      */
+    @ApiOperation("Delete a city")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Delete a city with a given id"),
+            @ApiResponse(code = 404, message = "City not found")
+    })
     @DeleteMapping(path = ID)
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteCity(@PathVariable Long id) {
+    public void deleteCity(@ApiParam(value = "City id", required = true) @PathVariable Long id) {
         cityService.deleteCity(id);
     }
 
@@ -85,8 +109,13 @@ public class CityController {
      * @param patch the map of the field to patch
      * @return the updated city
      */
+    @ApiOperation("Patch a city")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Patch a city with a given id"),
+            @ApiResponse(code = 404, message = "City not found")
+    })
     @PatchMapping(path = ID)
-    public CityDto patchCity(@PathVariable Long id, @RequestBody Map<String, Object> patch) {
+    public CityDto patchCity(@ApiParam(value = "City id", required = true) @PathVariable Long id, @ApiParam(value = "Patch request", required = true) @RequestBody Map<String, Object> patch) {
         return cityService.patchCity(id, patch);
     }
 }

@@ -41,7 +41,7 @@ public class LoggingHandler {
     /**
      * Point cut for component
      */
-    @Pointcut("within(@org.springframework.stereotype.Component *)")
+    @Pointcut("within(fr.istic.gm.weplan..component.*) && within(@org.springframework.stereotype.Component *)")
     public void component() {
     }
 
