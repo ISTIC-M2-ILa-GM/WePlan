@@ -1,6 +1,7 @@
 package fr.istic.gm.weplan.server.exception;
 
 import fr.istic.gm.weplan.domain.exception.DomainException;
+import fr.istic.gm.weplan.server.config.consts.AppError;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -4,6 +4,7 @@ import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.infra.repository.RegionRepository;
 import fr.istic.gm.weplan.server.App;
 import fr.istic.gm.weplan.server.config.CommonConfiguration;
+import fr.istic.gm.weplan.server.config.consts.AppError;
 import fr.istic.gm.weplan.server.utils.JsonUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,8 +17,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static fr.istic.gm.weplan.server.config.ApiRoutes.ID;
-import static fr.istic.gm.weplan.server.config.ApiRoutes.REGION;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ID;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.REGION;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

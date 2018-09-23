@@ -1,7 +1,6 @@
 package fr.istic.gm.weplan.infra.repository;
 
 import fr.istic.gm.weplan.domain.adapter.DepartmentAdapter;
-import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

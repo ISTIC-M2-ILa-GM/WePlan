@@ -1,16 +1,14 @@
 package fr.istic.gm.weplan.server.exception;
 
 import fr.istic.gm.weplan.domain.exception.DomainException;
+import fr.istic.gm.weplan.server.config.consts.AppError;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;

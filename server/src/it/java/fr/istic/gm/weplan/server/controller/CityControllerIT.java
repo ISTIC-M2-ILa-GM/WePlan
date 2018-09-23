@@ -27,8 +27,8 @@ import java.util.Map;
 
 import static fr.istic.gm.weplan.server.TestData.someCityDao;
 import static fr.istic.gm.weplan.server.TestData.someDepartmentDao;
-import static fr.istic.gm.weplan.server.config.ApiRoutes.CITY;
-import static fr.istic.gm.weplan.server.config.ApiRoutes.ID;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.CITY;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ID;
 import static fr.istic.gm.weplan.server.utils.JsonUtils.parseToJson;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;

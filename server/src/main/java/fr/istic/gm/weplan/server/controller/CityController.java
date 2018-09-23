@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-import static fr.istic.gm.weplan.server.config.ApiRoutes.CITY;
-import static fr.istic.gm.weplan.server.config.ApiRoutes.ID;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.CITY;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ID;
 
 /**
  * City Controller

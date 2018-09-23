@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-import static fr.istic.gm.weplan.server.config.ApiRoutes.DEPARTMENT;
-import static fr.istic.gm.weplan.server.config.ApiRoutes.ID;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.DEPARTMENT;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ID;
 
 /**
  * Department Controller

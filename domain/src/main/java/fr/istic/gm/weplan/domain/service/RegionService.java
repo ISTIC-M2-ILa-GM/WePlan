@@ -5,7 +5,6 @@ import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public interface RegionService {

@@ -29,6 +29,7 @@ public class LoggingHandler {
      */
     @Pointcut("within(@org.springframework.web.bind.annotation.RestController *)")
     public void restController() {
+        // Rest logging pointcut
     }
 
     /**
@@ -36,6 +37,7 @@ public class LoggingHandler {
      */
     @Pointcut("within(@org.springframework.stereotype.Service *)")
     public void service() {
+        // Service logging pointcut
     }
 
     /**
@@ -43,6 +45,7 @@ public class LoggingHandler {
      */
     @Pointcut("within(fr.istic.gm.weplan..component.*) && within(@org.springframework.stereotype.Component *)")
     public void component() {
+        // Component logging pointcut
     }
 
     /**
@@ -50,6 +53,7 @@ public class LoggingHandler {
      */
     @Pointcut("execution(public * *(..))")
     protected void loggingPublicOperation() {
+        // Logging public method pointcut
     }
 
     /**
