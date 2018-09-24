@@ -14,8 +14,8 @@ public class DomainException extends RuntimeException {
     public static final String NOTHING_TO_PATCH = "There's nothing to patch.";
     public static final String WRONG_DATA_TO_PATCH = "The data to patch is wrong.";
 
-    private String object;
-    private ExceptionType type;
+    private final String object;
+    private final ExceptionType type;
 
     public DomainException(String message, String object, ExceptionType type) {
         super(String.format(message, object));

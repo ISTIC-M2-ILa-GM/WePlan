@@ -35,3 +35,8 @@
 
 * GET POST /api/region/
 * GET PATCH DELETE /api/region/{id}
+
+## Swagger
+
+* UI: http://localhost:8080/swagger-ui.html
+* JSON: http://localhost:8080/v2/api-docs

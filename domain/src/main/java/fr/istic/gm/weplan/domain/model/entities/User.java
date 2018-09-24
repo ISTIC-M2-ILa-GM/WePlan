@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
 
@@ -19,7 +18,7 @@ import static fr.istic.gm.weplan.domain.config.PersistsDefinition.EMAIL;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.EVENTS;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.FIRST_NAME;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.LAST_NAME;
-import static fr.istic.gm.weplan.domain.config.PersistsDefinition.PASSWORD;
+import static fr.istic.gm.weplan.domain.config.PersistsDefinition.PASWORD;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.REGIONS;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.ROLE;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.USER;
@@ -40,7 +39,7 @@ public class User extends BaseEntity {
     @Column(name = EMAIL)
     private String email;
 
-    @Column(name = PASSWORD)
+    @Column(name = PASWORD)
     private String password;
 
     @Column(name = ROLE)

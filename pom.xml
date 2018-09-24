@@ -45,9 +45,11 @@
         <maven-assembly.version>3.1.0</maven-assembly.version>
         <maven-dependency.version>2.4</maven-dependency.version>
         <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
+        <jacoco.version>0.8.2</jacoco.version>
 
         <springboot.version>2.0.5.RELEASE</springboot.version>
         <aspectj.version>1.9.1</aspectj.version>
+        <springfox.version>2.9.2</springfox.version>
 
         <hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
         <mariadb.version>2.3.0</mariadb.version>
@@ -115,6 +117,18 @@
                 <groupId>org.mariadb.jdbc</groupId>
                 <artifactId>mariadb-java-client</artifactId>
                 <version>${mariadb.version}</version>
+            </dependency>
+
+            <!-- Swagger -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox.version}</version>
             </dependency>
 
             <!-- Lombok -->
@@ -207,6 +221,40 @@
                             <goals>
                                 <goal>integration-test</goal>
                                 <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco.version}</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/config/**</exclude>
+                            <exclude>src/main/java/fr/istic/gm/weplan/domain/model/dto/*</exclude>
+                            <exclude>src/main/java/fr/istic/gm/weplan/domain/model/entities/*</exclude>
+                            <exclude>src/main/java/fr/istic/gm/weplan/domain/model/entity/*</exclude>
+                            <exclude>src/main/java/fr/istic/gm/weplan/domain/model/request/*</exclude>
+                            <exclude>**/*Exception.java</exclude>
+                            <exclude>**/*DTO.java</exclude>
+                            <exclude>**/*Request.java</exclude>
+                            <exclude>**/*Response.java</exclude>
+                            <exclude>**/*Configuration.java</exclude>
+                            <exclude>**/LoggingHandler.java</exclude>
+                        </excludes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <phase>prepare-package</phase>
+                            <goals>
+                                <goal>report</goal>
                             </goals>
                         </execution>
                     </executions>

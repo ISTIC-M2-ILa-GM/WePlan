@@ -1,23 +1,17 @@
 package fr.istic.gm.weplan.domain.service.impl;
 
 import fr.istic.gm.weplan.domain.adapter.DepartmentAdapter;
-import fr.istic.gm.weplan.domain.adapter.RegionAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
-import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.entities.Department;
-import fr.istic.gm.weplan.domain.model.entities.Department;
-import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
-import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 import fr.istic.gm.weplan.domain.service.DepartmentDaoService;
 import fr.istic.gm.weplan.domain.service.DepartmentService;
-import fr.istic.gm.weplan.domain.service.RegionDaoService;
-import fr.istic.gm.weplan.domain.service.RegionService;
 import fr.istic.gm.weplan.domain.service.PatchService;
+import fr.istic.gm.weplan.domain.service.RegionDaoService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
