@@ -41,12 +41,6 @@
             <artifactId>mariadb-java-client</artifactId>
         </dependency>
 
-        <!-- Swagger -->
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-java-client</artifactId>
-        </dependency>
-
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -87,6 +81,10 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
         </dependency>
     </dependencies>
 
@@ -181,10 +179,20 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.build.directory}/generated-sources/swagger.json</inputSpec>
+                            <inputSpec>${project.basedir}/swagger-corrected.json</inputSpec>
                             <language>java</language>
                             <library>resttemplate</library>
-                            <sourceFolder>target/generated-sources</sourceFolder>
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelTests>false</generateModelTests>
+                            <generateApiDocumentation>false</generateApiDocumentation>
+                            <generateModelDocumentation>false</generateModelDocumentation>
+                            <apiPackage>fr.istic.gm.weplan.infra.client.weather.api</apiPackage>
+                            <modelPackage>fr.istic.gm.weplan.infra.client.weather.api.model</modelPackage>
+                            <configOptions>
+                                <sourceFolder>weatherbit</sourceFolder>
+                                <java8>true</java8>
+                                <dateLibrary>legacy</dateLibrary>
+                            </configOptions>
                         </configuration>
                     </execution>
                 </executions>
