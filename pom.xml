@@ -13,6 +13,7 @@
         <module>server</module>
         <module>domain</module>
         <module>infra</module>
+        <module>front</module>
     </modules>
 
     <inceptionYear>2018</inceptionYear>
