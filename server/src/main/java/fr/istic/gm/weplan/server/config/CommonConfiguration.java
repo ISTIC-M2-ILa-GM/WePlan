@@ -1,5 +1,6 @@
 package fr.istic.gm.weplan.server.config;
 
+import fr.istic.gm.weplan.infra.client.weather.ApiClient;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -26,5 +27,10 @@ public class CommonConfiguration {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
+    }
+
+    @Bean
+    public ApiClient apiClient() {
+        return new ApiClient();
     }
 }
