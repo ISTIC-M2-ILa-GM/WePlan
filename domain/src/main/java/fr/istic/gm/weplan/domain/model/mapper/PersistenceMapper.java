@@ -6,6 +6,7 @@ import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
 import fr.istic.gm.weplan.domain.model.entities.Region;
+import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
@@ -68,21 +69,20 @@ public interface PersistenceMapper {
         return departmentsDto;
     }
 
-    default PageDto<ActivityDto> toActivitiesPageDto(Page<Activity> activities) {
-        if (activities == null) {
-            return null;
-        }
-        PageDto<ActivityDto> activityDto = new PageDto<>();
-        activityDto.setSize(activities.getSize());
-        activityDto.setTotalPages(activities.getTotalPages());
-        activityDto.setResults(toActivitiesDto(activities.getContent()));
-
-        return activityDto;
-    }
-
-    List<ActivityDto> toActivitiesDto(List<Activity> content);
+    Activity toActivity(ActivityRequest activityRequest);
 
     ActivityDto toActivityDto(Activity activity);
 
-    Activity toActivity(ActivityRequest activityRequest);
+    List<ActivityDto> toActivitiesDto(List<Activity> activities);
+
+    default PageDto<ActivityDto> toActivitiesPageDto(Page<Activity> activities) {
+        if (activities == null)
+            return null;
+
+        PageDto<ActivityDto> activitiesDto = new PageDto<>();
+        activitiesDto.setSize(activities.getSize());
+        activitiesDto.setTotalPages(activities.getTotalPages());
+        activitiesDto.setResults(toActivitiesDto(activities.getContent()));
+        return activitiesDto;
+    }
 }
