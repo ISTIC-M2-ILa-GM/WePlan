@@ -1,4 +1,5 @@
 language: java
+
 jdk: oraclejdk8
 addons:
   mariadb: '10.0'
@@ -7,7 +8,14 @@ addons:
     token:
       secure: gB1i45TRkllllH3ZmGja1naGsIEv5Jm7AespiBy+oXP2p1NPyfJB9YoeUDhluuN9pfOluOVDcBb12On47QptbDAFiDxc28s9RIj5QzPgeH0KQlppiNUzIrQADWk/gUrrdV5A4Y6sj7UC3BVJL3Wnr/DVDQ6Htneioo88b8cXms58rJ81WhqskYOX/Mh3AxCpa8mSQf+l5/eCpCWFKo5R9Et2o/0I0LWA6ahgz7ar+HCcl7sOeMXVziI3LZufzQs0eIQb/yhj9S7FJ2tUxiyA6RbSv3WIW/ItKjXuaeutz7jb/nyH5MVCfyhdkxbSHpmGlQ9b0bEU9aIbkU/L9iXFdKeZ85YdlSD1Kwf02XOUpfV3a6fF3dI3xVqwFCU813NPXPdahyS7QUUgBwGzB3SN9RG73D/+RWr1P4+t3HQhpd6ulYHa1ACbuMyVG2mnujfv4TN1gU0xrZriDtbWsLtuF74oQEPLABft7Oh75X0GtjU0392EiCGJX/b59YDEuzmlGTUOqmneuHRT3A/ToOTUhTuc98HFoA6wUArNm+p3F8XQa1/5UOOumKdDrdjkZ4DjnwutUvippG9QaH0LtMF6hhpeQIS7beZ/QEEVXtX7ct8BvgeedukU5uSulyHZvWhIOn2fUqbRo37BFfygJUSSw3quBonRKEOOWEMSa9mtlyQ=
 
+env:
+- NODE_VERSION="8"
+
 before_install:
+- nvm install $NODE_VERSION
+- node --version
+- npm --version
+- npm i -g angular-cli
 - mysql -e 'CREATE DATABASE IF NOT EXISTS weplan;'
 - mysql -u root -e "CREATE USER 'weplan'@'localhost' IDENTIFIED BY 'weplan';"
 - mysql -u root -e "GRANT ALL ON weplan.* TO 'weplan'@'localhost';"
@@ -16,6 +24,7 @@ cache:
   directories:
   - "$HOME/.m2/repository"
   - "$HOME/.sonar/cache"
+  - "front/node_modules"
 
 jobs:
   include:

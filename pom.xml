@@ -13,6 +13,7 @@
         <module>server</module>
         <module>domain</module>
         <module>infra</module>
+        <module>front</module>
     </modules>
 
     <inceptionYear>2018</inceptionYear>
@@ -43,9 +44,11 @@
         <java.version.target>1.8</java.version.target>
         <maven-compiler.version>3.1</maven-compiler.version>
         <maven-assembly.version>3.1.0</maven-assembly.version>
+        <maven-clean.version>3.1.0</maven-clean.version>
         <maven-dependency.version>2.4</maven-dependency.version>
         <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
         <jacoco.version>0.8.2</jacoco.version>
+        <frontend.version>1.6</frontend.version>
 
         <springboot.version>2.0.5.RELEASE</springboot.version>
         <aspectj.version>1.9.1</aspectj.version>
@@ -258,6 +261,15 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>com.github.eirslett</groupId>
+                    <artifactId>frontend-maven-plugin</artifactId>
+                    <version>${frontend.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven-clean.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
