@@ -1,13 +1,10 @@
 package fr.istic.gm.weplan.domain.service;
 
 import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
-import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
-import fr.istic.gm.weplan.domain.model.request.CityRequest;
 
-import javax.activity.ActivityRequiredException;
 import java.util.Map;
 
 /**
@@ -53,5 +50,5 @@ public interface ActivityService {
      * @param patch the map of field to patch
      * @return the updated activity
      */
-    ActivityDto updateActivity(Long id, Map<String, Object> patch);
+    ActivityDto patchActivity(Long id, Map<String, Object> patch);
 }

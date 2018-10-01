@@ -1,7 +1,12 @@
 package fr.istic.gm.weplan.domain.model.mapper;
 
-import fr.istic.gm.weplan.domain.model.dto.*;
+import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
+import fr.istic.gm.weplan.domain.model.dto.CityDto;
+import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
+import fr.istic.gm.weplan.domain.model.dto.PageDto;
+import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.Activity;
+import fr.istic.gm.weplan.domain.model.entities.ActivityType;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.entities.Region;
@@ -21,7 +26,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static fr.istic.gm.weplan.domain.TestData.*;
+import static fr.istic.gm.weplan.domain.TestData.someActivity;
+import static fr.istic.gm.weplan.domain.TestData.someActivityRequest;
+import static fr.istic.gm.weplan.domain.TestData.someCity;
+import static fr.istic.gm.weplan.domain.TestData.someCityRequest;
+import static fr.istic.gm.weplan.domain.TestData.someDepartment;
+import static fr.istic.gm.weplan.domain.TestData.someDepartmentRequest;
+import static fr.istic.gm.weplan.domain.TestData.someRegion;
+import static fr.istic.gm.weplan.domain.TestData.someRegionRequest;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -242,13 +254,14 @@ public class PersistenceMapperTest {
         assertThat(mapper.toActivity(null), nullValue());
 
         ActivityRequest activityRequest = someActivityRequest();
+        activityRequest.setActivityType(ActivityType.SAILING.toString());
+
         Activity activity = mapper.toActivity(activityRequest);
         assertThat(activity, notNullValue());
         assertThat(activity.getName(), equalTo(activityRequest.getName()));
         assertThat(activity.getCost(), equalTo(activityRequest.getCost()));
-
-        assertThat(activity.getActivityType(), equalTo(activityRequest.getActivityType()));
-        assertThat(activity.getCities(), equalTo(activityRequest.getCitiesId()));
+        assertThat(activity.getActivityType().toString(), equalTo(activityRequest.getActivityType()));
+        assertThat(activity.getCities(), equalTo(null));
     }
 
     @Test

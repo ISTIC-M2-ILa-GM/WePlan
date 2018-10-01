@@ -5,13 +5,12 @@ import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
-import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.Activity;
-import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
-import fr.istic.gm.weplan.domain.model.request.RegionRequest;
-import fr.istic.gm.weplan.domain.service.*;
+import fr.istic.gm.weplan.domain.service.ActivityDaoService;
+import fr.istic.gm.weplan.domain.service.ActivityService;
+import fr.istic.gm.weplan.domain.service.PatchService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -69,7 +68,7 @@ public class ActivityServiceImpl extends PatchService<Activity> implements Activ
     }
 
     @Override
-    public ActivityDto updateActivity(Long id, Map<String, Object> map) {
+    public ActivityDto patchActivity(Long id, Map<String, Object> map) {
         Activity activity = this.getActivityDao(id);
 
         this.patch(activity, map);
