@@ -1,13 +1,10 @@
 package fr.istic.gm.weplan.server;
 
-import fr.istic.gm.weplan.domain.model.dto.CityDto;
-import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
-import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
-import fr.istic.gm.weplan.domain.model.dto.RegionDto;
+import fr.istic.gm.weplan.domain.model.dto.*;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.entities.Region;
+import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
 import uk.co.jemos.podam.api.PodamFactory;
@@ -81,5 +78,21 @@ public class TestData {
 
     public static Region someRegionDao() {
         return FACTORY.manufacturePojoWithFullData(Region.class);
+    }
+
+    public static ActivityRequest someActivityRequest() {
+        return FACTORY.manufacturePojoWithFullData(ActivityRequest.class);
+    }
+
+    public static ActivityDto someActivity() {
+        return FACTORY.manufacturePojoWithFullData(ActivityDto.class);
+    }
+
+    public static PageDto<ActivityDto> somePageActivities() {
+        PageDto<ActivityDto> activitiesDto = new PageDto<>();
+        activitiesDto.setSize(10);
+        activitiesDto.setTotalPages(10);
+        activitiesDto.setResults(Collections.singletonList(someActivity()));
+        return activitiesDto;
     }
 }

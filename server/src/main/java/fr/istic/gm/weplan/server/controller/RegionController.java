@@ -47,7 +47,7 @@ public class RegionController {
         return this.regionService.getRegions(pageOptions);
     }
 
-    @ApiOperation("Get regions")
+    @ApiOperation("Get region")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Get a region with a given id"),
             @ApiResponse(code = 404, message = "Region not found")
