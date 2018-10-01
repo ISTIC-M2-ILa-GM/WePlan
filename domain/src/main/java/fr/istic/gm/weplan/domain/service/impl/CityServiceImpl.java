@@ -8,6 +8,7 @@ import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
+import fr.istic.gm.weplan.domain.service.CityDaoService;
 import fr.istic.gm.weplan.domain.service.CityService;
 import fr.istic.gm.weplan.domain.service.DepartmentDaoService;
 import fr.istic.gm.weplan.domain.service.PatchService;
@@ -25,7 +26,7 @@ import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
 
 @AllArgsConstructor
 @Service
-public class CityServiceImpl extends PatchService<City> implements CityService {
+public class CityServiceImpl extends PatchService<City> implements CityService, CityDaoService {
 
     private CityAdapter cityAdapter;
 
@@ -45,7 +46,7 @@ public class CityServiceImpl extends PatchService<City> implements CityService {
     @Override
     public CityDto getCity(Long id) {
 
-        City city = getAndVerifyCity(id);
+        City city = getCityDao(id);
         return persistenceMapper.toCityDto(city);
     }
 
@@ -61,7 +62,7 @@ public class CityServiceImpl extends PatchService<City> implements CityService {
     @Override
     public void deleteCity(Long id) {
 
-        City city = getAndVerifyCity(id);
+        City city = getCityDao(id);
         city.setDeletedAt(clock.instant());
         cityAdapter.save(city);
     }
@@ -69,13 +70,14 @@ public class CityServiceImpl extends PatchService<City> implements CityService {
     @Override
     public CityDto patchCity(Long id, Map<String, Object> data) {
 
-        City city = getAndVerifyCity(id);
+        City city = getCityDao(id);
         patch(city, data);
         city = cityAdapter.save(city);
         return persistenceMapper.toCityDto(city);
     }
 
-    private City getAndVerifyCity(Long id) {
+    @Override
+    public City getCityDao(Long id) {
 
         Optional<City> city = id != null ? cityAdapter.findById(id) : Optional.empty();
         if (!city.isPresent() || city.get().getDeletedAt() != null) {

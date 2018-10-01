@@ -70,6 +70,35 @@ public class CityServiceTest {
     }
 
     @Test
+    public void shouldGetCityDao() {
+
+        City city = someCity();
+        Optional<City> optionalCity = Optional.of(city);
+
+        when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
+
+        City result = service.getCityDao(ID);
+
+        verify(mockCityAdapter).findById(ID);
+
+        assertThat(result, notNullValue());
+        assertThat(result, equalTo(city));
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetANullDepartmentDao() {
+
+        Optional<City> optionalCity = Optional.empty();
+
+        when(mockCityAdapter.findById(any())).thenReturn(optionalCity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
+
+        service.getCityDao(ID);
+    }
+
+    @Test
     public void shouldGetCities() {
 
         PageOptions pageOptions = somePageOptions();
