@@ -6,10 +6,12 @@ import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.entities.Activity;
+import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
 import fr.istic.gm.weplan.domain.service.ActivityDaoService;
 import fr.istic.gm.weplan.domain.service.ActivityService;
+import fr.istic.gm.weplan.domain.service.CityDaoService;
 import fr.istic.gm.weplan.domain.service.PatchService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +20,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.NOT_FOUND;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
@@ -29,6 +33,8 @@ import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
 @Service
 public class ActivityServiceImpl extends PatchService<Activity> implements ActivityService, ActivityDaoService {
     private ActivityAdapter activityAdapter;
+
+    private CityDaoService cityDaoService;
 
     private PersistenceMapper persistenceMapper;
 
@@ -61,6 +67,11 @@ public class ActivityServiceImpl extends PatchService<Activity> implements Activ
     @Override
     public ActivityDto createActivity(ActivityRequest activityRequest) {
         Activity input = this.persistenceMapper.toActivity(activityRequest);
+
+        if (activityRequest.getCitiesId() != null) {
+            List<City> cities = activityRequest.getCitiesId().stream().map(id -> cityDaoService.getCityDao(id)).collect(Collectors.toList());
+            input.setCities(cities);
+        }
 
         Activity result = this.activityAdapter.save(input);
 

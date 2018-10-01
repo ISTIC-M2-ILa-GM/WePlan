@@ -6,7 +6,6 @@ import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.Activity;
-import fr.istic.gm.weplan.domain.model.entities.ActivityType;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.entities.Region;
@@ -254,7 +253,6 @@ public class PersistenceMapperTest {
         assertThat(mapper.toActivity(null), nullValue());
 
         ActivityRequest activityRequest = someActivityRequest();
-        activityRequest.setActivityType(ActivityType.SAILING.toString());
 
         Activity activity = mapper.toActivity(activityRequest);
         assertThat(activity, notNullValue());

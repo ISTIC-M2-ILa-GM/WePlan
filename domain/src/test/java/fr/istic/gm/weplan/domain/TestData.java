@@ -4,6 +4,7 @@ import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.entities.Activity;
+import fr.istic.gm.weplan.domain.model.entities.ActivityType;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.entities.Region;
@@ -45,7 +46,9 @@ public class TestData {
     }
 
     public static ActivityRequest someActivityRequest() {
-        return FACTORY.manufacturePojoWithFullData(ActivityRequest.class);
+        ActivityRequest activityRequest = FACTORY.manufacturePojoWithFullData(ActivityRequest.class);
+        activityRequest.setActivityType(ActivityType.SAILING.toString());
+        return activityRequest;
     }
 
     public static CityRequest someCityRequest() {
