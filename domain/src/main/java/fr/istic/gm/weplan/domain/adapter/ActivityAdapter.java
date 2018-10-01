@@ -1,19 +1,18 @@
 package fr.istic.gm.weplan.domain.adapter;
 
 import fr.istic.gm.weplan.domain.model.entities.Activity;
-import fr.istic.gm.weplan.domain.model.entities.City;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
 /**
- * The city adapter
+ * The activity adapter
  */
 public interface ActivityAdapter {
 
     /**
-     * Find all city with pageable.
+     * Find all activity with pageable.
      *
      * @param pageable the pageable
      * @return the activity page
@@ -37,10 +36,10 @@ public interface ActivityAdapter {
     Optional<Activity> findById(Long id);
 
     /**
-     * Save a city.
+     * Save a activity.
      *
-     * @param activity the city to save
-     * @return the saved city.
+     * @param activity the activity to save
+     * @return the saved activity.
      */
     Activity save(Activity activity);
 }

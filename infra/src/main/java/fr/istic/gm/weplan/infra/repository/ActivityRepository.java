@@ -1,9 +1,7 @@
 package fr.istic.gm.weplan.infra.repository;
 
 import fr.istic.gm.weplan.domain.adapter.ActivityAdapter;
-import fr.istic.gm.weplan.domain.adapter.CityAdapter;
 import fr.istic.gm.weplan.domain.model.entities.Activity;
-import fr.istic.gm.weplan.domain.model.entities.City;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
