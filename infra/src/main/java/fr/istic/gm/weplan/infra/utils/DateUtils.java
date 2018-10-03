@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatterBuilder;
 
 public class DateUtils {
 
-    public static DateTimeFormatter WEATHER_DATE_FORMAT = new DateTimeFormatterBuilder()
+    public static final DateTimeFormatter WEATHER_DATE_FORMAT = new DateTimeFormatterBuilder()
             .appendPattern("yyyy-MM-dd:H")
             .toFormatter()
             .withZone(ZoneOffset.UTC);
