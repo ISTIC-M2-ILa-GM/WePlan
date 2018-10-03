@@ -19,6 +19,8 @@ import static fr.istic.gm.weplan.infra.TestData.someForecastHourly;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -57,6 +59,7 @@ public class WeatherClientTest {
 
         assertThat(weatherWeek, notNullValue());
         assertThat(weatherWeek.getWeathers(), notNullValue());
+        assertThat(weatherWeek.getWeathers(), not(empty()));
         assertThat(weatherWeek.getWeathers(), hasSize(forecastHourly.getData().size()));
         assertThat(weatherWeek.getWeathers().get(0).getCode(), equalTo(forecastHourly.getData().get(0).getWeather().getCode()));
         assertThat(weatherWeek.getWeathers().get(0).getDescription(), equalTo(forecastHourly.getData().get(0).getWeather().getDescription()));

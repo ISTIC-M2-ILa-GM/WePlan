@@ -2,9 +2,15 @@ package fr.istic.gm.weplan.infra;
 
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
+import fr.istic.gm.weplan.infra.client.weather.api.model.ForecastHour;
 import fr.istic.gm.weplan.infra.client.weather.api.model.ForecastHourly;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class TestData {
 
@@ -13,7 +19,11 @@ public class TestData {
     public static final String API_KEY = "an-api-key";
 
     public static ForecastHourly someForecastHourly() {
-        return FACTORY.manufacturePojoWithFullData(ForecastHourly.class);
+        return FACTORY.manufacturePojo(ForecastHourly.class);
+    }
+
+    public static ForecastHour someForecastHour() {
+        return FACTORY.manufacturePojo(ForecastHour.class);
     }
 
     public static Department someDepartment() {
@@ -26,6 +36,17 @@ public class TestData {
         City city = FACTORY.manufacturePojoWithFullData(City.class);
         city.setDeletedAt(null);
         return city;
+    }
+
+    public static String getWeatherApiKey() throws IOException {
+        String apiKey = System.getenv("WEATHER_API");
+        if (apiKey == null) {
+            Properties prop = new Properties();
+            InputStream input = new FileInputStream("../server/src/main/resources/application-weather.properties");
+            prop.load(input);
+            apiKey = prop.getProperty("weplan.weather.api-key");
+        }
+        return apiKey;
     }
 
 }

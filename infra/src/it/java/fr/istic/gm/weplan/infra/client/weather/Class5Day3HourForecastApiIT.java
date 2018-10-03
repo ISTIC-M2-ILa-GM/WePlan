@@ -5,11 +5,9 @@ import fr.istic.gm.weplan.infra.client.weather.api.model.ForecastHourly;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 
+import static fr.istic.gm.weplan.infra.TestData.getWeatherApiKey;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,13 +21,7 @@ public class Class5Day3HourForecastApiIT {
 
     @Before
     public void setUp() throws IOException {
-        apiKey = System.getenv("WEATHER_API");
-        if (apiKey == null) {
-            Properties prop = new Properties();
-            InputStream input = new FileInputStream("../server/src/main/resources/application-weather.properties");
-            prop.load(input);
-            apiKey = prop.getProperty("weplan.weather.api-key");
-        }
+        apiKey = getWeatherApiKey();
         class5Day3HourForecastApi = new Class5Day3HourForecastApi();
     }
 
