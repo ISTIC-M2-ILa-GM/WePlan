@@ -8,14 +8,29 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+/**
+ * The weather mapper
+ */
 @Mapper(componentModel = "spring")
 public interface WeatherMapper {
 
+    /**
+     * Map an api data to week data
+     *
+     * @param forecastHourly the api data
+     * @return the week data
+     */
     @Mappings({
             @Mapping(source = "data", target = "weathers")
     })
     Week toWeek(ForecastHourly forecastHourly);
 
+    /**
+     * Map an api data to weather data
+     *
+     * @param forecastHour the api data
+     * @return the week data
+     */
     @Mappings({
             @Mapping(source = "weather.icon", target = "icon"),
             @Mapping(source = "weather.code", target = "code"),
