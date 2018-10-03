@@ -1,7 +1,7 @@
 package fr.istic.gm.weplan.infra.client.weather;
 
-import fr.istic.gm.weplan.infra.client.weather.api.Class5Day3HourForecastApi;
-import fr.istic.gm.weplan.infra.client.weather.api.model.ForecastHourly;
+import fr.istic.gm.weplan.infra.client.weather.generated.api.Class5Day3HourForecastApi;
+import fr.istic.gm.weplan.infra.client.weather.generated.api.model.ForecastHourly;
 import org.junit.Before;
 import org.junit.Test;
 

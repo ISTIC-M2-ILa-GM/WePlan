@@ -1,8 +1,8 @@
 package fr.istic.gm.weplan.infra.client.weather;
 
 import fr.istic.gm.weplan.domain.model.weather.Week;
-import fr.istic.gm.weplan.infra.client.weather.api.Class5Day3HourForecastApi;
 import fr.istic.gm.weplan.infra.client.weather.config.properties.WeatherProperties;
+import fr.istic.gm.weplan.infra.client.weather.generated.api.Class5Day3HourForecastApi;
 import fr.istic.gm.weplan.infra.client.weather.impl.WeatherClientImpl;
 import fr.istic.gm.weplan.infra.client.weather.mapper.WeatherMapper;
 import org.junit.Before;

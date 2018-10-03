@@ -2,15 +2,18 @@ package fr.istic.gm.weplan.infra.client.weather.mapper;
 
 import fr.istic.gm.weplan.domain.model.weather.Weather;
 import fr.istic.gm.weplan.domain.model.weather.Week;
-import fr.istic.gm.weplan.infra.client.weather.api.model.ForecastHour;
-import fr.istic.gm.weplan.infra.client.weather.api.model.ForecastHourly;
+import fr.istic.gm.weplan.infra.client.weather.generated.api.model.ForecastHour;
+import fr.istic.gm.weplan.infra.client.weather.generated.api.model.ForecastHourly;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 
+import java.time.Instant;
+
 import static fr.istic.gm.weplan.infra.TestData.someForecastHour;
 import static fr.istic.gm.weplan.infra.TestData.someForecastHourly;
+import static fr.istic.gm.weplan.infra.client.weather.mapper.WeatherMapper.DATE_FORMAT;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -42,6 +45,7 @@ public class WeatherMapperTest {
         assertThat(week.getWeathers().get(0).getCode(), equalTo(forecastHourly.getData().get(0).getWeather().getCode()));
         assertThat(week.getWeathers().get(0).getDescription(), equalTo(forecastHourly.getData().get(0).getWeather().getDescription()));
         assertThat(week.getWeathers().get(0).getIcon(), equalTo(forecastHourly.getData().get(0).getWeather().getIcon()));
+        assertThat(week.getWeathers().get(0).getDate(), equalTo(DATE_FORMAT.parse(forecastHourly.getData().get(0).getDatetime(), Instant::from)));
     }
 
     @Test
@@ -56,5 +60,6 @@ public class WeatherMapperTest {
         assertThat(weather.getCode(), equalTo(forecastHour.getWeather().getCode()));
         assertThat(weather.getDescription(), equalTo(forecastHour.getWeather().getDescription()));
         assertThat(weather.getIcon(), equalTo(forecastHour.getWeather().getIcon()));
+        assertThat(weather.getDate(), equalTo(DATE_FORMAT.parse(forecastHour.getDatetime(), Instant::from)));
     }
 }

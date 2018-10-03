@@ -19,11 +19,15 @@ public class TestData {
     public static final String API_KEY = "an-api-key";
 
     public static ForecastHourly someForecastHourly() {
-        return FACTORY.manufacturePojo(ForecastHourly.class);
+        ForecastHourly forecastHourly = FACTORY.manufacturePojo(ForecastHourly.class);
+        forecastHourly.getData().forEach(d -> d.datetime("2018-10-04:03"));
+        return forecastHourly;
     }
 
     public static ForecastHour someForecastHour() {
-        return FACTORY.manufacturePojo(ForecastHour.class);
+        ForecastHour forecastHour = FACTORY.manufacturePojo(ForecastHour.class);
+        forecastHour.setDatetime("2018-10-04:21");
+        return forecastHour;
     }
 
     public static Department someDepartment() {
