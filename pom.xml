@@ -250,6 +250,7 @@
                             <exclude>src/main/java/fr/istic/gm/weplan/domain/model/entities/*</exclude>
                             <exclude>src/main/java/fr/istic/gm/weplan/domain/model/entity/*</exclude>
                             <exclude>src/main/java/fr/istic/gm/weplan/domain/model/request/*</exclude>
+                            <exclude>src/main/java/fr/istic/gm/weplan/domain/model/weather/*</exclude>
                             <exclude>**/*Exception.java</exclude>
                             <exclude>**/*DTO.java</exclude>
                             <exclude>**/*Request.java</exclude>

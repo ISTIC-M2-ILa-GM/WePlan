@@ -2,8 +2,8 @@ package fr.istic.gm.weplan.infra;
 
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
-import fr.istic.gm.weplan.infra.client.weather.api.model.ForecastHour;
-import fr.istic.gm.weplan.infra.client.weather.api.model.ForecastHourly;
+import fr.istic.gm.weplan.infra.client.weather.generated.api.model.ForecastHour;
+import fr.istic.gm.weplan.infra.client.weather.generated.api.model.ForecastHourly;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 

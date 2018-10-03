@@ -186,8 +186,9 @@
                             <generateModelTests>false</generateModelTests>
                             <generateApiDocumentation>false</generateApiDocumentation>
                             <generateModelDocumentation>false</generateModelDocumentation>
-                            <apiPackage>fr.istic.gm.weplan.infra.client.weather.api</apiPackage>
-                            <modelPackage>fr.istic.gm.weplan.infra.client.weather.api.model</modelPackage>
+                            <apiPackage>fr.istic.gm.weplan.infra.client.weather.generated.api</apiPackage>
+                            <modelPackage>fr.istic.gm.weplan.infra.client.weather.generated.api.model</modelPackage>
+                            <invokerPackage>fr.istic.gm.weplan.infra.client.weather.generated</invokerPackage>
                             <configOptions>
                                 <sourceFolder>weatherbit</sourceFolder>
                                 <java8>true</java8>
