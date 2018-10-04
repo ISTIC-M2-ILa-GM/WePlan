@@ -1,5 +1,6 @@
 package fr.istic.gm.weplan.infra;
 
+import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.infra.client.weather.generated.api.model.ForecastHour;
@@ -28,6 +29,10 @@ public class TestData {
         ForecastHour forecastHour = FACTORY.manufacturePojo(ForecastHour.class);
         forecastHour.setDatetime("2018-10-04:21");
         return forecastHour;
+    }
+
+    public static EventDto someEventDto() {
+        return FACTORY.manufacturePojoWithFullData(EventDto.class);
     }
 
     public static Department someDepartment() {

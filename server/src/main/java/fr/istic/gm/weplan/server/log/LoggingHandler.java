@@ -43,7 +43,7 @@ public class LoggingHandler {
     /**
      * Point cut for component
      */
-    @Pointcut("within(fr.istic.gm.weplan..component.*) && within(@org.springframework.stereotype.Component *)")
+    @Pointcut("within(@org.springframework.stereotype.Component *)")
     public void component() {
         // Component logging pointcut
     }
@@ -51,7 +51,7 @@ public class LoggingHandler {
     /**
      * Point cut for all public method
      */
-    @Pointcut("execution(public * *(..))")
+    @Pointcut("execution(* fr.istic.gm.weplan..*(..)) && execution(public * *(..))")
     protected void loggingPublicOperation() {
         // Logging public method pointcut
     }

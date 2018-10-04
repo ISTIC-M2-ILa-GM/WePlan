@@ -1,6 +1,12 @@
 package fr.istic.gm.weplan.server;
 
-import fr.istic.gm.weplan.domain.model.dto.*;
+import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
+import fr.istic.gm.weplan.domain.model.dto.CityDto;
+import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
+import fr.istic.gm.weplan.domain.model.dto.EventDto;
+import fr.istic.gm.weplan.domain.model.dto.PageDto;
+import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.entities.Region;
@@ -17,6 +23,10 @@ public class TestData {
     public static final Long ID = 10L;
 
     private static final PodamFactory FACTORY = new PodamFactoryImpl();
+
+    public static final EventDto someEvent() {
+        return FACTORY.manufacturePojoWithFullData(EventDto.class);
+    }
 
     public static Department someDepartmentDao() {
         Department department = FACTORY.manufacturePojoWithFullData(Department.class);

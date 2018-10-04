@@ -53,6 +53,7 @@
         <springboot.version>2.0.5.RELEASE</springboot.version>
         <aspectj.version>1.9.1</aspectj.version>
         <springfox.version>2.9.2</springfox.version>
+        <spring.version>5.0.9.RELEASE</spring.version>
 
         <hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
         <mariadb.version>2.3.0</mariadb.version>
@@ -103,6 +104,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${springboot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-websocket</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-messaging</artifactId>
+                <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.aspectj</groupId>

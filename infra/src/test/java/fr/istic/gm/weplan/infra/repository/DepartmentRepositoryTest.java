@@ -1,7 +1,6 @@
 package fr.istic.gm.weplan.infra.repository;
 
 import fr.istic.gm.weplan.domain.model.entities.Department;
-import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.infra.TestConfiguration;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.time.Instant;
 import java.util.Optional;
 
-import static fr.istic.gm.weplan.infra.TestData.someDepartment;
 import static fr.istic.gm.weplan.infra.TestData.someDepartment;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
