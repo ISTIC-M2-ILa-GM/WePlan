@@ -68,7 +68,7 @@ public class RegionServiceImpl extends PatchService<Region> implements RegionSer
     }
 
     @Override
-    public RegionDto updateRegion(Long id, Map<String, Object> map) {
+    public RegionDto patchRegion(Long id, Map<String, Object> map) {
         Region region = this.getRegionDao(id);
 
         this.patch(region, map);
