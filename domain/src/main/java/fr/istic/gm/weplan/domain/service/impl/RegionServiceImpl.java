@@ -8,7 +8,6 @@ import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
-import fr.istic.gm.weplan.domain.service.PatchService;
 import fr.istic.gm.weplan.domain.service.RegionDaoService;
 import fr.istic.gm.weplan.domain.service.RegionService;
 import lombok.AllArgsConstructor;
