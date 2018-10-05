@@ -5,14 +5,17 @@ import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
+import fr.istic.gm.weplan.domain.model.dto.UserDto;
 import fr.istic.gm.weplan.domain.model.entities.Activity;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.entities.Region;
+import fr.istic.gm.weplan.domain.model.entities.User;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
+import fr.istic.gm.weplan.domain.model.request.UserRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +36,8 @@ import static fr.istic.gm.weplan.domain.TestData.someDepartment;
 import static fr.istic.gm.weplan.domain.TestData.someDepartmentRequest;
 import static fr.istic.gm.weplan.domain.TestData.someRegion;
 import static fr.istic.gm.weplan.domain.TestData.someRegionRequest;
+import static fr.istic.gm.weplan.domain.TestData.someUser;
+import static fr.istic.gm.weplan.domain.TestData.someUserRequest;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -276,5 +281,73 @@ public class PersistenceMapperTest {
         assertThat(activitiesPageDto.getTotalPages(), equalTo(5));
         assertThat(activitiesPageDto.getResults(), hasSize(1));
         assertThat(activitiesPageDto.getResults().get(0).getId(), equalTo(activity.getId()));
+    }
+
+    @Test
+    public void shouldMapAnUser() {
+
+        assertThat(mapper.toUserDto(null), nullValue());
+
+        User user = someUser();
+        UserDto userDto = mapper.toUserDto(user);
+        assertThat(userDto, notNullValue());
+        assertThat(userDto.getFirstName(), equalTo(user.getFirstName()));
+        assertThat(userDto.getLastName(), equalTo(user.getLastName()));
+        assertThat(userDto.getRole().name(), equalTo(user.getRole().name()));
+        assertThat(userDto.getEmail(), equalTo(user.getEmail()));
+        assertThat(userDto.getId(), equalTo(user.getId()));
+        assertThat(userDto.getCreatedAt(), equalTo(user.getCreatedAt()));
+        assertThat(userDto.getDeletedAt(), equalTo(user.getDeletedAt()));
+        assertThat(userDto.getUpdatedAt(), equalTo(user.getUpdatedAt()));
+        assertThat(userDto.getCities(), notNullValue());
+        assertThat(userDto.getCities(), hasSize(user.getCities().size()));
+        assertThat(userDto.getDepartments(), notNullValue());
+        assertThat(userDto.getDepartments(), hasSize(user.getDepartments().size()));
+        assertThat(userDto.getEvents(), notNullValue());
+        assertThat(userDto.getEvents(), hasSize(user.getEvents().size()));
+        assertThat(userDto.getRegions(), notNullValue());
+        assertThat(userDto.getRegions(), hasSize(user.getRegions().size()));
+    }
+
+    @Test
+    public void shouldMapUsers() {
+
+        assertThat(mapper.toUsersDto(null), nullValue());
+        assertThat(mapper.toUsersDto(new ArrayList<>()), hasSize(0));
+        assertThat(mapper.toUsersDto(Collections.singletonList(someUser())), hasSize(1));
+
+        List<User> users = new ArrayList<>();
+        users.add(someUser());
+        users.add(someUser());
+        assertThat(mapper.toUsersDto(users), hasSize(2));
+    }
+
+    @Test
+    public void shouldMapUserRequest() {
+
+        assertThat(mapper.toUser(null), nullValue());
+
+        UserRequest userRequest = someUserRequest();
+        User user = mapper.toUser(userRequest);
+        assertThat(user, notNullValue());
+        assertThat(user.getFirstName(), equalTo(userRequest.getFirstName()));
+        assertThat(user.getLastName(), equalTo(userRequest.getLastName()));
+        assertThat(user.getEmail(), equalTo(userRequest.getEmail()));
+    }
+
+    @Test
+    public void shouldMapAPageUser() {
+        assertThat(mapper.toUsersPageDto(null), nullValue());
+
+        User user = someUser();
+        PageImpl<User> page = new PageImpl<>(Collections.singletonList(user), PageRequest.of(1, 2), 10);
+
+        PageDto<UserDto> userDtoPageDto = mapper.toUsersPageDto(page);
+
+        assertThat(userDtoPageDto, notNullValue());
+        assertThat(userDtoPageDto.getSize(), equalTo(2));
+        assertThat(userDtoPageDto.getTotalPages(), equalTo(5));
+        assertThat(userDtoPageDto.getResults(), hasSize(1));
+        assertThat(userDtoPageDto.getResults().get(0).getId(), equalTo(user.getId()));
     }
 }

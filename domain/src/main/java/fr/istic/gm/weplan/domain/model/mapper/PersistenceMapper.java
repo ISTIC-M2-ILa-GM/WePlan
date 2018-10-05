@@ -5,14 +5,17 @@ import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
+import fr.istic.gm.weplan.domain.model.dto.UserDto;
 import fr.istic.gm.weplan.domain.model.entities.Activity;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.entities.Region;
+import fr.istic.gm.weplan.domain.model.entities.User;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
+import fr.istic.gm.weplan.domain.model.request.UserRequest;
 import org.mapstruct.Mapper;
 import org.springframework.data.domain.Page;
 
@@ -88,4 +91,21 @@ public interface PersistenceMapper {
         activitiesDto.setResults(toActivitiesDto(activities.getContent()));
         return activitiesDto;
     }
+
+    default PageDto<UserDto> toUsersPageDto(Page<User> users) {
+        if (users == null) {
+            return null;
+        }
+        PageDto<UserDto> userDtoPageDto = new PageDto<>();
+        userDtoPageDto.setSize(users.getSize());
+        userDtoPageDto.setTotalPages(users.getTotalPages());
+        userDtoPageDto.setResults(toUsersDto(users.getContent()));
+        return userDtoPageDto;
+    }
+
+    UserDto toUserDto(User user);
+
+    User toUser(UserRequest userRequest);
+
+    List<UserDto> toUsersDto(List<User> content);
 }
