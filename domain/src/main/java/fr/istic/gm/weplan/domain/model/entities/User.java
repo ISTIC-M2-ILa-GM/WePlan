@@ -24,8 +24,8 @@ import static fr.istic.gm.weplan.domain.config.PersistsDefinition.ROLE;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.USER;
 
 @Data
-@EqualsAndHashCode(callSuper = true, exclude = {"firstName", "lastName", "email", "password"})
-@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true, exclude = {"firstName", "lastName", "email", "password"})
 @Entity
 @Table(name = USER)
 public class User extends BaseEntity {

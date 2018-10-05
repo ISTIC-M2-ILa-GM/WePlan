@@ -6,6 +6,9 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
+/**
+ * The department Adapter
+ */
 public interface DepartmentAdapter {
 
     /**
