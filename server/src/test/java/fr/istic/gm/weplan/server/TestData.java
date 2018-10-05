@@ -11,6 +11,7 @@ import fr.istic.gm.weplan.domain.model.dto.UserDto;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.entities.Region;
+import fr.istic.gm.weplan.domain.model.entities.User;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
@@ -92,6 +93,18 @@ public class TestData {
         return FACTORY.manufacturePojoWithFullData(UserRequest.class);
     }
 
+    public static User someUserDao() {
+        User user = FACTORY.manufacturePojoWithFullData(User.class);
+        user.setRegions(null);
+        user.setEvents(null);
+        user.setDepartments(null);
+        user.setCities(null);
+        user.setId(null);
+        user.setCreatedAt(null);
+        user.setDeletedAt(null);
+        user.setUpdatedAt(null);
+        return user;
+    }
 
     public static PageDto<RegionDto> somePageRegions() {
         PageDto<RegionDto> regionsDto = new PageDto<>();

@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.CITY;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ID;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.USER;
 
 /**
  * User Controller
@@ -33,7 +33,7 @@ import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ID;
 @Api(tags = "User Controller", description = "User API")
 @AllArgsConstructor
 @RestController
-@RequestMapping(path = CITY, produces = "application/json")
+@RequestMapping(path = USER, produces = "application/json")
 public class UserController {
 
     private UserService userService;
