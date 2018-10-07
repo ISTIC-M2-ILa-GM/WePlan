@@ -22,6 +22,7 @@ public final class PersistsDefinition {
     public static final String DEPARTMENT = "department";
     public static final String DEPARTMENTS = "departments";
     public static final String ACTIVITY = "activity";
+    public static final String ACTIVITIES = "activities";
     public static final String OUT_DOOR = "out_door";
     public static final String EVENT = "event";
     public static final String EVENTS = "events";

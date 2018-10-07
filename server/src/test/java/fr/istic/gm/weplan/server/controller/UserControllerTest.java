@@ -116,8 +116,8 @@ public class UserControllerTest {
     @Test
     public void shouldAddCitiesToAnUser() {
 
-        List<String> citiesId = new ArrayList<>();
-        citiesId.add("an-id");
+        List<Long> citiesId = new ArrayList<>();
+        citiesId.add(ID + 1);
         UserDto userDto = someUser();
 
         when(mockUserService.addCities(any(), any())).thenReturn(userDto);
@@ -133,8 +133,8 @@ public class UserControllerTest {
     @Test
     public void shouldAddDepartmentsToAnUser() {
 
-        List<String> departmentsId = new ArrayList<>();
-        departmentsId.add("an-id");
+        List<Long> departmentsId = new ArrayList<>();
+        departmentsId.add(ID + 1);
         UserDto userDto = someUser();
 
         when(mockUserService.addDepartments(any(), any())).thenReturn(userDto);
@@ -150,8 +150,8 @@ public class UserControllerTest {
     @Test
     public void shouldAddRegionsToAnUser() {
 
-        List<String> regionsId = new ArrayList<>();
-        regionsId.add("an-id");
+        List<Long> regionsId = new ArrayList<>();
+        regionsId.add(ID + 1);
         UserDto userDto = someUser();
 
         when(mockUserService.addRegions(any(), any())).thenReturn(userDto);
@@ -167,8 +167,8 @@ public class UserControllerTest {
     @Test
     public void shouldAddActivitiesToAnUser() {
 
-        List<String> activitiesId = new ArrayList<>();
-        activitiesId.add("an-id");
+        List<Long> activitiesId = new ArrayList<>();
+        activitiesId.add(ID + 1);
         UserDto userDto = someUser();
 
         when(mockUserService.addActivities(any(), any())).thenReturn(userDto);
@@ -184,8 +184,8 @@ public class UserControllerTest {
     @Test
     public void shouldAddEventsToAnUser() {
 
-        List<String> eventsId = new ArrayList<>();
-        eventsId.add("an-id");
+        List<Long> eventsId = new ArrayList<>();
+        eventsId.add(ID + 1);
         UserDto userDto = someUser();
 
         when(mockUserService.addEvents(any(), any())).thenReturn(userDto);
@@ -201,8 +201,8 @@ public class UserControllerTest {
     @Test
     public void shouldRemoveCitiesToAnUser() {
 
-        List<String> citiesId = new ArrayList<>();
-        citiesId.add("an-id");
+        List<Long> citiesId = new ArrayList<>();
+        citiesId.add(ID + 1);
         UserDto userDto = someUser();
 
         when(mockUserService.removeCities(any(), any())).thenReturn(userDto);
@@ -218,8 +218,8 @@ public class UserControllerTest {
     @Test
     public void shouldRemoveDepartmentsToAnUser() {
 
-        List<String> departmentsId = new ArrayList<>();
-        departmentsId.add("an-id");
+        List<Long> departmentsId = new ArrayList<>();
+        departmentsId.add(ID + 1);
         UserDto userDto = someUser();
 
         when(mockUserService.removeDepartments(any(), any())).thenReturn(userDto);
@@ -235,8 +235,8 @@ public class UserControllerTest {
     @Test
     public void shouldRemoveRegionsToAnUser() {
 
-        List<String> regionsId = new ArrayList<>();
-        regionsId.add("an-id");
+        List<Long> regionsId = new ArrayList<>();
+        regionsId.add(ID + 1);
         UserDto userDto = someUser();
 
         when(mockUserService.removeRegions(any(), any())).thenReturn(userDto);
@@ -252,8 +252,8 @@ public class UserControllerTest {
     @Test
     public void shouldRemoveActivitiesToAnUser() {
 
-        List<String> activitiesId = new ArrayList<>();
-        activitiesId.add("an-id");
+        List<Long> activitiesId = new ArrayList<>();
+        activitiesId.add(ID + 1);
         UserDto userDto = someUser();
 
         when(mockUserService.removeActivities(any(), any())).thenReturn(userDto);
@@ -269,8 +269,8 @@ public class UserControllerTest {
     @Test
     public void shouldRemoveEventsToAnUser() {
 
-        List<String> eventsId = new ArrayList<>();
-        eventsId.add("an-id");
+        List<Long> eventsId = new ArrayList<>();
+        eventsId.add(ID + 1);
         UserDto userDto = someUser();
 
         when(mockUserService.removeEvents(any(), any())).thenReturn(userDto);

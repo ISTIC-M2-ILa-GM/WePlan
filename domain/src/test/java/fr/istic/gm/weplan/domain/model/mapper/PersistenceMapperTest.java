@@ -3,12 +3,14 @@ package fr.istic.gm.weplan.domain.model.mapper;
 import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
+import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.dto.UserDto;
 import fr.istic.gm.weplan.domain.model.entities.Activity;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
+import fr.istic.gm.weplan.domain.model.entities.Event;
 import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.entities.User;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
@@ -34,6 +36,7 @@ import static fr.istic.gm.weplan.domain.TestData.someCity;
 import static fr.istic.gm.weplan.domain.TestData.someCityRequest;
 import static fr.istic.gm.weplan.domain.TestData.someDepartment;
 import static fr.istic.gm.weplan.domain.TestData.someDepartmentRequest;
+import static fr.istic.gm.weplan.domain.TestData.someEvent;
 import static fr.istic.gm.weplan.domain.TestData.someRegion;
 import static fr.istic.gm.weplan.domain.TestData.someRegionRequest;
 import static fr.istic.gm.weplan.domain.TestData.someUser;
@@ -349,5 +352,46 @@ public class PersistenceMapperTest {
         assertThat(userDtoPageDto.getTotalPages(), equalTo(5));
         assertThat(userDtoPageDto.getResults(), hasSize(1));
         assertThat(userDtoPageDto.getResults().get(0).getId(), equalTo(user.getId()));
+    }
+
+    @Test
+    public void shouldMapEvent() {
+
+        assertThat(mapper.toEventDto(null), nullValue());
+
+        Event event = someEvent();
+        EventDto eventDto = mapper.toEventDto(event);
+        assertThat(eventDto, notNullValue());
+        assertThat(eventDto.getActivity(), notNullValue());
+        assertThat(eventDto.getCity(), notNullValue());
+    }
+
+    @Test
+    public void shouldMapEvents() {
+
+        assertThat(mapper.toEventsDto(null), nullValue());
+        assertThat(mapper.toEventsDto(new ArrayList<>()), hasSize(0));
+        assertThat(mapper.toEventsDto(Collections.singletonList(someEvent())), hasSize(1));
+
+        List<Event> events = new ArrayList<>();
+        events.add(someEvent());
+        events.add(someEvent());
+        assertThat(mapper.toEventsDto(events), hasSize(2));
+    }
+
+    @Test
+    public void shouldMapAPageEvent() {
+        assertThat(mapper.toEventsPageDto(null), nullValue());
+
+        Event event = someEvent();
+        PageImpl<Event> page = new PageImpl<>(Collections.singletonList(event), PageRequest.of(1, 2), 10);
+
+        PageDto<EventDto> eventDtoPageDto = mapper.toEventsPageDto(page);
+
+        assertThat(eventDtoPageDto, notNullValue());
+        assertThat(eventDtoPageDto.getSize(), equalTo(2));
+        assertThat(eventDtoPageDto.getTotalPages(), equalTo(5));
+        assertThat(eventDtoPageDto.getResults(), hasSize(1));
+        assertThat(eventDtoPageDto.getResults().get(0).getId(), equalTo(event.getId()));
     }
 }

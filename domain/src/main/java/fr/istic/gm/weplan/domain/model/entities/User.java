@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.List;
 
+import static fr.istic.gm.weplan.domain.config.PersistsDefinition.ACTIVITIES;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.CITIES;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.DEPARTMENTS;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.EMAIL;
@@ -57,6 +58,10 @@ public class User extends BaseEntity {
     @ManyToMany
     @Column(name = REGIONS)
     private List<Region> regions;
+
+    @ManyToMany
+    @Column(name = ACTIVITIES)
+    private List<Activity> activities;
 
     @ManyToMany
     @Column(name = EVENTS)

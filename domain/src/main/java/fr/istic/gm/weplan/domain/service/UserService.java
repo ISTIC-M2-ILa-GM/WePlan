@@ -60,7 +60,7 @@ public interface UserService {
      * @param citiesId the id list of the cities id to add to the user
      * @return the updated user
      */
-    UserDto addCities(Long id, List<String> citiesId);
+    UserDto addCities(Long id, List<Long> citiesId);
 
     /**
      * Add departments to an user
@@ -69,7 +69,7 @@ public interface UserService {
      * @param departmentsId the id list of the departments id to add to the user
      * @return the updated user
      */
-    UserDto addDepartments(Long id, List<String> departmentsId);
+    UserDto addDepartments(Long id, List<Long> departmentsId);
 
     /**
      * Add regions to an user
@@ -78,7 +78,7 @@ public interface UserService {
      * @param regionsId the id list of the regions id to add to the user
      * @return the updated user
      */
-    UserDto addRegions(Long id, List<String> regionsId);
+    UserDto addRegions(Long id, List<Long> regionsId);
 
     /**
      * Add activities to an user
@@ -87,7 +87,7 @@ public interface UserService {
      * @param activitiesId the id list of the activities id to add to the user
      * @return the updated user
      */
-    UserDto addActivities(Long id, List<String> activitiesId);
+    UserDto addActivities(Long id, List<Long> activitiesId);
 
     /**
      * Add events to an user
@@ -96,7 +96,7 @@ public interface UserService {
      * @param eventsId the id list of the events id to add to the user
      * @return the updated user
      */
-    UserDto addEvents(Long id, List<String> eventsId);
+    UserDto addEvents(Long id, List<Long> eventsId);
 
     /**
      * Remove cities to an user.
@@ -105,7 +105,7 @@ public interface UserService {
      * @param citiesId the id list of the cities id to remove from the user
      * @return the updated user
      */
-    UserDto removeCities(Long id, List<String> citiesId);
+    UserDto removeCities(Long id, List<Long> citiesId);
 
     /**
      * Remove departments to an user
@@ -114,7 +114,7 @@ public interface UserService {
      * @param departmentsId the id list of the departments id to remove from the user
      * @return the updated user
      */
-    UserDto removeDepartments(Long id, List<String> departmentsId);
+    UserDto removeDepartments(Long id, List<Long> departmentsId);
 
     /**
      * Remove regions to an user
@@ -123,7 +123,7 @@ public interface UserService {
      * @param regionsId the id list of the regions id to remove from the user
      * @return the updated user
      */
-    UserDto removeRegions(Long id, List<String> regionsId);
+    UserDto removeRegions(Long id, List<Long> regionsId);
 
     /**
      * Remove activities to an user
@@ -132,7 +132,7 @@ public interface UserService {
      * @param activitiesId the id list of the activities id to remove from the user
      * @return the updated user
      */
-    UserDto removeActivities(Long id, List<String> activitiesId);
+    UserDto removeActivities(Long id, List<Long> activitiesId);
 
     /**
      * Remove events to an user
@@ -141,5 +141,5 @@ public interface UserService {
      * @param eventsId the id list of the events id to remove from the user
      * @return the updated user
      */
-    UserDto removeEvents(Long id, List<String> eventsId);
+    UserDto removeEvents(Long id, List<Long> eventsId);
 }

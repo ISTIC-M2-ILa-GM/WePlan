@@ -13,8 +13,8 @@
 
 ## Event API
 
-* GET POST /api/event/
-* GET PATCH DELETE /api/event/{id}
+* GET /api/event/
+* GET DELETE /api/event/{id}
 
 ## Activity API
 

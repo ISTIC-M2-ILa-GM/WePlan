@@ -29,8 +29,8 @@ import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ACTIVITIES;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.CITIES;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.DEPARTMENTS;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.EVENTS;
-import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.REGIONS;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ID;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.REGIONS;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.USER;
 
 /**
@@ -138,7 +138,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "User or city not found")
     })
     @PostMapping(path = ID + CITIES)
-    public UserDto addCities(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Cities Id", required = true) @RequestBody List<String> citiesId) {
+    public UserDto addCities(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Cities Id", required = true) @RequestBody List<Long> citiesId) {
         return userService.addCities(id, citiesId);
     }
 
@@ -155,7 +155,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "User or department not found")
     })
     @PostMapping(path = ID + DEPARTMENTS)
-    public UserDto addDepartments(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Departments Id", required = true) @RequestBody List<String> departmentsId) {
+    public UserDto addDepartments(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Departments Id", required = true) @RequestBody List<Long> departmentsId) {
         return userService.addDepartments(id, departmentsId);
     }
 
@@ -172,7 +172,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "User or region not found")
     })
     @PostMapping(path = ID + REGIONS)
-    public UserDto addRegions(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Regions Id", required = true) @RequestBody List<String> regionsId) {
+    public UserDto addRegions(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Regions Id", required = true) @RequestBody List<Long> regionsId) {
         return userService.addRegions(id, regionsId);
     }
 
@@ -189,7 +189,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "User or activitie not found")
     })
     @PostMapping(path = ID + ACTIVITIES)
-    public UserDto addActivities(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Activities Id", required = true) @RequestBody List<String> activitiesId) {
+    public UserDto addActivities(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Activities Id", required = true) @RequestBody List<Long> activitiesId) {
         return userService.addActivities(id, activitiesId);
     }
 
@@ -206,7 +206,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "User or event not found")
     })
     @PostMapping(path = ID + EVENTS)
-    public UserDto addEvents(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Events Id", required = true) @RequestBody List<String> eventsId) {
+    public UserDto addEvents(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Events Id", required = true) @RequestBody List<Long> eventsId) {
         return userService.addEvents(id, eventsId);
     }
 
@@ -224,7 +224,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "User or city not found")
     })
     @PostMapping(path = ID + CITIES)
-    public UserDto removeCities(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Cities Id", required = true) @RequestBody List<String> citiesId) {
+    public UserDto removeCities(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Cities Id", required = true) @RequestBody List<Long> citiesId) {
         return userService.removeCities(id, citiesId);
     }
 
@@ -241,7 +241,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "User or department not found")
     })
     @PostMapping(path = ID + DEPARTMENTS)
-    public UserDto removeDepartments(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Departments Id", required = true) @RequestBody List<String> departmentsId) {
+    public UserDto removeDepartments(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Departments Id", required = true) @RequestBody List<Long> departmentsId) {
         return userService.removeDepartments(id, departmentsId);
     }
 
@@ -258,7 +258,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "User or region not found")
     })
     @PostMapping(path = ID + REGIONS)
-    public UserDto removeRegions(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Regions Id", required = true) @RequestBody List<String> regionsId) {
+    public UserDto removeRegions(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Regions Id", required = true) @RequestBody List<Long> regionsId) {
         return userService.removeRegions(id, regionsId);
     }
 
@@ -275,7 +275,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "User or activitie not found")
     })
     @PostMapping(path = ID + ACTIVITIES)
-    public UserDto removeActivities(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Activities Id", required = true) @RequestBody List<String> activitiesId) {
+    public UserDto removeActivities(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Activities Id", required = true) @RequestBody List<Long> activitiesId) {
         return userService.removeActivities(id, activitiesId);
     }
 
@@ -292,7 +292,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "User or event not found")
     })
     @PostMapping(path = ID + EVENTS)
-    public UserDto removeEvents(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Events Id", required = true) @RequestBody List<String> eventsId) {
+    public UserDto removeEvents(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Events Id", required = true) @RequestBody List<Long> eventsId) {
         return userService.removeEvents(id, eventsId);
     }
 }
