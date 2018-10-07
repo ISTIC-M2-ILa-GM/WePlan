@@ -12,6 +12,11 @@ public final class ApiRoutes {
     public static final String REGION = API + "/region";
     public static final String ACTIVITY = API + "/activity";
     public static final String USER = API + "/user";
+    public static final String CITIES = "/cities";
+    public static final String DEPARTMENTS = "/departments";
+    public static final String REGIONS = "/regions";
+    public static final String ACTIVITIES = "/activities";
+    public static final String EVENTS = "/events";
 
     private ApiRoutes() {
     }

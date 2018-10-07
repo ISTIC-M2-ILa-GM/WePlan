@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -83,6 +84,56 @@ public class UserServiceImpl extends PatchService<User> implements UserService, 
         patch(user, data);
         user = userAdapter.save(user);
         return persistenceMapper.toUserDto(user);
+    }
+
+    @Override
+    public UserDto addCities(Long id, List<String> citiesId) {
+        return null;
+    }
+
+    @Override
+    public UserDto addDepartments(Long id, List<String> departmentsId) {
+        return null;
+    }
+
+    @Override
+    public UserDto addRegions(Long id, List<String> regionsId) {
+        return null;
+    }
+
+    @Override
+    public UserDto addActivities(Long id, List<String> activitiesId) {
+        return null;
+    }
+
+    @Override
+    public UserDto addEvents(Long id, List<String> eventsId) {
+        return null;
+    }
+
+    @Override
+    public UserDto removeCities(Long id, List<String> citiesId) {
+        return null;
+    }
+
+    @Override
+    public UserDto removeDepartments(Long id, List<String> departmentsId) {
+        return null;
+    }
+
+    @Override
+    public UserDto removeRegions(Long id, List<String> regionsId) {
+        return null;
+    }
+
+    @Override
+    public UserDto removeActivities(Long id, List<String> activitiesId) {
+        return null;
+    }
+
+    @Override
+    public UserDto removeEvents(Long id, List<String> eventsId) {
+        return null;
     }
 
     @Override

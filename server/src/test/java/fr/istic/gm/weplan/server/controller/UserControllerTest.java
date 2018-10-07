@@ -11,7 +11,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static fr.istic.gm.weplan.server.TestData.ID;
@@ -104,6 +106,178 @@ public class UserControllerTest {
         when(mockUserService.patchUser(any(), any())).thenReturn(userDto);
 
         UserDto result = controller.patchUser(ID, patch);
+
+        verify(mockUserService).patchUser(ID, patch);
+
+        assertThat(result, notNullValue());
+        assertThat(result, equalTo(userDto));
+    }
+
+    @Test
+    public void shouldAddCitiesToAnUser() {
+
+        List<String> citiesId = new ArrayList<>();
+        citiesId.add("an-id");
+        UserDto userDto = someUser();
+
+        when(mockUserService.addCities(any(), any())).thenReturn(userDto);
+
+        UserDto result = controller.addCities(ID, citiesId);
+
+        verify(mockUserService).addCities(ID, citiesId);
+
+        assertThat(result, notNullValue());
+        assertThat(result, equalTo(userDto));
+    }
+
+    @Test
+    public void shouldAddDepartmentsToAnUser() {
+
+        List<String> departmentsId = new ArrayList<>();
+        departmentsId.add("an-id");
+        UserDto userDto = someUser();
+
+        when(mockUserService.addDepartments(any(), any())).thenReturn(userDto);
+
+        UserDto result = controller.addDepartments(ID, departmentsId);
+
+        verify(mockUserService).addDepartments(ID, departmentsId);
+
+        assertThat(result, notNullValue());
+        assertThat(result, equalTo(userDto));
+    }
+
+    @Test
+    public void shouldAddRegionsToAnUser() {
+
+        List<String> regionsId = new ArrayList<>();
+        regionsId.add("an-id");
+        UserDto userDto = someUser();
+
+        when(mockUserService.addRegions(any(), any())).thenReturn(userDto);
+
+        UserDto result = controller.addRegions(ID, regionsId);
+
+        verify(mockUserService).addRegions(ID, regionsId);
+
+        assertThat(result, notNullValue());
+        assertThat(result, equalTo(userDto));
+    }
+
+    @Test
+    public void shouldAddActivitiesToAnUser() {
+
+        List<String> activitiesId = new ArrayList<>();
+        activitiesId.add("an-id");
+        UserDto userDto = someUser();
+
+        when(mockUserService.addActivities(any(), any())).thenReturn(userDto);
+
+        UserDto result = controller.addActivities(ID, activitiesId);
+
+        verify(mockUserService).addActivities(ID, activitiesId);
+
+        assertThat(result, notNullValue());
+        assertThat(result, equalTo(userDto));
+    }
+
+    @Test
+    public void shouldAddEventsToAnUser() {
+
+        List<String> eventsId = new ArrayList<>();
+        eventsId.add("an-id");
+        UserDto userDto = someUser();
+
+        when(mockUserService.addEvents(any(), any())).thenReturn(userDto);
+
+        UserDto result = controller.addEvents(ID, eventsId);
+
+        verify(mockUserService).addEvents(ID, eventsId);
+
+        assertThat(result, notNullValue());
+        assertThat(result, equalTo(userDto));
+    }
+
+    @Test
+    public void shouldRemoveCitiesToAnUser() {
+
+        List<String> citiesId = new ArrayList<>();
+        citiesId.add("an-id");
+        UserDto userDto = someUser();
+
+        when(mockUserService.removeCities(any(), any())).thenReturn(userDto);
+
+        UserDto result = controller.removeCities(ID, citiesId);
+
+        verify(mockUserService).removeCities(ID, citiesId);
+
+        assertThat(result, notNullValue());
+        assertThat(result, equalTo(userDto));
+    }
+
+    @Test
+    public void shouldRemoveDepartmentsToAnUser() {
+
+        List<String> departmentsId = new ArrayList<>();
+        departmentsId.add("an-id");
+        UserDto userDto = someUser();
+
+        when(mockUserService.removeDepartments(any(), any())).thenReturn(userDto);
+
+        UserDto result = controller.removeDepartments(ID, departmentsId);
+
+        verify(mockUserService).removeDepartments(ID, departmentsId);
+
+        assertThat(result, notNullValue());
+        assertThat(result, equalTo(userDto));
+    }
+
+    @Test
+    public void shouldRemoveRegionsToAnUser() {
+
+        List<String> regionsId = new ArrayList<>();
+        regionsId.add("an-id");
+        UserDto userDto = someUser();
+
+        when(mockUserService.removeRegions(any(), any())).thenReturn(userDto);
+
+        UserDto result = controller.removeRegions(ID, regionsId);
+
+        verify(mockUserService).removeRegions(ID, regionsId);
+
+        assertThat(result, notNullValue());
+        assertThat(result, equalTo(userDto));
+    }
+
+    @Test
+    public void shouldRemoveActivitiesToAnUser() {
+
+        List<String> activitiesId = new ArrayList<>();
+        activitiesId.add("an-id");
+        UserDto userDto = someUser();
+
+        when(mockUserService.removeActivities(any(), any())).thenReturn(userDto);
+
+        UserDto result = controller.removeActivities(ID, activitiesId);
+
+        verify(mockUserService).removeActivities(ID, activitiesId);
+
+        assertThat(result, notNullValue());
+        assertThat(result, equalTo(userDto));
+    }
+
+    @Test
+    public void shouldRemoveEventsToAnUser() {
+
+        List<String> eventsId = new ArrayList<>();
+        eventsId.add("an-id");
+        UserDto userDto = someUser();
+
+        when(mockUserService.removeEvents(any(), any())).thenReturn(userDto);
+
+        UserDto result = controller.removeEvents(ID, eventsId);
+
+        verify(mockUserService).removeEvents(ID, eventsId);
 
         assertThat(result, notNullValue());
         assertThat(result, equalTo(userDto));

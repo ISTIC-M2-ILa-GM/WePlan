@@ -5,6 +5,7 @@ import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.UserDto;
 import fr.istic.gm.weplan.domain.model.request.UserRequest;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,4 +53,93 @@ public interface UserService {
      */
     UserDto patchUser(Long id, Map<String, Object> patch);
 
+    /**
+     * Add cities to an user.
+     *
+     * @param id       the id of the user
+     * @param citiesId the id list of the cities id to add to the user
+     * @return the updated user
+     */
+    UserDto addCities(Long id, List<String> citiesId);
+
+    /**
+     * Add departments to an user
+     *
+     * @param id            the id of the user
+     * @param departmentsId the id list of the departments id to add to the user
+     * @return the updated user
+     */
+    UserDto addDepartments(Long id, List<String> departmentsId);
+
+    /**
+     * Add regions to an user
+     *
+     * @param id        the id of the user
+     * @param regionsId the id list of the regions id to add to the user
+     * @return the updated user
+     */
+    UserDto addRegions(Long id, List<String> regionsId);
+
+    /**
+     * Add activities to an user
+     *
+     * @param id           the id of the user
+     * @param activitiesId the id list of the activities id to add to the user
+     * @return the updated user
+     */
+    UserDto addActivities(Long id, List<String> activitiesId);
+
+    /**
+     * Add events to an user
+     *
+     * @param id       the id of the user
+     * @param eventsId the id list of the events id to add to the user
+     * @return the updated user
+     */
+    UserDto addEvents(Long id, List<String> eventsId);
+
+    /**
+     * Remove cities to an user.
+     *
+     * @param id       the id of the user
+     * @param citiesId the id list of the cities id to remove from the user
+     * @return the updated user
+     */
+    UserDto removeCities(Long id, List<String> citiesId);
+
+    /**
+     * Remove departments to an user
+     *
+     * @param id            the id of the user
+     * @param departmentsId the id list of the departments id to remove from the user
+     * @return the updated user
+     */
+    UserDto removeDepartments(Long id, List<String> departmentsId);
+
+    /**
+     * Remove regions to an user
+     *
+     * @param id        the id of the user
+     * @param regionsId the id list of the regions id to remove from the user
+     * @return the updated user
+     */
+    UserDto removeRegions(Long id, List<String> regionsId);
+
+    /**
+     * Remove activities to an user
+     *
+     * @param id           the id of the user
+     * @param activitiesId the id list of the activities id to remove from the user
+     * @return the updated user
+     */
+    UserDto removeActivities(Long id, List<String> activitiesId);
+
+    /**
+     * Remove events to an user
+     *
+     * @param id       the id of the user
+     * @param eventsId the id list of the events id to remove from the user
+     * @return the updated user
+     */
+    UserDto removeEvents(Long id, List<String> eventsId);
 }
