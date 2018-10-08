@@ -12,7 +12,6 @@ import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
 import fr.istic.gm.weplan.domain.service.ActivityDaoService;
 import fr.istic.gm.weplan.domain.service.ActivityService;
 import fr.istic.gm.weplan.domain.service.CityDaoService;
-import fr.istic.gm.weplan.domain.service.PatchService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

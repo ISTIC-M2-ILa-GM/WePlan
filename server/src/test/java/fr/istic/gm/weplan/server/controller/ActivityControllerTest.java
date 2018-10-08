@@ -1,10 +1,8 @@
 package fr.istic.gm.weplan.server.controller;
 
 import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
-import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
-import fr.istic.gm.weplan.domain.model.entities.Activity;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
 import fr.istic.gm.weplan.domain.service.ActivityService;
 import org.junit.Before;
@@ -16,7 +14,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.HashMap;
 import java.util.Map;
 
-import static fr.istic.gm.weplan.server.TestData.*;
+import static fr.istic.gm.weplan.server.TestData.ID;
+import static fr.istic.gm.weplan.server.TestData.someActivity;
+import static fr.istic.gm.weplan.server.TestData.someActivityRequest;
+import static fr.istic.gm.weplan.server.TestData.somePageActivities;
+import static fr.istic.gm.weplan.server.TestData.somePageOptions;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -102,6 +104,8 @@ public class ActivityControllerTest {
         when(mockActivityService.patchActivity(any(), any())).thenReturn(activityDto);
 
         ActivityDto result = controller.patchActivity(ID, patch);
+
+        verify(mockActivityService).patchActivity(ID, patch);
 
         assertThat(result, notNullValue());
         assertThat(result, equalTo(activityDto));

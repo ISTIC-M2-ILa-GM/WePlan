@@ -7,12 +7,15 @@ import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
+import fr.istic.gm.weplan.domain.model.dto.UserDto;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.entities.Region;
+import fr.istic.gm.weplan.domain.model.entities.User;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
+import fr.istic.gm.weplan.domain.model.request.UserRequest;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -72,6 +75,35 @@ public class TestData {
 
     public static CityDto someCity() {
         return FACTORY.manufacturePojoWithFullData(CityDto.class);
+    }
+
+    public static PageDto<UserDto> somePageUsers() {
+        PageDto<UserDto> citiesDto = new PageDto<>();
+        citiesDto.setSize(10);
+        citiesDto.setTotalPages(10);
+        citiesDto.setResults(Collections.singletonList(someUser()));
+        return citiesDto;
+    }
+
+    public static UserDto someUser() {
+        return FACTORY.manufacturePojoWithFullData(UserDto.class);
+    }
+
+    public static UserRequest someUserRequest() {
+        return FACTORY.manufacturePojoWithFullData(UserRequest.class);
+    }
+
+    public static User someUserDao() {
+        User user = FACTORY.manufacturePojoWithFullData(User.class);
+        user.setRegions(null);
+        user.setEvents(null);
+        user.setDepartments(null);
+        user.setCities(null);
+        user.setId(null);
+        user.setCreatedAt(null);
+        user.setDeletedAt(null);
+        user.setUpdatedAt(null);
+        return user;
     }
 
     public static PageDto<RegionDto> somePageRegions() {

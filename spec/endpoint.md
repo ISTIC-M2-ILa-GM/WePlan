@@ -5,16 +5,16 @@
 * GET POST /api/user/
 * GET PATCH DELETE /api/user/{id}
 * GET /api/user/{id}/activeEvents
-* POST /api/user/{id}/events
-* POST /api/user/{id}/activity
-* POST /api/user/{id}/city
-* POST /api/user/{id}/department
-* POST /api/user/{id}/region
+* POST DELETE /api/user/{id}/events
+* POST DELETE /api/user/{id}/activities
+* POST DELETE /api/user/{id}/cities
+* POST DELETE /api/user/{id}/departments
+* POST DELETE /api/user/{id}/regions
 
 ## Event API
 
-* GET POST /api/event/
-* GET PATCH DELETE /api/event/{id}
+* GET /api/event/
+* GET DELETE /api/event/{id}
 
 ## Activity API
 

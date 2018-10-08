@@ -11,7 +11,6 @@ import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.service.CityDaoService;
 import fr.istic.gm.weplan.domain.service.CityService;
 import fr.istic.gm.weplan.domain.service.DepartmentDaoService;
-import fr.istic.gm.weplan.domain.service.PatchService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

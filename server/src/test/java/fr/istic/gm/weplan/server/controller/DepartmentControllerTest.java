@@ -105,6 +105,8 @@ public class DepartmentControllerTest {
 
         DepartmentDto result = controller.patchDepartment(ID, patch);
 
+        verify(mockDepartmentService).patchDepartment(ID, patch);
+
         assertThat(result, notNullValue());
         assertThat(result, equalTo(departmentDto));
     }

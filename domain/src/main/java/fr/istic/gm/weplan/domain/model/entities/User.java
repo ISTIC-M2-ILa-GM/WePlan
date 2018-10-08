@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.List;
 
+import static fr.istic.gm.weplan.domain.config.PersistsDefinition.ACTIVITIES;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.CITIES;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.DEPARTMENTS;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.EMAIL;
@@ -24,8 +25,8 @@ import static fr.istic.gm.weplan.domain.config.PersistsDefinition.ROLE;
 import static fr.istic.gm.weplan.domain.config.PersistsDefinition.USER;
 
 @Data
-@EqualsAndHashCode(callSuper = true, exclude = {"firstName", "lastName", "email", "password"})
-@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true, exclude = {"firstName", "lastName", "email", "password"})
 @Entity
 @Table(name = USER)
 public class User extends BaseEntity {
@@ -57,6 +58,10 @@ public class User extends BaseEntity {
     @ManyToMany
     @Column(name = REGIONS)
     private List<Region> regions;
+
+    @ManyToMany
+    @Column(name = ACTIVITIES)
+    private List<Activity> activities;
 
     @ManyToMany
     @Column(name = EVENTS)

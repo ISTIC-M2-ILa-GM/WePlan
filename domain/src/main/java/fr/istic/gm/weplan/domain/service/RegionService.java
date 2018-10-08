@@ -14,7 +14,7 @@ public interface RegionService {
 
     RegionDto createRegion(RegionRequest region);
 
-    RegionDto updateRegion(Long id, Map<String, Object> map);
+    RegionDto patchRegion(Long id, Map<String, Object> map);
 
     void deleteRegion(Long id);
 }

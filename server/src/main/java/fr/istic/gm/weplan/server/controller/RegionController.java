@@ -74,7 +74,7 @@ public class RegionController {
     })
     @PatchMapping(path = ID)
     public RegionDto patchRegion(@ApiParam(value = "Region id", required = true) @PathVariable Long id, @ApiParam(value = "Patch request", required = true) @RequestBody Map<String, Object> map) {
-        return this.regionService.updateRegion(id, map);
+        return this.regionService.patchRegion(id, map);
     }
 
     @ApiOperation("Delete a region")

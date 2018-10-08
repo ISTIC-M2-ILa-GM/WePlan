@@ -7,11 +7,14 @@ import fr.istic.gm.weplan.domain.model.entities.Activity;
 import fr.istic.gm.weplan.domain.model.entities.ActivityType;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
+import fr.istic.gm.weplan.domain.model.entities.Event;
 import fr.istic.gm.weplan.domain.model.entities.Region;
+import fr.istic.gm.weplan.domain.model.entities.User;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
+import fr.istic.gm.weplan.domain.model.request.UserRequest;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -37,6 +40,22 @@ public class TestData {
         Region region = FACTORY.manufacturePojoWithFullData(Region.class);
         region.setDeletedAt(null);
         return region;
+    }
+
+    public static User someUser() {
+        User user = FACTORY.manufacturePojoWithFullData(User.class);
+        user.setDeletedAt(null);
+        return user;
+    }
+
+    public static Event someEvent() {
+        Event event = FACTORY.manufacturePojoWithFullData(Event.class);
+        event.setDeletedAt(null);
+        return event;
+    }
+
+    public static UserRequest someUserRequest() {
+        return FACTORY.manufacturePojoWithFullData(UserRequest.class);
     }
 
     public static Activity someActivity() {

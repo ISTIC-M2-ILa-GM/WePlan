@@ -10,7 +10,6 @@ import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
 import fr.istic.gm.weplan.domain.service.DepartmentDaoService;
 import fr.istic.gm.weplan.domain.service.DepartmentService;
-import fr.istic.gm.weplan.domain.service.PatchService;
 import fr.istic.gm.weplan.domain.service.RegionDaoService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

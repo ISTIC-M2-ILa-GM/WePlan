@@ -105,6 +105,8 @@ public class CityControllerTest {
 
         CityDto result = controller.patchCity(ID, patch);
 
+        verify(mockCityService).patchCity(ID, patch);
+
         assertThat(result, notNullValue());
         assertThat(result, equalTo(cityDto));
     }
