@@ -3,6 +3,7 @@ package fr.istic.gm.weplan.infra;
 import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
+import fr.istic.gm.weplan.domain.model.entities.Event;
 import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.entities.User;
 import fr.istic.gm.weplan.infra.client.weather.generated.api.model.ForecastHour;
@@ -35,6 +36,12 @@ public class TestData {
 
     public static EventDto someEventDto() {
         return FACTORY.manufacturePojoWithFullData(EventDto.class);
+    }
+
+    public static Event someEvent() {
+        Event event = FACTORY.manufacturePojoWithFullData(Event.class);
+        event.setDeletedAt(null);
+        return event;
     }
 
     public static Department someDepartment() {
