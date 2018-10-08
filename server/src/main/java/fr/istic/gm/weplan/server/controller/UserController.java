@@ -272,7 +272,7 @@ public class UserController {
     @ApiOperation("Remove activities to an user")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Activities removed to the user with a given id"),
-            @ApiResponse(code = 404, message = "User or activitie not found")
+            @ApiResponse(code = 404, message = "User or activity not found")
     })
     @DeleteMapping(path = ID + ACTIVITIES)
     public UserDto removeActivities(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Activities Id", required = true) @RequestBody List<Long> activitiesId) {
