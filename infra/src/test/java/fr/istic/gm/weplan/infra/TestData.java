@@ -77,6 +77,7 @@ public class TestData {
         user.setDepartments(null);
         user.setEvents(null);
         user.setRegions(null);
+        user.setActivities(null);
         return user;
     }
 
