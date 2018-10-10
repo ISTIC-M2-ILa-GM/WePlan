@@ -101,6 +101,7 @@ public class TestData {
         user.setEvents(null);
         user.setDepartments(null);
         user.setCities(null);
+        user.setActivities(null);
         user.setId(null);
         user.setCreatedAt(null);
         user.setDeletedAt(null);
