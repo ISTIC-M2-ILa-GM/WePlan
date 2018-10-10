@@ -32,10 +32,10 @@ public interface UserService {
     /**
      * Retrieve an user
      *
-     * @param name the name of the user
+     * @param email the name of the user
      * @return the user
      */
-    UserDto getUserByEmail(String name);
+    UserDto getUserByEmail(String email);
 
     /**
      * Create a user.

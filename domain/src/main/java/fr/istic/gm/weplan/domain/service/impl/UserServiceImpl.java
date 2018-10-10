@@ -69,7 +69,12 @@ public class UserServiceImpl extends PatchService<User> implements UserService, 
 
     @Override
     public User getUserDaoByEmail(String email) {
-        return null;
+
+        Optional<User> user = userAdapter.findOneByEmail(email);
+        if (!user.isPresent() || user.get().getDeletedAt() != null) {
+            throw new DomainException(NOT_FOUND_MSG, User.class.getSimpleName(), NOT_FOUND);
+        }
+        return user.get();
     }
 
     @Override
@@ -87,8 +92,10 @@ public class UserServiceImpl extends PatchService<User> implements UserService, 
     }
 
     @Override
-    public UserDto getUserByEmail(String name) {
-        return null;
+    public UserDto getUserByEmail(String email) {
+
+        User user = getUserDaoByEmail(email);
+        return persistenceMapper.toUserDto(user);
     }
 
     @Override

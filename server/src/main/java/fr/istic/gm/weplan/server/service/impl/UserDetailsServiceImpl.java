@@ -25,6 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
         User user = userDaoService.getUserDaoByEmail(email);
         Set<GrantedAuthority> authorities = singleton(new SimpleGrantedAuthority(user.getRole().name()));
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);

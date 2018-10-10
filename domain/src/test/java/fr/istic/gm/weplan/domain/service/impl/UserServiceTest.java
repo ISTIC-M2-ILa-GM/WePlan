@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static fr.istic.gm.weplan.domain.TestData.EMAIL;
 import static fr.istic.gm.weplan.domain.TestData.ID;
 import static fr.istic.gm.weplan.domain.TestData.someActivity;
 import static fr.istic.gm.weplan.domain.TestData.someCity;
@@ -59,6 +60,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -903,5 +905,109 @@ public class UserServiceTest {
         thrown.expectMessage(String.format(NOT_FOUND_MSG, User.class.getSimpleName()));
 
         service.removeEvents(ID, new ArrayList<>());
+    }
+
+    @Test
+    public void shouldGetUserDaoByEmail() {
+
+        User user = someUser();
+        Optional<User> optionalUser = Optional.of(user);
+
+        when(mockUserAdapter.findOneByEmail(anyString())).thenReturn(optionalUser);
+
+        User result = service.getUserDaoByEmail(EMAIL);
+
+        verify(mockUserAdapter).findOneByEmail(EMAIL);
+
+        assertThat(result, notNullValue());
+        assertThat(result, equalTo(user));
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetANullUserDaoByEmail() {
+
+        when(mockUserAdapter.findOneByEmail(any())).thenReturn(Optional.empty());
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, User.class.getSimpleName()));
+
+        service.getUserDaoByEmail(EMAIL);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetADeletedUserDaoByEmail() {
+
+        User user = someUser();
+        user.setDeletedAt(Instant.now());
+        Optional<User> optionalUser = Optional.of(user);
+
+        when(mockUserAdapter.findOneByEmail(anyString())).thenReturn(optionalUser);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, User.class.getSimpleName()));
+
+        service.getUserDaoByEmail(EMAIL);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetAnUserDaoByEmailWithNullEmail() {
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, User.class.getSimpleName()));
+
+        service.getUserDaoByEmail(null);
+    }
+
+    @Test
+    public void shouldGetUserDtoByEmail() {
+
+        User user = someUser();
+        Optional<User> optionalUser = Optional.of(user);
+
+        when(mockUserAdapter.findOneByEmail(any())).thenReturn(optionalUser);
+
+        UserDto results = service.getUserByEmail(EMAIL);
+
+        verify(mockUserAdapter).findOneByEmail(EMAIL);
+
+        assertThat(results, notNullValue());
+        assertThat(results, equalTo(persistenceMapper.toUserDto(user)));
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetANullUserByEmail() {
+
+        Optional<User> optionalUser = Optional.empty();
+
+        when(mockUserAdapter.findOneByEmail(any())).thenReturn(optionalUser);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, User.class.getSimpleName()));
+
+        service.getUserByEmail(EMAIL);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetADeletedUserByEmail() {
+
+        User user = someUser();
+        user.setDeletedAt(Instant.now());
+        Optional<User> optionalUser = Optional.of(user);
+
+        when(mockUserAdapter.findOneByEmail(any())).thenReturn(optionalUser);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, User.class.getSimpleName()));
+
+        service.getUserByEmail(EMAIL);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetAUserByEmailWithNullEmail() {
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, User.class.getSimpleName()));
+
+        service.getUserByEmail(null);
     }
 }
