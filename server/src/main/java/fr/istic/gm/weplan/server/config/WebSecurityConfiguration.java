@@ -1,6 +1,9 @@
 package fr.istic.gm.weplan.server.config;
 
 import fr.istic.gm.weplan.domain.model.entities.Role;
+import fr.istic.gm.weplan.server.security.AjaxAuthFailureHandler;
+import fr.istic.gm.weplan.server.security.AjaxAuthSuccessHandler;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,11 +12,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import static fr.istic.gm.weplan.infra.broker.impl.EventBrokerImpl.EVENT;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.API;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.CITY;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.DEPARTMENT;
@@ -22,14 +27,24 @@ import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.LOGOUT;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.REGION;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.USER;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static final String ALL = "/**";
+    private static final String API_ALL = API + ALL;
     private static final String CITY_ALL = CITY + ALL;
     private static final String DEPARTMENT_ALL = DEPARTMENT + ALL;
     private static final String REGION_ALL = REGION + ALL;
+    private static final String EVENT_ALL = EVENT + ALL;
+    private static final String USER_ALL = USER + ALL;
+
+    private final AjaxAuthSuccessHandler ajaxAuthSuccessHandler;
+
+    private final AjaxAuthFailureHandler ajaxAuthFailureHandler;
+
+    private final UserDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -52,8 +67,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginProcessingUrl(LOGIN)
-                .successHandler(ajaxAuthenticationSuccessHandler)
-                .failureHandler(ajaxAuthenticationFailureHandler)
+                .successHandler(ajaxAuthSuccessHandler)
+                .failureHandler(ajaxAuthFailureHandler)
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll()
@@ -68,13 +83,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, LOGIN).permitAll()
                 .antMatchers(HttpMethod.GET, LOGOUT).authenticated()
                 .antMatchers(HttpMethod.GET, CITY_ALL).authenticated()
-                .antMatchers(HttpMethod.GET, CITY + "/**").authenticated()
-                .antMatchers(HttpMethod.GET, CITY + "/**").authenticated()
-                .antMatchers(HttpMethod.GET, CITY + "/**").authenticated()
-                .antMatchers(HttpMethod.GET, CITY + "/**").authenticated()
-                .antMatchers(HttpMethod.GET, CITY + "/**").authenticated()
-                .antMatchers(HttpMethod.GET, CITY + "/**").authenticated()
-                .antMatchers(API + "/**").hasAuthority(Role.ADMIN);
+                .antMatchers(HttpMethod.GET, DEPARTMENT_ALL).authenticated()
+                .antMatchers(HttpMethod.GET, REGION_ALL).authenticated()
+                .antMatchers(HttpMethod.GET, EVENT_ALL).authenticated()
+                .antMatchers(HttpMethod.GET, USER_ALL).authenticated()
+                .antMatchers(API_ALL).hasAuthority(Role.ADMIN.name());
 
     }
 

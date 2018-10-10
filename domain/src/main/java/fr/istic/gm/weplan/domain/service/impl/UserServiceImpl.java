@@ -68,6 +68,11 @@ public class UserServiceImpl extends PatchService<User> implements UserService, 
     }
 
     @Override
+    public User getUserDaoByEmail(String email) {
+        return null;
+    }
+
+    @Override
     public PageDto<UserDto> getUsers(PageOptions pageOptions) {
 
         Page<User> users = userAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
@@ -79,6 +84,11 @@ public class UserServiceImpl extends PatchService<User> implements UserService, 
 
         User user = getUserDao(id);
         return persistenceMapper.toUserDto(user);
+    }
+
+    @Override
+    public UserDto getUserByEmail(String name) {
+        return null;
     }
 
     @Override
