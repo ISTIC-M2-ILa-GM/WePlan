@@ -75,14 +75,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, USER).permitAll()
                 .antMatchers(HttpMethod.GET, LOGIN).permitAll()
-                .antMatchers(HttpMethod.GET, LOGOUT).authenticated()
+                .antMatchers(HttpMethod.POST, USER).permitAll()
+                .antMatchers(HttpMethod.PATCH, USER_ALL).authenticated()
+                .antMatchers(HttpMethod.DELETE, USER_ALL).authenticated()
+                .antMatchers(HttpMethod.GET, USER_ALL).authenticated()
                 .antMatchers(HttpMethod.GET, CITY_ALL).authenticated()
                 .antMatchers(HttpMethod.GET, DEPARTMENT_ALL).authenticated()
                 .antMatchers(HttpMethod.GET, REGION_ALL).authenticated()
                 .antMatchers(HttpMethod.GET, EVENT_ALL).authenticated()
                 .antMatchers(HttpMethod.GET, USER_ALL).authenticated()
+                .antMatchers(HttpMethod.GET, LOGOUT).authenticated()
                 .anyRequest().hasAuthority(Role.ADMIN.name());
     }
 
