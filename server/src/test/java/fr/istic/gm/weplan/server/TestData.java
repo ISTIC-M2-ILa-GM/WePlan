@@ -65,6 +65,14 @@ public class TestData {
         return FACTORY.manufacturePojoWithFullData(PageOptions.class);
     }
 
+    public static PageDto<EventDto> somePageEvents() {
+        PageDto<EventDto> eventsDto = new PageDto<>();
+        eventsDto.setSize(10);
+        eventsDto.setTotalPages(10);
+        eventsDto.setResults(Collections.singletonList(someEvent()));
+        return eventsDto;
+    }
+
     public static PageDto<CityDto> somePageCities() {
         PageDto<CityDto> citiesDto = new PageDto<>();
         citiesDto.setSize(10);
