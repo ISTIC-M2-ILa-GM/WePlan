@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.DEPARTMENT;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.EVENT;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ID;
 
 /**
@@ -25,7 +25,7 @@ import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ID;
 @Api(tags = "Event Controller", description = "Event API")
 @AllArgsConstructor
 @RestController
-@RequestMapping(path = DEPARTMENT, produces = "application/json")
+@RequestMapping(path = EVENT, produces = "application/json")
 public class EventController {
 
     private EventService eventService;
