@@ -11,12 +11,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static fr.istic.gm.weplan.infra.broker.impl.EventBrokerImpl.EVENT;
-import static fr.istic.gm.weplan.server.config.consts.ApiParams.PWD;
+import static fr.istic.gm.weplan.server.config.consts.ApiParams.PASWORD;
 import static fr.istic.gm.weplan.server.config.consts.ApiParams.USERNAME;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.API;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.CITY;
@@ -43,6 +44,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final AjaxAuthFailureHandler ajaxAuthFailureHandler;
 
+    private final UserDetailsService userDetailsService;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -64,7 +67,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .successHandler(ajaxAuthSuccessHandler)
                 .failureHandler(ajaxAuthFailureHandler)
                 .usernameParameter(USERNAME)
-                .passwordParameter(PWD)
+                .passwordParameter(PASWORD)
                 .permitAll()
                 .and()
                 .logout()
@@ -90,15 +93,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-        auth
-                .inMemoryAuthentication()
-                .withUser("user")
-                .password("password")
-                .roles("USER")
-                .and()
-                .withUser("admin")
-                .password("password")
-                .roles("ADMIN", "USER");
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 }
