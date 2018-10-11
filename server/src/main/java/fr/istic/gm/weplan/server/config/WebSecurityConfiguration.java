@@ -1,5 +1,6 @@
 package fr.istic.gm.weplan.server.config;
 
+import fr.istic.gm.weplan.domain.model.entities.Role;
 import fr.istic.gm.weplan.server.security.AjaxAuthFailureHandler;
 import fr.istic.gm.weplan.server.security.AjaxAuthSuccessHandler;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +55,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .antMatchers(API_ALL)
                 .antMatchers("/**.{js,html,css}")
                 .antMatchers("/assets/**");
     }
@@ -62,7 +62,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
-        http.formLogin()
+        http.cors().disable()
+                .csrf().disable()
+                .formLogin()
                 .loginProcessingUrl(LOGIN)
                 .successHandler(ajaxAuthSuccessHandler)
                 .failureHandler(ajaxAuthFailureHandler)
@@ -83,7 +85,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, DEPARTMENT_ALL).authenticated()
                 .antMatchers(HttpMethod.GET, REGION_ALL).authenticated()
                 .antMatchers(HttpMethod.GET, EVENT_ALL).authenticated()
-                .antMatchers(HttpMethod.GET, USER_ALL).authenticated();
+                .antMatchers(HttpMethod.GET, USER_ALL).authenticated()
+                .anyRequest().hasAuthority(Role.ADMIN.name());
     }
 
 

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -61,6 +62,7 @@ public class UserControllerIT {
     }
 
     @Test
+    @WithMockUser
     public void shouldGetUsers() throws Exception {
 
         PageOptions pageOptions = new PageOptions();
@@ -83,6 +85,7 @@ public class UserControllerIT {
     }
 
     @Test
+    @WithMockUser
     public void shouldGetAUser() throws Exception {
 
         MvcResult mvcResult = mockMvc.perform(get(USER + ID, entity1.getId())
@@ -102,6 +105,7 @@ public class UserControllerIT {
     }
 
     @Test
+    @WithMockUser(authorities = {"ADMIN"})
     public void shouldCreateAUser() throws Exception {
 
         UserRequest userRequest = someUserRequest();
@@ -124,6 +128,7 @@ public class UserControllerIT {
     }
 
     @Test
+    @WithMockUser(authorities = {"ADMIN"})
     public void shouldDeleteAUser() throws Exception {
 
         mockMvc.perform(delete(USER + ID, entity1.getId()))
@@ -131,6 +136,7 @@ public class UserControllerIT {
     }
 
     @Test
+    @WithMockUser(authorities = {"ADMIN"})
     public void shouldUpdateAUser() throws Exception {
 
         Map<String, Object> data = new HashMap<>();
