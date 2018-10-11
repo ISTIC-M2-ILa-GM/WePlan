@@ -14,7 +14,7 @@
 ## Event API
 
 * GET /api/event/
-* GET DELETE /api/event/{id}
+* GET /api/event/{id}
 
 ## Activity API
 
