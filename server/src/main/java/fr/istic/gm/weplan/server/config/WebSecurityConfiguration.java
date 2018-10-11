@@ -1,6 +1,5 @@
 package fr.istic.gm.weplan.server.config;
 
-import fr.istic.gm.weplan.domain.model.entities.Role;
 import fr.istic.gm.weplan.server.security.AjaxAuthFailureHandler;
 import fr.istic.gm.weplan.server.security.AjaxAuthSuccessHandler;
 import lombok.RequiredArgsConstructor;
@@ -12,13 +11,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static fr.istic.gm.weplan.infra.broker.impl.EventBrokerImpl.EVENT;
+import static fr.istic.gm.weplan.server.config.consts.ApiParams.PWD;
+import static fr.istic.gm.weplan.server.config.consts.ApiParams.USERNAME;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.API;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.CITY;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.DEPARTMENT;
@@ -44,38 +43,32 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final AjaxAuthFailureHandler ajaxAuthFailureHandler;
 
-    private final UserDetailsService userDetailsService;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Override
-    public void configure(WebSecurity http) {
-        http.ignoring()
+    public void configure(WebSecurity web) {
+        web.ignoring()
+                .antMatchers(API_ALL)
                 .antMatchers("/**.{js,html,css}")
                 .antMatchers("/assets/**");
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    public void configure(HttpSecurity http) throws Exception {
 
-        http
-                .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and()
-                .formLogin()
+        http.formLogin()
                 .loginProcessingUrl(LOGIN)
                 .successHandler(ajaxAuthSuccessHandler)
                 .failureHandler(ajaxAuthFailureHandler)
-                .usernameParameter("username")
-                .passwordParameter("password")
+                .usernameParameter(USERNAME)
+                .passwordParameter(PWD)
                 .permitAll()
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT))
-                .deleteCookies("JSESSIONID", "XSRF-TOKEN")
                 .permitAll()
                 .and()
                 .authorizeRequests()
@@ -83,13 +76,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, LOGIN).permitAll()
                 .antMatchers(HttpMethod.GET, LOGOUT).authenticated()
                 .antMatchers(HttpMethod.GET, CITY_ALL).authenticated()
+                .antMatchers(HttpMethod.POST, CITY_ALL).authenticated()
                 .antMatchers(HttpMethod.GET, DEPARTMENT_ALL).authenticated()
                 .antMatchers(HttpMethod.GET, REGION_ALL).authenticated()
                 .antMatchers(HttpMethod.GET, EVENT_ALL).authenticated()
-                .antMatchers(HttpMethod.GET, USER_ALL).authenticated()
-                .antMatchers(API_ALL).hasAuthority(Role.ADMIN.name());
-
+                .antMatchers(HttpMethod.GET, USER_ALL).authenticated();
     }
+
 
     /**
      * @param auth the auth to use
@@ -97,6 +90,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+//        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth
+                .inMemoryAuthentication()
+                .withUser("user")
+                .password("password")
+                .roles("USER")
+                .and()
+                .withUser("admin")
+                .password("password")
+                .roles("ADMIN", "USER");
     }
 }
