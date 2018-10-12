@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static fr.istic.gm.weplan.infra.broker.impl.EventBrokerImpl.EVENT;
+import static fr.istic.gm.weplan.infra.broker.impl.EventBrokerImpl.STOMP;
+import static fr.istic.gm.weplan.infra.broker.impl.EventBrokerImpl.WS;
 import static fr.istic.gm.weplan.server.config.consts.ApiParams.EMAIL;
 import static fr.istic.gm.weplan.server.config.consts.ApiParams.PASWORD;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.CITY;
@@ -38,6 +40,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String REGION_ALL = REGION + ALL;
     private static final String EVENT_ALL = EVENT + ALL;
     private static final String USER_ALL = USER + ALL;
+    private static final String WS_ALL = WS + ALL;
+    private static final String STOMP_ALL = STOMP + ALL;
 
     private final AjaxAuthSuccessHandler ajaxAuthSuccessHandler;
 
@@ -75,6 +79,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .authorizeRequests()
+                .antMatchers(WS_ALL).permitAll()
+                .antMatchers(STOMP_ALL).permitAll()
                 .antMatchers(HttpMethod.GET, LOGIN).permitAll()
                 .antMatchers(HttpMethod.POST, USER).permitAll()
                 .antMatchers(HttpMethod.PATCH, USER_ALL).authenticated()
