@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.DEPARTMENT;
@@ -82,7 +83,7 @@ public class DepartmentController {
     })
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public DepartmentDto createDepartment(@ApiParam(value = "Department request", required = true) @RequestBody DepartmentRequest departmentRequest) {
+    public DepartmentDto createDepartment(@Valid @ApiParam(value = "Department request", required = true) @RequestBody DepartmentRequest departmentRequest) {
         return departmentService.createDepartment(departmentRequest);
     }
 

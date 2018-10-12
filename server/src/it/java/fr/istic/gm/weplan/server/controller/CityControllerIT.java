@@ -177,6 +177,65 @@ public class CityControllerIT {
     }
 
     @Test
+    @WithMockUser(authorities = {"ADMIN"})
+    public void shouldNotCreateACityWithoutDepartment() throws Exception {
+
+        CityRequest cityRequest = someCityRequest();
+        cityRequest.setDepartmentId(null);
+
+        mockMvc.perform(post(CITY)
+                .content(parseToJson(cityRequest))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(authorities = {"ADMIN"})
+    public void shouldNotCreateACityWithEmptyName() throws Exception {
+
+        CityRequest cityRequest = someCityRequest();
+        cityRequest.setName("");
+        cityRequest.setDepartmentId(department.getId());
+
+        mockMvc.perform(post(CITY)
+                .content(parseToJson(cityRequest))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(authorities = {"ADMIN"})
+    public void shouldNotCreateACityWithoutName() throws Exception {
+
+        CityRequest cityRequest = someCityRequest();
+        cityRequest.setName(null);
+        cityRequest.setDepartmentId(department.getId());
+
+        mockMvc.perform(post(CITY)
+                .content(parseToJson(cityRequest))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(authorities = {"ADMIN"})
+    public void shouldNotCreateACityWithoutPostalCode() throws Exception {
+
+        CityRequest cityRequest = someCityRequest();
+        cityRequest.setPostalCode(null);
+        cityRequest.setDepartmentId(department.getId());
+
+        mockMvc.perform(post(CITY)
+                .content(parseToJson(cityRequest))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void shouldNotCreateACityWhenNotLogged() throws Exception {
 
         CityRequest cityRequest = someCityRequest();

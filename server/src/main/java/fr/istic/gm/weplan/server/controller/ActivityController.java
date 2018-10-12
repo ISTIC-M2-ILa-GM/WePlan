@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ACTIVITY;
@@ -63,7 +64,7 @@ public class ActivityController {
     })
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping
-    public ActivityDto postActivity(@ApiParam(value = "Activity request", required = true) @RequestBody ActivityRequest activity) {
+    public ActivityDto postActivity(@Valid @ApiParam(value = "Activity request", required = true) @RequestBody ActivityRequest activity) {
         return this.activityService.createActivity(activity);
     }
 

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.CITY;
@@ -82,7 +83,7 @@ public class CityController {
     })
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public CityDto createCity(@ApiParam(value = "City request", required = true) @RequestBody CityRequest cityRequest) {
+    public CityDto createCity(@Valid @ApiParam(value = "City request", required = true) @RequestBody CityRequest cityRequest) {
         return cityService.createCity(cityRequest);
     }
 

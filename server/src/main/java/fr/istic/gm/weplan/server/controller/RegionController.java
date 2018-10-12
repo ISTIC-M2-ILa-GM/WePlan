@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ID;
@@ -63,7 +64,7 @@ public class RegionController {
     })
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping
-    public RegionDto postRegion(@ApiParam(value = "Region request", required = true) @RequestBody RegionRequest region) {
+    public RegionDto postRegion(@Valid @ApiParam(value = "Region request", required = true) @RequestBody RegionRequest region) {
         return this.regionService.createRegion(region);
     }
 
