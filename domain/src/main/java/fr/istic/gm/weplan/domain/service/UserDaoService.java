@@ -8,10 +8,18 @@ import fr.istic.gm.weplan.domain.model.entities.User;
 public interface UserDaoService {
 
     /**
-     * Get a user dao for other services.
+     * Get an user dao for other services.
      *
      * @param id the id to get
      * @return the user
      */
     User getUserDao(Long id);
+
+    /**
+     * Get an user dao for other services.
+     *
+     * @param email the email
+     * @return the user
+     */
+    User getUserDaoByEmail(String email);
 }

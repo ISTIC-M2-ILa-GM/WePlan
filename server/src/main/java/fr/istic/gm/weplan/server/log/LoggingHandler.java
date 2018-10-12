@@ -1,5 +1,6 @@
 package fr.istic.gm.weplan.server.log;
 
+import fr.istic.gm.weplan.server.model.SecurityUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -9,6 +10,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -23,6 +27,17 @@ import java.util.Arrays;
 public class LoggingHandler {
 
     private HttpServletRequest request;
+
+    private String findUserId() {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (!(requestAttributes instanceof NativeWebRequest) || request.getUserPrincipal() == null) {
+            return "";
+        }
+        if (request.getUserPrincipal() instanceof SecurityUser) {
+            return String.valueOf(((SecurityUser) request.getUserPrincipal()).getId());
+        }
+        return "";
+    }
 
     /**
      * Point cut for rest controller
@@ -63,7 +78,8 @@ public class LoggingHandler {
      */
     @Before("restController() && loggingPublicOperation() && args(..)")
     public void logControllerBefore(JoinPoint joinPoint) {
-        log.info("CONTROLLER REQUEST({}) {} {}: {}", "User", request.getMethod(), request.getRequestURI(), Arrays.toString(joinPoint.getArgs()));
+        String id = findUserId();
+        log.info("CONTROLLER REQUEST({}) {} {}: {}", id, request.getMethod(), request.getRequestURI(), Arrays.toString(joinPoint.getArgs()));
     }
 
     /**
@@ -73,7 +89,8 @@ public class LoggingHandler {
      */
     @Before("service() && loggingPublicOperation() && args(..)")
     public void logServiceBefore(JoinPoint joinPoint) {
-        log.info("SERVICE REQUEST({}) {} {}: {}", "User", joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
+        String id = findUserId();
+        log.info("SERVICE REQUEST({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
     }
 
     /**
@@ -83,7 +100,8 @@ public class LoggingHandler {
      */
     @Before("component() && loggingPublicOperation() && args(..)")
     public void logComponentBefore(JoinPoint joinPoint) {
-        log.info("COMPONENT REQUEST({}) {} {}: {}", "User", joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
+        String id = findUserId();
+        log.info("COMPONENT REQUEST({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
     }
 
     /**
@@ -94,7 +112,8 @@ public class LoggingHandler {
      */
     @AfterReturning(pointcut = "component() && loggingPublicOperation()", returning = "result")
     public void logComponentAfter(JoinPoint joinPoint, Object result) {
-        log.info("COMPONENT RESPONSE({}) {} {}: {}", "User", joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), result);
+        String id = findUserId();
+        log.info("COMPONENT RESPONSE({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), result);
     }
 
     /**
@@ -105,7 +124,8 @@ public class LoggingHandler {
      */
     @AfterReturning(pointcut = "service() && loggingPublicOperation()", returning = "result")
     public void logServiceAfter(JoinPoint joinPoint, Object result) {
-        log.info("SERVICE RESPONSE({}) {} {}: {}", "User", joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), result);
+        String id = findUserId();
+        log.info("SERVICE RESPONSE({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), result);
     }
 
     /**
@@ -116,7 +136,8 @@ public class LoggingHandler {
      */
     @AfterReturning(pointcut = "restController() && loggingPublicOperation()", returning = "result")
     public void logControllerAfter(JoinPoint joinPoint, Object result) {
-        log.info("CONTROLLER RESPONSE({}) {} {}: {}", "User", request.getMethod(), request.getRequestURI(), result);
+        String id = findUserId();
+        log.info("CONTROLLER RESPONSE({}) {} {}: {}", id, request.getMethod(), request.getRequestURI(), result);
     }
 
     /**
@@ -127,6 +148,7 @@ public class LoggingHandler {
      */
     @AfterThrowing(pointcut = "restController() && loggingPublicOperation()", throwing = "exception")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable exception) {
-        log.error("ERROR({}) {} {}: {}", "User", joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), exception.getMessage(), exception);
+        String id = findUserId();
+        log.error("ERROR({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), exception.getMessage(), exception);
     }
 }

@@ -24,10 +24,12 @@ import java.util.Collections;
 public class TestData {
 
     public static final Long ID = 10L;
+    public static final String SOME_STRING = "some-string";
+    public static final String EMAIL = "an-email@true.com";
 
     private static final PodamFactory FACTORY = new PodamFactoryImpl();
 
-    public static final EventDto someEvent() {
+    public static EventDto someEvent() {
         return FACTORY.manufacturePojoWithFullData(EventDto.class);
     }
 
@@ -71,6 +73,13 @@ public class TestData {
         eventsDto.setTotalPages(10);
         eventsDto.setResults(Collections.singletonList(someEvent()));
         return eventsDto;
+    }
+
+    public static PageOptions firstPageOptions() {
+        PageOptions pageOptions = new PageOptions();
+        pageOptions.setSize(10);
+        pageOptions.setPage(0);
+        return pageOptions;
     }
 
     public static PageDto<CityDto> somePageCities() {

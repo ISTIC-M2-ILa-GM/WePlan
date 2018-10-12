@@ -23,6 +23,7 @@ import java.util.Collections;
 public class TestData {
 
     public static final Long ID = 10L;
+    public static final String EMAIL = "an@email.com";
 
     private static final PodamFactory FACTORY = new PodamFactoryImpl();
 

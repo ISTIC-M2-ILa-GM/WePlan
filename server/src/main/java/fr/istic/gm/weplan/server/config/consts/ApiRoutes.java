@@ -6,6 +6,8 @@ package fr.istic.gm.weplan.server.config.consts;
 public final class ApiRoutes {
 
     public static final String ID = "/{id}";
+    public static final String LOGOUT = "/logout";
+    public static final String LOGIN = "/login";
     public static final String API = "/api";
     public static final String CITY = API + "/city";
     public static final String DEPARTMENT = API + "/department";

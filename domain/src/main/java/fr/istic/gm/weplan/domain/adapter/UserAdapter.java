@@ -29,12 +29,20 @@ public interface UserAdapter {
     Page<User> findAllByDeletedAtIsNull(Pageable pageable);
 
     /**
-     * Find a user by id.
+     * Find an user by id.
      *
      * @param id the id to search
      * @return the optional user
      */
     Optional<User> findById(Long id);
+
+    /**
+     * Find an user by email
+     *
+     * @param email the email
+     * @return the user
+     */
+    Optional<User> findOneByEmail(String email);
 
     /**
      * Save a user.

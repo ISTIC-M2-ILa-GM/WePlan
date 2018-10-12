@@ -22,12 +22,20 @@ public interface UserService {
     PageDto<UserDto> getUsers(PageOptions pageOptions);
 
     /**
-     * Retrieve a user.
+     * Retrieve an user.
      *
      * @param id the id of the user
      * @return the user
      */
     UserDto getUser(Long id);
+
+    /**
+     * Retrieve an user
+     *
+     * @param email the name of the user
+     * @return the user
+     */
+    UserDto getUserByEmail(String email);
 
     /**
      * Create a user.
