@@ -2,6 +2,7 @@ package fr.istic.gm.weplan.server.service.impl;
 
 import fr.istic.gm.weplan.domain.model.entities.User;
 import fr.istic.gm.weplan.domain.service.UserDaoService;
+import fr.istic.gm.weplan.server.model.SecurityUser;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,6 +29,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         User user = userDaoService.getUserDaoByEmail(email);
         Set<GrantedAuthority> authorities = singleton(new SimpleGrantedAuthority(user.getRole().name()));
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+        return new SecurityUser(user.getId(), user.getEmail(), user.getPassword(), authorities);
     }
 }
