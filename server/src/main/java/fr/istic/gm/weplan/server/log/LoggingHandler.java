@@ -10,9 +10,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.Arrays;
 
 /**
@@ -26,12 +28,13 @@ public class LoggingHandler {
 
     private HttpServletRequest request;
 
-    private String findUserId(Principal principal) {
-        if (principal == null) {
+    private String findUserId() {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (!(requestAttributes instanceof NativeWebRequest) || request.getUserPrincipal() == null) {
             return "";
         }
-        if (principal instanceof SecurityUser) {
-            return String.valueOf(((SecurityUser) principal).getId());
+        if (request.getUserPrincipal() instanceof SecurityUser) {
+            return String.valueOf(((SecurityUser) request.getUserPrincipal()).getId());
         }
         return "";
     }
@@ -75,7 +78,7 @@ public class LoggingHandler {
      */
     @Before("restController() && loggingPublicOperation() && args(..)")
     public void logControllerBefore(JoinPoint joinPoint) {
-        String id = findUserId(request.getUserPrincipal());
+        String id = findUserId();
         log.info("CONTROLLER REQUEST({}) {} {}: {}", id, request.getMethod(), request.getRequestURI(), Arrays.toString(joinPoint.getArgs()));
     }
 
@@ -86,7 +89,7 @@ public class LoggingHandler {
      */
     @Before("service() && loggingPublicOperation() && args(..)")
     public void logServiceBefore(JoinPoint joinPoint) {
-        String id = findUserId(request.getUserPrincipal());
+        String id = findUserId();
         log.info("SERVICE REQUEST({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
     }
 
@@ -97,7 +100,7 @@ public class LoggingHandler {
      */
     @Before("component() && loggingPublicOperation() && args(..)")
     public void logComponentBefore(JoinPoint joinPoint) {
-        String id = findUserId(request.getUserPrincipal());
+        String id = findUserId();
         log.info("COMPONENT REQUEST({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
     }
 
@@ -109,7 +112,7 @@ public class LoggingHandler {
      */
     @AfterReturning(pointcut = "component() && loggingPublicOperation()", returning = "result")
     public void logComponentAfter(JoinPoint joinPoint, Object result) {
-        String id = findUserId(request.getUserPrincipal());
+        String id = findUserId();
         log.info("COMPONENT RESPONSE({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), result);
     }
 
@@ -121,7 +124,7 @@ public class LoggingHandler {
      */
     @AfterReturning(pointcut = "service() && loggingPublicOperation()", returning = "result")
     public void logServiceAfter(JoinPoint joinPoint, Object result) {
-        String id = findUserId(request.getUserPrincipal());
+        String id = findUserId();
         log.info("SERVICE RESPONSE({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), result);
     }
 
@@ -133,7 +136,7 @@ public class LoggingHandler {
      */
     @AfterReturning(pointcut = "restController() && loggingPublicOperation()", returning = "result")
     public void logControllerAfter(JoinPoint joinPoint, Object result) {
-        String id = findUserId(request.getUserPrincipal());
+        String id = findUserId();
         log.info("CONTROLLER RESPONSE({}) {} {}: {}", id, request.getMethod(), request.getRequestURI(), result);
     }
 
@@ -145,7 +148,7 @@ public class LoggingHandler {
      */
     @AfterThrowing(pointcut = "restController() && loggingPublicOperation()", throwing = "exception")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable exception) {
-        String id = findUserId(request.getUserPrincipal());
+        String id = findUserId();
         log.error("ERROR({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), exception.getMessage(), exception);
     }
 }

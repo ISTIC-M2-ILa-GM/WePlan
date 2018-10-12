@@ -1,18 +1,16 @@
 package fr.istic.gm.weplan.server.exception;
 
-import fr.istic.gm.weplan.domain.model.entities.Region;
-import fr.istic.gm.weplan.infra.repository.RegionRepository;
 import fr.istic.gm.weplan.server.App;
 import fr.istic.gm.weplan.server.config.CommonConfiguration;
 import fr.istic.gm.weplan.server.config.consts.AppError;
 import fr.istic.gm.weplan.server.utils.JsonUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -28,23 +26,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = {App.class, CommonConfiguration.class})
 @AutoConfigureMockMvc
 public class AppExceptionHandlerIT {
+
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private RegionRepository regionRepository;
-
-    private Region entity1;
-
-    @Before
-    public void setUp(){
-        this.regionRepository.deleteAll();
-        this.entity1 = new Region();
-        this.entity1.setName("Bretagne");
-        this.regionRepository.save(entity1);
-    }
-
     @Test
+    @WithMockUser
     public void shouldReturnNotFoundErrorCode() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get(REGION + ID, 999)
                 .accept(MediaType.APPLICATION_JSON))
