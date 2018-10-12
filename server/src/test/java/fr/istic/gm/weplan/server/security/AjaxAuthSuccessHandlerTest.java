@@ -3,6 +3,7 @@ package fr.istic.gm.weplan.server.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.istic.gm.weplan.domain.model.dto.UserDto;
 import fr.istic.gm.weplan.domain.service.UserService;
+import fr.istic.gm.weplan.server.config.consts.ApiParams;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +18,6 @@ import java.io.IOException;
 import static fr.istic.gm.weplan.server.TestData.EMAIL;
 import static fr.istic.gm.weplan.server.TestData.SOME_STRING;
 import static fr.istic.gm.weplan.server.TestData.someUser;
-import static fr.istic.gm.weplan.server.config.consts.ApiParams.USERNAME;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -50,7 +50,7 @@ public class AjaxAuthSuccessHandlerTest {
         UserDto user = someUser();
         MockHttpServletResponse response = new MockHttpServletResponse();
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter(USERNAME, EMAIL);
+        request.setParameter(ApiParams.EMAIL, EMAIL);
 
         when(mockUserService.getUserByEmail(anyString())).thenReturn(user);
         when(mockObjectMapper.writeValueAsString(any())).thenReturn(SOME_STRING);

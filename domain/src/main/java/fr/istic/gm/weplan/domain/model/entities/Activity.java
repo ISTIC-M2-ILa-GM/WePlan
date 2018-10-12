@@ -3,6 +3,8 @@ package fr.istic.gm.weplan.domain.model.entities;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,6 +41,7 @@ public class Activity extends BaseEntity {
     @Column(name = ACTIVITY_TYPE)
     private ActivityType activityType;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     @Column(name = CITIES)
     private List<City> cities;

@@ -3,6 +3,8 @@ package fr.istic.gm.weplan.domain.model.entities;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,22 +49,27 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     @Column(name = CITIES)
     private List<City> cities;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     @Column(name = DEPARTMENTS)
     private List<Department> departments;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     @Column(name = REGIONS)
     private List<Region> regions;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     @Column(name = ACTIVITIES)
     private List<Activity> activities;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     @Column(name = EVENTS)
     private List<Event> events;

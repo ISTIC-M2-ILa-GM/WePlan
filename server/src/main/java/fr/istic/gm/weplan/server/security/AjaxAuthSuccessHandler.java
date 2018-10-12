@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static fr.istic.gm.weplan.server.config.consts.ApiParams.USERNAME;
+import static fr.istic.gm.weplan.server.config.consts.ApiParams.EMAIL;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -29,7 +29,7 @@ public class AjaxAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandle
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-        UserDto user = userService.getUserByEmail(request.getParameter(USERNAME));
+        UserDto user = userService.getUserByEmail(request.getParameter(EMAIL));
         String json = objectMapper.writeValueAsString(user);
         response.setHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE);
         response.getWriter().print(json);

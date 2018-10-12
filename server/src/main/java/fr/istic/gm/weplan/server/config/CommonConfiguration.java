@@ -6,11 +6,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.time.Clock;
 
 @Configuration
 @EnableAutoConfiguration
+@EnableTransactionManagement
 @ComponentScan("fr.istic.gm.weplan.*")
 @EntityScan("fr.istic.gm.weplan.domain.model.entities")
 @EnableJpaRepositories("fr.istic.gm.weplan.infra.repository")

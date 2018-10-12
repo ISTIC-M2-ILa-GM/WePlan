@@ -18,8 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static fr.istic.gm.weplan.infra.broker.impl.EventBrokerImpl.EVENT;
+import static fr.istic.gm.weplan.server.config.consts.ApiParams.EMAIL;
 import static fr.istic.gm.weplan.server.config.consts.ApiParams.PASWORD;
-import static fr.istic.gm.weplan.server.config.consts.ApiParams.USERNAME;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.CITY;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.DEPARTMENT;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.LOGIN;
@@ -66,7 +66,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl(LOGIN)
                 .successHandler(ajaxAuthSuccessHandler)
                 .failureHandler(ajaxAuthFailureHandler)
-                .usernameParameter(USERNAME)
+                .usernameParameter(EMAIL)
                 .passwordParameter(PASWORD)
                 .permitAll()
                 .and()
