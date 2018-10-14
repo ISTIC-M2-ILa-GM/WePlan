@@ -7,7 +7,7 @@
           <div class="form-group">
             <mz-input-container>
               <i mz-icon-mdi mz-input-prefix [icon]="'email'"></i>
-              <input mz-input [label]="'Email'" name="email" id="email" type="text" [(ngModel)]="email">
+              <input mz-input [validate]="true" [label]="'Email'" name="email" id="email" type="email" [(ngModel)]="email">
             </mz-input-container>
             <mz-input-container>
               <i mz-icon-mdi mz-input-prefix [icon]="'key'"></i>

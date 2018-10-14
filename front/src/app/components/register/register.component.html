@@ -1,3 +1,41 @@
-<p>
-  register works!
-</p>
+<div class="row">
+  <div class="col s12 xl6 offset-xl3">
+    <div class="card">
+      <div class="card-content center">
+        <span class="card-title">Register</span>
+        <form (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <mz-input-container>
+              <i mz-icon-mdi mz-input-prefix [icon]="'account-details'"></i>
+              <input mz-input [label]="'First name'" name="firstName" id="firstName" type="text" [(ngModel)]="firstName">
+            </mz-input-container>
+            <mz-input-container>
+              <i mz-icon-mdi mz-input-prefix [icon]="'account-details'"></i>
+              <input mz-input [label]="'Last name'" name="lastName" id="lastName" type="text" [(ngModel)]="lastName">
+            </mz-input-container>
+            <mz-input-container>
+              <i mz-icon-mdi mz-input-prefix [icon]="'email'"></i>
+              <input mz-input [label]="'Email'" name="email" id="email" type="email" [(ngModel)]="email" [validate]="true">
+            </mz-input-container>
+            <mz-input-container>
+              <i mz-icon-mdi mz-input-prefix [icon]="'key'"></i>
+              <input mz-input [label]="'Password'" name="password" id="password" type="password" [(ngModel)]="password">
+            </mz-input-container>
+            <mz-input-container>
+              <i mz-icon-mdi mz-input-prefix [icon]="'repeat'"></i>
+              <input mz-input [label]="'Repeat password'" name="repeat" id="repeat" type="password" [(ngModel)]="repeat">
+            </mz-input-container>
+            <mz-input-container>
+              <button mz-button type="submit">
+                Register <i mz-icon-mdi [icon]="'login-variant'"></i>
+              </button>
+            </mz-input-container>
+          </div>
+        </form>
+      </div>
+      <!-- <div class="card-action">
+        Lorem ipsum dolor sit amet.
+      </div> -->
+    </div>
+  </div>
+</div>
