@@ -3,6 +3,7 @@ package fr.istic.gm.weplan.domain.model.request;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 /**
@@ -16,6 +17,7 @@ public class UserRequest {
     private String lastName;
 
     @NotEmpty
+    @Email
     private String email;
 
     @NotEmpty

@@ -154,6 +154,19 @@ public class UserControllerIT {
     }
 
     @Test
+    public void shouldNotCreateAnUserWithWrongEmail() throws Exception {
+
+        UserRequest userRequest = someUserRequest();
+        userRequest.setEmail("not-an-email");
+
+        mockMvc.perform(post(USER)
+                .content(parseToJson(userRequest))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     @WithMockUser
     public void shouldDeleteAUser() throws Exception {
 
