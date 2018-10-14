@@ -2,7 +2,7 @@
 
 ## Model
 
-![Model](https://raw.githubusercontent.com/ISTIC-M2-ILa-GM/WePlan/dev/spec/model.png)
+![Model](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/ISTIC-M2-ILa-GM/WePlan/dev/spec/model.puml)
 
 ## Architecture
 
