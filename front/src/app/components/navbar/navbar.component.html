@@ -3,4 +3,12 @@
     <i id="btn-sidenav-demo" mz-icon [align]="'left'" [icon]="'menu'" [size]="'medium'"></i>
   </div>
   <a href="#" class="brand-logo">{{ title }}</a>
+  <mz-navbar-item-container [align]="'right'">
+    <mz-navbar-item>
+      <a [routerLink]="'/login'">
+        Login
+        <i mz-icon-mdi [align]="'right'" [icon]="'login-variant'" [size]="'19px'"></i>
+      </a>
+    </mz-navbar-item>
+  </mz-navbar-item-container>
 </mz-navbar>
