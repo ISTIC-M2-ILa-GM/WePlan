@@ -28,6 +28,7 @@ public class TestData {
     public static final String EMAIL = "an-email@true.com";
 
     private static final PodamFactory FACTORY = new PodamFactoryImpl();
+    private static final String SOME_EMAIL = "an-email@email.fr";
 
     public static EventDto someEvent() {
         return FACTORY.manufacturePojoWithFullData(EventDto.class);
@@ -60,7 +61,9 @@ public class TestData {
     }
 
     public static CityRequest someCityRequest() {
-        return FACTORY.manufacturePojoWithFullData(CityRequest.class);
+        CityRequest cityRequest = FACTORY.manufacturePojoWithFullData(CityRequest.class);
+        cityRequest.setName(SOME_STRING);
+        return cityRequest;
     }
 
     public static PageOptions somePageOptions() {
@@ -107,7 +110,12 @@ public class TestData {
     }
 
     public static UserRequest someUserRequest() {
-        return FACTORY.manufacturePojoWithFullData(UserRequest.class);
+        UserRequest userRequest = FACTORY.manufacturePojoWithFullData(UserRequest.class);
+        userRequest.setEmail(SOME_EMAIL);
+        userRequest.setFirstName(SOME_STRING);
+        userRequest.setLastName(SOME_STRING);
+        userRequest.setPassword(SOME_STRING);
+        return userRequest;
     }
 
     public static User someUserDao() {
