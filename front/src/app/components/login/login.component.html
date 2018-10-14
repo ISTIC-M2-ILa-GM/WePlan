@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col s12 xl6 offset-xl3">
+    <div class="card">
+      <div class="card-content center">
+        <span class="card-title">Authentication</span>
+        <form (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <mz-input-container>
+              <i mz-icon-mdi mz-input-prefix [icon]="'email'"></i>
+              <input mz-input [validate]="true" [label]="'Email'" name="email" id="email" type="email" [(ngModel)]="email">
+            </mz-input-container>
+            <mz-input-container>
+              <i mz-icon-mdi mz-input-prefix [icon]="'key'"></i>
+              <input mz-input [label]="'Password'" name="password" id="password" type="password" [(ngModel)]="password">
+            </mz-input-container>
+            <mz-input-container inline="true">
+              <button mz-button type="submit">
+                <!-- <i mz-icon-mdi mz-input-prefix [icon]="'login-variant'"></i> -->
+                Login
+              </button>
+            </mz-input-container>
+            <mz-input-container inline="true">
+              <a mz-button [routerLink]="'/register'">Register</a>
+            </mz-input-container>
+          </div>
+        </form>
+      </div>
+      <div class="card-action">
+        Lorem ipsum dolor sit amet.
+      </div>
+    </div>
+  </div>
+</div>
