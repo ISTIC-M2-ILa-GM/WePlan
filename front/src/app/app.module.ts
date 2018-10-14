@@ -1,4 +1,3 @@
-import { RegisterComponent } from './components/register/register.component';
 // framwork + libraries related imports
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,18 +13,21 @@ import { RoutingModule } from './routing/routing.module';
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { LoginComponent } from './components/login/login.component';
-import { LoginFormComponent } from './forms/login-form/login-form.component';
+// import { LoginFormComponent } from './forms/login-form/login-form.component';
+import { RegisterComponent } from './components/register/register.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
     // Components (pages)
     AppComponent,
-    LoginComponent,
-    RegisterComponent,
     NavbarComponent,
     SideNavComponent,
     HomeComponent,
     NotFoundComponent,
+    LoginComponent,
+    RegisterComponent,
+    ProfileComponent
 
     // Forms
     // LoginFormComponent
