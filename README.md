@@ -14,7 +14,7 @@ It corresponds to an activity organizer for weekends. A user must be able to reg
 
 ## Links
 
-Project: https://github.com/ISTIC-M2-ILa-GM/WePlan/projects/2
-Issues and Features TODO: https://github.com/ISTIC-M2-ILa-GM/WePlan/issues
-Continuous integration - Travis CI: https://travis-ci.org/ISTIC-M2-ILa-GM/WePlan
-Continuous inspection - Sonarcloud: https://sonarcloud.io/dashboard?id=fr.istic.gm.weplan
+* Project: https://github.com/ISTIC-M2-ILa-GM/WePlan/projects/2
+* Issues and Features TODO: https://github.com/ISTIC-M2-ILa-GM/WePlan/issues
+* Continuous integration - Travis CI: https://travis-ci.org/ISTIC-M2-ILa-GM/WePlan
+* Quality - Sonarcloud: https://sonarcloud.io/dashboard?id=fr.istic.gm.weplan
