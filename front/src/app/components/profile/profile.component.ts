@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from './../../services/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -12,14 +13,22 @@ export class ProfileComponent implements OnInit {
   password = '';
   repeat = '';
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
-  ngOnInit = () => {
+  ngOnInit() {
+    // for testing purpose only
+    /*
+    const user = this.userService.get();
+    console.log(user);
+    this.firstName = user.firstName;
+    this.lastName = user.lastName;
+    this.email = user.email;
+    */
   }
 
   onSubmit = () => {
     console.log(`First name: ${this.firstName} Last name: ${this.lastName}`);
     console.log(`Email: ${this.email}`);
-    console.log(`Password: ${this.password} Repeat: ${this.repeat}`)
+    console.log(`Password: ${this.password} Repeat: ${this.repeat}`);
   }
 }

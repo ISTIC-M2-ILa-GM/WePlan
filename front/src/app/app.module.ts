@@ -16,6 +16,7 @@ import { LoginComponent } from './components/login/login.component';
 // import { LoginFormComponent } from './forms/login-form/login-form.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,9 @@ import { ProfileComponent } from './components/profile/profile.component';
     RoutingModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

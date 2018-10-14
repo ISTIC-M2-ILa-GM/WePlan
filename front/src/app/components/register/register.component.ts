@@ -20,6 +20,6 @@ export class RegisterComponent implements OnInit {
   onSubmit = () => {
     console.log(`First name: ${this.firstName} Last name: ${this.lastName}`);
     console.log(`Email: ${this.email}`);
-    console.log(`Password: ${this.password} Repeat: ${this.repeat}`)
+    console.log(`Password: ${this.password} Repeat: ${this.repeat}`);
   }
 }
