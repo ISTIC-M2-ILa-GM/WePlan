@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { MaterializeComponentModule } from './materialize-css.module';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 // Application imports
 import { AppComponent } from './app.component';
@@ -38,7 +39,8 @@ import { UserService } from './services/user.service';
     BrowserAnimationsModule,
     MaterializeComponentModule,
     RoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [
     UserService
