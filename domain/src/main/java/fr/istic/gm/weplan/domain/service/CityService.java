@@ -2,7 +2,7 @@ package fr.istic.gm.weplan.domain.service;
 
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 
 import java.util.List;
@@ -16,10 +16,10 @@ public interface CityService {
     /**
      * Retrieve all cities.
      *
-     * @param pageOptions the page options
+     * @param pageRequest the page options
      * @return The pages of Cities
      */
-    PageDto<CityDto> getCities(PageOptions pageOptions);
+    PageDto<CityDto> getCities(PageRequest pageRequest);
 
     /**
      * Retrieve all cities.

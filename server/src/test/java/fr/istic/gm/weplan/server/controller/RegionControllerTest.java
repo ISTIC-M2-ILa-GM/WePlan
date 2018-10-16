@@ -1,7 +1,7 @@
 package fr.istic.gm.weplan.server.controller;
 
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 import fr.istic.gm.weplan.domain.service.RegionService;
@@ -36,15 +36,15 @@ public class RegionControllerTest {
 
     @Test
     public void shouldGetRegionsPage() {
-        PageOptions pageOptions = somePageOptions();
+        PageRequest pageRequest = somePageOptions();
         PageDto<RegionDto> pageCities = somePageRegions();
 
         // prepare stub for getRegions method
         when(mockRegionService.getRegions(any())).thenReturn(pageCities);
 
-        PageDto<RegionDto> result = this.regionController.getRegions(pageOptions);
+        PageDto<RegionDto> result = this.regionController.getRegions(pageRequest);
 
-        verify(this.mockRegionService).getRegions(pageOptions);
+        verify(this.mockRegionService).getRegions(pageRequest);
 
         assertThat(result, notNullValue());
         assertThat(result, equalTo(pageCities));

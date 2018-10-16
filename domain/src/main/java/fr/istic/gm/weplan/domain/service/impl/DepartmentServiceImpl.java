@@ -4,7 +4,7 @@ import fr.istic.gm.weplan.domain.adapter.DepartmentAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
@@ -14,7 +14,6 @@ import fr.istic.gm.weplan.domain.service.RegionDaoService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -49,10 +48,10 @@ public class DepartmentServiceImpl extends PatchService<Department> implements D
     }
 
     @Override
-    public PageDto<DepartmentDto> getDepartments(PageOptions pageOptions) {
+    public PageDto<DepartmentDto> getDepartments(PageRequest pageRequest) {
 
-        if (pageOptions != null) {
-            Page<Department> departments = departmentAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
+        if (pageRequest != null) {
+            Page<Department> departments = departmentAdapter.findAllByDeletedAtIsNull(org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize()));
             return persistenceMapper.toDepartmentsPageDto(departments);
         }
         List<Department> departments = departmentAdapter.findAllByDeletedAtIsNull();

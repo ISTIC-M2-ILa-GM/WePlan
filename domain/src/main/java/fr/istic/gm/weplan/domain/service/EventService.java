@@ -2,7 +2,7 @@ package fr.istic.gm.weplan.domain.service;
 
 import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 
 /**
  * Event Service
@@ -12,10 +12,10 @@ public interface EventService {
     /**
      * Retrieve all events.
      *
-     * @param pageOptions the page options
+     * @param pageRequest the page options
      * @return The pages of Events
      */
-    PageDto<EventDto> getEvents(PageOptions pageOptions);
+    PageDto<EventDto> getEvents(PageRequest pageRequest);
 
     /**
      * Retrieve a event.

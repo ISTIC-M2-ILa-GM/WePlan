@@ -1,7 +1,7 @@
 package fr.istic.gm.weplan.domain.service;
 
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.dto.UserDto;
 import fr.istic.gm.weplan.domain.model.request.UserRequest;
 
@@ -16,10 +16,10 @@ public interface UserService {
     /**
      * Retrieve all users.
      *
-     * @param pageOptions the page options
+     * @param pageRequest the page options
      * @return The pages of users
      */
-    PageDto<UserDto> getUsers(PageOptions pageOptions);
+    PageDto<UserDto> getUsers(PageRequest pageRequest);
 
     /**
      * Retrieve an user.

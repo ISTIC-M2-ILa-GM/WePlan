@@ -4,7 +4,7 @@ import fr.istic.gm.weplan.domain.adapter.EventAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.entities.Event;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import org.junit.Before;
@@ -17,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -89,14 +88,14 @@ public class EventServiceTest {
     @Test
     public void shouldGetEvents() {
 
-        PageOptions pageOptions = somePageOptions();
-        Page<Event> events = new PageImpl<>(Collections.singletonList(someEvent()), PageRequest.of(1, 1), 2);
+        PageRequest pageRequest = somePageOptions();
+        Page<Event> events = new PageImpl<>(Collections.singletonList(someEvent()), org.springframework.data.domain.PageRequest.of(1, 1), 2);
 
         when(mockEventAdapter.findAllByDeletedAtIsNull(any())).thenReturn(events);
 
-        PageDto<EventDto> results = service.getEvents(pageOptions);
+        PageDto<EventDto> results = service.getEvents(pageRequest);
 
-        PageRequest expectedPageable = PageRequest.of(pageOptions.getPage(), pageOptions.getSize());
+        org.springframework.data.domain.PageRequest expectedPageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize());
 
         verify(mockEventAdapter).findAllByDeletedAtIsNull(expectedPageable);
 

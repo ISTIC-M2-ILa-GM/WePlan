@@ -4,7 +4,7 @@ import fr.istic.gm.weplan.domain.adapter.ActivityAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.entities.Activity;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
@@ -15,7 +15,6 @@ import fr.istic.gm.weplan.domain.service.CityDaoService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -50,10 +49,10 @@ public class ActivityServiceImpl extends PatchService<Activity> implements Activ
     }
 
     @Override
-    public PageDto<ActivityDto> getActivities(PageOptions pageOptions) {
+    public PageDto<ActivityDto> getActivities(PageRequest pageRequest) {
 
-        if (pageOptions != null) {
-            Page<Activity> activities = activityAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
+        if (pageRequest != null) {
+            Page<Activity> activities = activityAdapter.findAllByDeletedAtIsNull(org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize()));
             return persistenceMapper.toActivitiesPageDto(activities);
         }
         List<Activity> activities = activityAdapter.findAllByDeletedAtIsNull();

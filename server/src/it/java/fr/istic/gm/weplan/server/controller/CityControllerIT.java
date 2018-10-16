@@ -2,7 +2,7 @@ package fr.istic.gm.weplan.server.controller;
 
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
@@ -91,12 +91,12 @@ public class CityControllerIT {
     @WithMockUser
     public void shouldGetCities() throws Exception {
 
-        PageOptions pageOptions = new PageOptions();
-        pageOptions.setPage(0);
-        pageOptions.setSize(10);
+        PageRequest pageRequest = new PageRequest();
+        pageRequest.setPage(0);
+        pageRequest.setSize(10);
 
         MvcResult mvcResult = mockMvc.perform(get(CITY)
-                .content(parseToJson(pageOptions))
+                .content(parseToJson(pageRequest))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

@@ -2,7 +2,7 @@ package fr.istic.gm.weplan.server.controller;
 
 
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 import fr.istic.gm.weplan.domain.service.RegionService;
@@ -44,8 +44,8 @@ public class RegionController {
             @ApiResponse(code = 200, message = "Get regions")
     })
     @GetMapping
-    public PageDto<RegionDto> getRegions(@ApiParam(value = "Page request") @RequestBody(required = false) PageOptions pageOptions) {
-        return this.regionService.getRegions(pageOptions);
+    public PageDto<RegionDto> getRegions(@ApiParam(value = "Page request") @RequestBody(required = false) PageRequest pageRequest) {
+        return this.regionService.getRegions(pageRequest);
     }
 
     @ApiOperation("Get region")

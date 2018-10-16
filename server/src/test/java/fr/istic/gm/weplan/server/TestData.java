@@ -5,7 +5,7 @@ import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
 import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.dto.UserDto;
 import fr.istic.gm.weplan.domain.model.entities.City;
@@ -66,8 +66,8 @@ public class TestData {
         return cityRequest;
     }
 
-    public static PageOptions somePageOptions() {
-        return FACTORY.manufacturePojoWithFullData(PageOptions.class);
+    public static PageRequest somePageOptions() {
+        return FACTORY.manufacturePojoWithFullData(PageRequest.class);
     }
 
     public static PageDto<EventDto> somePageEvents() {
@@ -78,11 +78,11 @@ public class TestData {
         return eventsDto;
     }
 
-    public static PageOptions firstPageOptions() {
-        PageOptions pageOptions = new PageOptions();
-        pageOptions.setSize(10);
-        pageOptions.setPage(0);
-        return pageOptions;
+    public static PageRequest firstPageOptions() {
+        PageRequest pageRequest = new PageRequest();
+        pageRequest.setSize(10);
+        pageRequest.setPage(0);
+        return pageRequest;
     }
 
     public static PageDto<CityDto> somePageCities() {

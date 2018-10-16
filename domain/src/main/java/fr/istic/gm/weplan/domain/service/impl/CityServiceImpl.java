@@ -4,7 +4,7 @@ import fr.istic.gm.weplan.domain.adapter.CityAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
@@ -13,7 +13,6 @@ import fr.istic.gm.weplan.domain.service.CityService;
 import fr.istic.gm.weplan.domain.service.DepartmentDaoService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -37,10 +36,10 @@ public class CityServiceImpl extends PatchService<City> implements CityService, 
     private Clock clock;
 
     @Override
-    public PageDto<CityDto> getCities(PageOptions pageOptions) {
+    public PageDto<CityDto> getCities(PageRequest pageRequest) {
 
-        if (pageOptions != null) {
-            Page<City> cities = cityAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
+        if (pageRequest != null) {
+            Page<City> cities = cityAdapter.findAllByDeletedAtIsNull(org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize()));
             return persistenceMapper.toCitiesPageDto(cities);
         }
         List<City> cities = cityAdapter.findAllByDeletedAtIsNull();
