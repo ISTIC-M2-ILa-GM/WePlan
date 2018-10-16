@@ -85,7 +85,7 @@ public class WebSocketIT {
 
         eventBroker.sendEvent(event);
 
-        lock.await(2000, TimeUnit.MILLISECONDS);
+        lock.await(5000, TimeUnit.MILLISECONDS);
 
         assertThat(payloads, hasSize(1));
         assertThat(payloads.get(0), Matchers.instanceOf(EventDto.class));

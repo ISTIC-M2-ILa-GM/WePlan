@@ -21,6 +21,7 @@ public class TestData {
     private static final PodamFactory FACTORY = new PodamFactoryImpl();
     public static final int POSTAL_CODE = 35000;
     public static final String API_KEY = "an-api-key";
+    public static final String SOME_STRING = "some-string";
 
     public static ForecastHourly someForecastHourly() {
         ForecastHourly forecastHourly = FACTORY.manufacturePojo(ForecastHourly.class);

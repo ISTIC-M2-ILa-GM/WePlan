@@ -1,5 +1,6 @@
 package fr.istic.gm.weplan.domain.service.impl;
 
+import fr.istic.gm.weplan.domain.adapter.PasswordEncoderAdapter;
 import fr.istic.gm.weplan.domain.adapter.UserAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
@@ -26,6 +27,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mapstruct.factory.Mappers;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
@@ -42,6 +44,7 @@ import java.util.Optional;
 
 import static fr.istic.gm.weplan.domain.TestData.EMAIL;
 import static fr.istic.gm.weplan.domain.TestData.ID;
+import static fr.istic.gm.weplan.domain.TestData.SOME_STRING;
 import static fr.istic.gm.weplan.domain.TestData.someActivity;
 import static fr.istic.gm.weplan.domain.TestData.someCity;
 import static fr.istic.gm.weplan.domain.TestData.someDepartment;
@@ -87,6 +90,9 @@ public class UserServiceTest {
     private EventDaoService mockEventDaoService;
 
     @Mock
+    private PasswordEncoderAdapter mockPasswordEncoderAdapter;
+
+    @Mock
     private Clock mockClock;
 
     @Rule
@@ -106,6 +112,7 @@ public class UserServiceTest {
                 mockActivityDaoService,
                 mockEventDaoService,
                 persistenceMapper,
+                mockPasswordEncoderAdapter,
                 mockClock
         );
 
@@ -238,6 +245,25 @@ public class UserServiceTest {
         assertThat(results.getFirstName(), equalTo(userRequest.getFirstName()));
         assertThat(results.getLastName(), equalTo(userRequest.getLastName()));
         assertThat(results.getRole(), equalTo(RoleDto.USER));
+    }
+
+    @Test
+    public void shouldCreateAUserWithEncodedPassword() {
+
+        UserRequest userRequest = someUserRequest();
+        userRequest.setPassword("a-password");
+
+        when(mockPasswordEncoderAdapter.encode(anyString())).thenReturn(SOME_STRING);
+
+        ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
+        when(mockUserAdapter.save(userArgumentCaptor.capture())).thenReturn(someUser());
+
+        service.createUser(userRequest);
+
+        verify(mockPasswordEncoderAdapter).encode(userRequest.getPassword());
+
+        assertThat(userArgumentCaptor.getValue().getPassword(), notNullValue());
+        assertThat(userArgumentCaptor.getValue().getPassword(), equalTo(SOME_STRING));
     }
 
     @Test
