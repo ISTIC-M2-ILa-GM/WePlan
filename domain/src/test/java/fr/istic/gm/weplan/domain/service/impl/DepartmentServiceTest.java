@@ -144,6 +144,23 @@ public class DepartmentServiceTest {
     }
 
     @Test
+    public void shouldGetDepartmentsPageWithoutPage() {
+
+        List<Department> departments = Collections.singletonList(someDepartment());
+
+        when(mockDepartmentAdapter.findAllByDeletedAtIsNull()).thenReturn(departments);
+
+        PageDto<DepartmentDto> results = service.getDepartments(null);
+
+        verify(mockDepartmentAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(results, notNullValue());
+        assertThat(results.getResults(), equalTo(persistenceMapper.toDepartmentsDto(departments)));
+        assertThat(results.getTotalPages(), equalTo(1));
+        assertThat(results.getSize(), equalTo(1));
+    }
+
+    @Test
     public void shouldGetDepartments() {
 
         List<Department> departments = Collections.singletonList(someDepartment());

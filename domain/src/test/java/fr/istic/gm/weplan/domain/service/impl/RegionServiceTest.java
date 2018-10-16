@@ -138,6 +138,23 @@ public class RegionServiceTest {
     }
 
     @Test
+    public void shouldGetRegionsPageWithout() {
+
+        List<Region> regions = Collections.singletonList(someRegion());
+
+        when(mockRegionAdapter.findAllByDeletedAtIsNull()).thenReturn(regions);
+
+        PageDto<RegionDto> results = service.getRegions(null);
+
+        verify(mockRegionAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(results, notNullValue());
+        assertThat(results.getResults(), equalTo(persistenceMapper.toRegionsDto(regions)));
+        assertThat(results.getTotalPages(), equalTo(1));
+        assertThat(results.getSize(), equalTo(1));
+    }
+
+    @Test
     public void shouldGetRegions() {
 
         List<Region> regions = Collections.singletonList(someRegion());

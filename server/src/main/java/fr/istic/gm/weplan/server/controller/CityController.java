@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Map;
 
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.CITY;
@@ -51,22 +50,8 @@ public class CityController {
             @ApiResponse(code = 200, message = "Get cities")
     })
     @GetMapping
-    public PageDto<CityDto> getCities(@ApiParam(value = "Page request", required = true) @RequestBody PageOptions pageOptions) {
+    public PageDto<CityDto> getCities(@ApiParam(value = "Page request") @RequestBody(required = false) PageOptions pageOptions) {
         return cityService.getCities(pageOptions);
-    }
-
-    /**
-     * Retrieve all cities.
-     *
-     * @return the cities
-     */
-    @ApiOperation("Get cities")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Get cities")
-    })
-    @GetMapping
-    public List<CityDto> getCities() {
-        return cityService.getCities();
     }
 
 

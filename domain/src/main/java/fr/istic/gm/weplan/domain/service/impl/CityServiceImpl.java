@@ -39,7 +39,11 @@ public class CityServiceImpl extends PatchService<City> implements CityService, 
     @Override
     public PageDto<CityDto> getCities(PageOptions pageOptions) {
 
-        Page<City> cities = cityAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
+        if (pageOptions != null) {
+            Page<City> cities = cityAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
+            return persistenceMapper.toCitiesPageDto(cities);
+        }
+        List<City> cities = cityAdapter.findAllByDeletedAtIsNull();
         return persistenceMapper.toCitiesPageDto(cities);
     }
 

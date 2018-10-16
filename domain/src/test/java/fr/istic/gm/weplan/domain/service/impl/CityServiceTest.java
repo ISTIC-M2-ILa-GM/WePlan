@@ -120,6 +120,24 @@ public class CityServiceTest {
     }
 
     @Test
+    public void shouldGetCitiesPageWithoutPage() {
+
+        List<City> cities = Collections.singletonList(someCity());
+
+        when(mockCityAdapter.findAllByDeletedAtIsNull()).thenReturn(cities);
+
+        PageDto<CityDto> results = service.getCities(null);
+
+
+        verify(mockCityAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(results, notNullValue());
+        assertThat(results.getResults(), equalTo(persistenceMapper.toCitiesDto(cities)));
+        assertThat(results.getTotalPages(), equalTo(1));
+        assertThat(results.getSize(), equalTo(1));
+    }
+
+    @Test
     public void shouldGetCities() {
 
         List<City> cities = Collections.singletonList(someCity());

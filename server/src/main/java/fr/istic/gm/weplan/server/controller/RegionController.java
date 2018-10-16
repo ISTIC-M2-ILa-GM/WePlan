@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Map;
 
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ID;
@@ -45,17 +44,8 @@ public class RegionController {
             @ApiResponse(code = 200, message = "Get regions")
     })
     @GetMapping
-    public PageDto<RegionDto> getRegions(@ApiParam(value = "Page request", required = true) @RequestBody PageOptions pageOptions) {
+    public PageDto<RegionDto> getRegions(@ApiParam(value = "Page request") @RequestBody(required = false) PageOptions pageOptions) {
         return this.regionService.getRegions(pageOptions);
-    }
-
-    @ApiOperation("Get regions")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Get regions")
-    })
-    @GetMapping
-    public List<RegionDto> getRegions() {
-        return this.regionService.getRegions();
     }
 
     @ApiOperation("Get region")

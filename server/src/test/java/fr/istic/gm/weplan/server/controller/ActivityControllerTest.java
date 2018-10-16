@@ -11,9 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static fr.istic.gm.weplan.server.TestData.ID;
@@ -52,21 +50,6 @@ public class ActivityControllerTest {
         PageDto<ActivityDto> result = controller.getActivities(pageOptions);
 
         verify(mockActivityService).getActivities(pageOptions);
-
-        assertThat(result, notNullValue());
-        assertThat(result, equalTo(pageActivities));
-    }
-
-    @Test
-    public void shouldGetActivities() {
-
-        List<ActivityDto> pageActivities = Collections.singletonList(someActivity());
-
-        when(mockActivityService.getActivities()).thenReturn(pageActivities);
-
-        List<ActivityDto> result = controller.getActivities();
-
-        verify(mockActivityService).getActivities();
 
         assertThat(result, notNullValue());
         assertThat(result, equalTo(pageActivities));

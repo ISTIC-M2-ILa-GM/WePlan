@@ -11,9 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static fr.istic.gm.weplan.server.TestData.ID;
@@ -55,21 +53,6 @@ public class CityControllerTest {
 
         assertThat(result, notNullValue());
         assertThat(result, equalTo(pageCities));
-    }
-
-    @Test
-    public void shouldGetCities() {
-
-        List<CityDto> cities = Collections.singletonList(someCity());
-
-        when(mockCityService.getCities()).thenReturn(cities);
-
-        List<CityDto> result = controller.getCities();
-
-        verify(mockCityService).getCities();
-
-        assertThat(result, notNullValue());
-        assertThat(result, equalTo(cities));
     }
 
     @Test

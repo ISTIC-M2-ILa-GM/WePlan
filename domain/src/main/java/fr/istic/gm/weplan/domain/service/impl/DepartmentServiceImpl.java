@@ -51,7 +51,11 @@ public class DepartmentServiceImpl extends PatchService<Department> implements D
     @Override
     public PageDto<DepartmentDto> getDepartments(PageOptions pageOptions) {
 
-        Page<Department> departments = departmentAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
+        if (pageOptions != null) {
+            Page<Department> departments = departmentAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
+            return persistenceMapper.toDepartmentsPageDto(departments);
+        }
+        List<Department> departments = departmentAdapter.findAllByDeletedAtIsNull();
         return persistenceMapper.toDepartmentsPageDto(departments);
     }
 

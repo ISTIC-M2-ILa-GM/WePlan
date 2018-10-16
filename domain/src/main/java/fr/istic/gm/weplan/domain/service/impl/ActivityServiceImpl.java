@@ -51,8 +51,12 @@ public class ActivityServiceImpl extends PatchService<Activity> implements Activ
 
     @Override
     public PageDto<ActivityDto> getActivities(PageOptions pageOptions) {
-        Page<Activity> activities = activityAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
 
+        if (pageOptions != null) {
+            Page<Activity> activities = activityAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
+            return persistenceMapper.toActivitiesPageDto(activities);
+        }
+        List<Activity> activities = activityAdapter.findAllByDeletedAtIsNull();
         return persistenceMapper.toActivitiesPageDto(activities);
     }
 

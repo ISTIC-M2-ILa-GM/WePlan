@@ -111,6 +111,23 @@ public class CityControllerIT {
     }
 
     @Test
+    @WithMockUser
+    public void shouldGetCitiesWithoutPage() throws Exception {
+
+        MvcResult mvcResult = mockMvc.perform(get(CITY)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        PageDto<CityDto> response = (PageDto<CityDto>) JsonUtils.fromJson(mvcResult, PageDto.class);
+
+        assertThat(response, notNullValue());
+        assertThat(response.getTotalPages(), equalTo(1));
+        assertThat(response.getSize(), equalTo(2));
+        assertThat(response.getResults(), hasSize(2));
+    }
+
+    @Test
     public void shouldNotGetCitiesWhenNotLogged() throws Exception {
 
         MvcResult mvcResult = mockMvc.perform(get(CITY)

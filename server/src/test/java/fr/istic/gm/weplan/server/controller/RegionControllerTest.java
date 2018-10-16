@@ -11,9 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Collections;
-import java.util.List;
-
 import static fr.istic.gm.weplan.server.TestData.somePageOptions;
 import static fr.istic.gm.weplan.server.TestData.somePageRegions;
 import static fr.istic.gm.weplan.server.TestData.someRegion;
@@ -51,22 +48,6 @@ public class RegionControllerTest {
 
         assertThat(result, notNullValue());
         assertThat(result, equalTo(pageCities));
-    }
-
-
-    @Test
-    public void shouldGetRegions() {
-        List<RegionDto> regions = Collections.singletonList(someRegion());
-
-        // prepare stub for getRegions method
-        when(mockRegionService.getRegions()).thenReturn(regions);
-
-        List<RegionDto> result = this.regionController.getRegions();
-
-        verify(this.mockRegionService).getRegions();
-
-        assertThat(result, notNullValue());
-        assertThat(result, equalTo(regions));
     }
 
 /*

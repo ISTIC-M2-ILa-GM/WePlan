@@ -93,6 +93,23 @@ public class ActivityServiceTest {
     }
 
     @Test
+    public void shouldGetActivitiesPageWithoutPage() {
+
+        List<Activity> activities = singletonList(someActivity());
+
+        when(mockActivityAdapter.findAllByDeletedAtIsNull()).thenReturn(activities);
+
+        PageDto<ActivityDto> results = service.getActivities(null);
+
+        verify(mockActivityAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(results, notNullValue());
+        assertThat(results.getResults(), equalTo(persistenceMapper.toActivitiesDto(activities)));
+        assertThat(results.getTotalPages(), equalTo(1));
+        assertThat(results.getSize(), equalTo(1));
+    }
+
+    @Test
     public void shouldGetActivities() {
 
         List<Activity> activities = singletonList(someActivity());

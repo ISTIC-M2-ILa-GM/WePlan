@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mapstruct.factory.Mappers;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
@@ -102,7 +103,7 @@ public class PersistenceMapperTest {
 
     @Test
     public void shouldMapAPageCity() {
-        assertThat(mapper.toCitiesPageDto(null), nullValue());
+        assertThat(mapper.toCitiesPageDto((Page<City>) null), nullValue());
 
         City city = someCity();
         PageImpl<City> page = new PageImpl<>(Collections.singletonList(city), PageRequest.of(1, 2), 10);
@@ -157,7 +158,7 @@ public class PersistenceMapperTest {
 
     @Test
     public void shouldMapAPageDepartment() {
-        assertThat(mapper.toDepartmentsPageDto(null), nullValue());
+        assertThat(mapper.toDepartmentsPageDto((Page<Department>) null), nullValue());
 
         Department department = someDepartment();
         PageImpl<Department> page = new PageImpl<>(Collections.singletonList(department), PageRequest.of(1, 2), 10);
@@ -212,7 +213,7 @@ public class PersistenceMapperTest {
 
     @Test
     public void shouldMapAPageRegion() {
-        assertThat(mapper.toRegionsPageDto(null), nullValue());
+        assertThat(mapper.toRegionsPageDto((Page<Region>) null), nullValue());
 
         Region region = someRegion();
         PageImpl<Region> page = new PageImpl<>(Collections.singletonList(region), PageRequest.of(1, 2), 10);
@@ -272,7 +273,7 @@ public class PersistenceMapperTest {
 
     @Test
     public void shouldMapAPageActivity() {
-        assertThat(mapper.toActivitiesPageDto(null), nullValue());
+        assertThat(mapper.toActivitiesPageDto((Page<Activity>) null), nullValue());
 
         Activity activity = someActivity();
         PageImpl<Activity> page = new PageImpl<>(Collections.singletonList(activity), PageRequest.of(1, 2), 10);
@@ -393,5 +394,65 @@ public class PersistenceMapperTest {
         assertThat(eventDtoPageDto.getTotalPages(), equalTo(5));
         assertThat(eventDtoPageDto.getResults(), hasSize(1));
         assertThat(eventDtoPageDto.getResults().get(0).getId(), equalTo(event.getId()));
+    }
+
+    @Test
+    public void shouldMapAListCity() {
+        assertThat(mapper.toCitiesPageDto((List<City>) null), nullValue());
+
+        City city = someCity();
+
+        PageDto<CityDto> citiesPageDto = mapper.toCitiesPageDto(Collections.singletonList(city));
+
+        assertThat(citiesPageDto, notNullValue());
+        assertThat(citiesPageDto.getSize(), equalTo(1));
+        assertThat(citiesPageDto.getTotalPages(), equalTo(1));
+        assertThat(citiesPageDto.getResults(), hasSize(1));
+        assertThat(citiesPageDto.getResults().get(0).getId(), equalTo(city.getId()));
+    }
+
+    @Test
+    public void shouldMapAListDepartment() {
+        assertThat(mapper.toDepartmentsPageDto((List<Department>) null), nullValue());
+
+        Department department = someDepartment();
+
+        PageDto<DepartmentDto> departmentDtoPageDto = mapper.toDepartmentsPageDto(Collections.singletonList(department));
+
+        assertThat(departmentDtoPageDto, notNullValue());
+        assertThat(departmentDtoPageDto.getSize(), equalTo(1));
+        assertThat(departmentDtoPageDto.getTotalPages(), equalTo(1));
+        assertThat(departmentDtoPageDto.getResults(), hasSize(1));
+        assertThat(departmentDtoPageDto.getResults().get(0).getId(), equalTo(department.getId()));
+    }
+
+    @Test
+    public void shouldMapAListRegion() {
+        assertThat(mapper.toRegionsPageDto((List<Region>) null), nullValue());
+
+        Region region = someRegion();
+
+        PageDto<RegionDto> regionsPageDto = mapper.toRegionsPageDto(Collections.singletonList(region));
+
+        assertThat(regionsPageDto, notNullValue());
+        assertThat(regionsPageDto.getSize(), equalTo(1));
+        assertThat(regionsPageDto.getTotalPages(), equalTo(1));
+        assertThat(regionsPageDto.getResults(), hasSize(1));
+        assertThat(regionsPageDto.getResults().get(0).getId(), equalTo(region.getId()));
+    }
+
+    @Test
+    public void shouldMapAListActivity() {
+        assertThat(mapper.toActivitiesPageDto((List<Activity>) null), nullValue());
+
+        Activity activity = someActivity();
+
+        PageDto<ActivityDto> activitiesPageDto = mapper.toActivitiesPageDto(Collections.singletonList(activity));
+
+        assertThat(activitiesPageDto, notNullValue());
+        assertThat(activitiesPageDto.getSize(), equalTo(1));
+        assertThat(activitiesPageDto.getTotalPages(), equalTo(1));
+        assertThat(activitiesPageDto.getResults(), hasSize(1));
+        assertThat(activitiesPageDto.getResults().get(0).getId(), equalTo(activity.getId()));
     }
 }
