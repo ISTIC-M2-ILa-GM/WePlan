@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -52,6 +53,13 @@ public class DepartmentServiceImpl extends PatchService<Department> implements D
 
         Page<Department> departments = departmentAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
         return persistenceMapper.toDepartmentsPageDto(departments);
+    }
+
+    @Override
+    public List<DepartmentDto> getDepartments() {
+
+        List<Department> departments = departmentAdapter.findAllByDeletedAtIsNull();
+        return persistenceMapper.toDepartmentsDto(departments);
     }
 
     @Override

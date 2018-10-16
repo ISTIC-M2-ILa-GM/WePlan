@@ -24,6 +24,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -117,7 +118,7 @@ public class RegionServiceTest {
     }
 
     @Test
-    public void shouldGetRegions() {
+    public void shouldGetRegionsPage() {
 
         PageOptions pageOptions = somePageOptions();
         Page<Region> regions = new PageImpl<>(Collections.singletonList(someRegion()), PageRequest.of(1, 1), 2);
@@ -134,6 +135,21 @@ public class RegionServiceTest {
         assertThat(results.getResults(), equalTo(persistenceMapper.toRegionsDto(regions.getContent())));
         assertThat(results.getTotalPages(), equalTo(2));
         assertThat(results.getSize(), equalTo(1));
+    }
+
+    @Test
+    public void shouldGetRegions() {
+
+        List<Region> regions = Collections.singletonList(someRegion());
+
+        when(mockRegionAdapter.findAllByDeletedAtIsNull()).thenReturn(regions);
+
+        List<RegionDto> results = service.getRegions();
+
+        verify(mockRegionAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(results, notNullValue());
+        assertThat(results, equalTo(persistenceMapper.toRegionsDto(regions)));
     }
 
     @Test

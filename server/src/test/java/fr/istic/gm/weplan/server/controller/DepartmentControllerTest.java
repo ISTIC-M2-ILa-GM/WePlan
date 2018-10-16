@@ -11,7 +11,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static fr.istic.gm.weplan.server.TestData.ID;
@@ -40,7 +42,7 @@ public class DepartmentControllerTest {
     }
 
     @Test
-    public void shouldGetDepartments() {
+    public void shouldGetDepartmentsPage() {
 
         PageOptions pageOptions = somePageOptions();
         PageDto<DepartmentDto> pageDepartments = somePageDepartments();
@@ -53,6 +55,21 @@ public class DepartmentControllerTest {
 
         assertThat(result, notNullValue());
         assertThat(result, equalTo(pageDepartments));
+    }
+
+    @Test
+    public void shouldGetDepartments() {
+
+        List<DepartmentDto> departmentDtos = Collections.singletonList(someDepartment());
+
+        when(mockDepartmentService.getDepartments()).thenReturn(departmentDtos);
+
+        List<DepartmentDto> result = controller.getDepartments();
+
+        verify(mockDepartmentService).getDepartments();
+
+        assertThat(result, notNullValue());
+        assertThat(result, equalTo(departmentDtos));
     }
 
     @Test

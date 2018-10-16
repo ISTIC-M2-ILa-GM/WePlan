@@ -57,6 +57,13 @@ public class ActivityServiceImpl extends PatchService<Activity> implements Activ
     }
 
     @Override
+    public List<ActivityDto> getActivities() {
+
+        List<Activity> activities = activityAdapter.findAllByDeletedAtIsNull();
+        return persistenceMapper.toActivitiesDto(activities);
+    }
+
+    @Override
     public ActivityDto getActivity(Long id) {
         Activity activity = this.getActivityDao(id);
 

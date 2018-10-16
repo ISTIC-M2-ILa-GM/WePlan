@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ACTIVITY;
@@ -46,6 +47,15 @@ public class ActivityController {
     @GetMapping
     public PageDto<ActivityDto> getActivities(@ApiParam(value = "Page request", required = true) @RequestBody PageOptions pageOptions) {
         return this.activityService.getActivities(pageOptions);
+    }
+
+    @ApiOperation("Get activities")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Get activities")
+    })
+    @GetMapping
+    public List<ActivityDto> getActivities() {
+        return this.activityService.getActivities();
     }
 
     @ApiOperation("Get activity")

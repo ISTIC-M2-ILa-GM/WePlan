@@ -26,6 +26,7 @@ import org.springframework.data.domain.PageRequest;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -72,7 +73,7 @@ public class ActivityServiceTest {
     }
 
     @Test
-    public void shouldGetActivities() {
+    public void shouldGetActivitiesPage() {
 
         PageOptions pageOptions = somePageOptions();
         Page<Activity> activities = new PageImpl<>(singletonList(someActivity()), PageRequest.of(1, 1), 2);
@@ -89,6 +90,21 @@ public class ActivityServiceTest {
         assertThat(results.getResults(), equalTo(persistenceMapper.toActivitiesDto(activities.getContent())));
         assertThat(results.getTotalPages(), equalTo(2));
         assertThat(results.getSize(), equalTo(1));
+    }
+
+    @Test
+    public void shouldGetActivities() {
+
+        List<Activity> activities = singletonList(someActivity());
+
+        when(mockActivityAdapter.findAllByDeletedAtIsNull()).thenReturn(activities);
+
+        List<ActivityDto> results = service.getActivities();
+
+        verify(mockActivityAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(results, notNullValue());
+        assertThat(results, equalTo(persistenceMapper.toActivitiesDto(activities)));
     }
 
     @Test

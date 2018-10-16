@@ -5,6 +5,7 @@ import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,6 +20,13 @@ public interface CityService {
      * @return The pages of Cities
      */
     PageDto<CityDto> getCities(PageOptions pageOptions);
+
+    /**
+     * Retrieve all cities.
+     *
+     * @return The Cities
+     */
+    List<CityDto> getCities();
 
     /**
      * Retrieve a city.

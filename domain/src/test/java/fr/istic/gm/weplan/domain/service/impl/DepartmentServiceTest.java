@@ -26,6 +26,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -123,7 +124,7 @@ public class DepartmentServiceTest {
     }
 
     @Test
-    public void shouldGetDepartments() {
+    public void shouldGetDepartmentsPage() {
 
         PageOptions pageOptions = somePageOptions();
         Page<Department> departments = new PageImpl<>(Collections.singletonList(someDepartment()), PageRequest.of(1, 1), 2);
@@ -140,6 +141,21 @@ public class DepartmentServiceTest {
         assertThat(results.getResults(), equalTo(persistenceMapper.toDepartmentsDto(departments.getContent())));
         assertThat(results.getTotalPages(), equalTo(2));
         assertThat(results.getSize(), equalTo(1));
+    }
+
+    @Test
+    public void shouldGetDepartments() {
+
+        List<Department> departments = Collections.singletonList(someDepartment());
+
+        when(mockDepartmentAdapter.findAllByDeletedAtIsNull()).thenReturn(departments);
+
+        List<DepartmentDto> results = service.getDepartments();
+
+        verify(mockDepartmentAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(results, notNullValue());
+        assertThat(results, equalTo(persistenceMapper.toDepartmentsDto(departments)));
     }
 
     @Test

@@ -26,6 +26,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -99,7 +100,7 @@ public class CityServiceTest {
     }
 
     @Test
-    public void shouldGetCities() {
+    public void shouldGetCitiesPage() {
 
         PageOptions pageOptions = somePageOptions();
         Page<City> cities = new PageImpl<>(Collections.singletonList(someCity()), PageRequest.of(1, 1), 2);
@@ -116,6 +117,21 @@ public class CityServiceTest {
         assertThat(results.getResults(), equalTo(persistenceMapper.toCitiesDto(cities.getContent())));
         assertThat(results.getTotalPages(), equalTo(2));
         assertThat(results.getSize(), equalTo(1));
+    }
+
+    @Test
+    public void shouldGetCities() {
+
+        List<City> cities = Collections.singletonList(someCity());
+
+        when(mockCityAdapter.findAllByDeletedAtIsNull()).thenReturn(cities);
+
+        List<CityDto> results = service.getCities();
+
+        verify(mockCityAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(results, notNullValue());
+        assertThat(results, equalTo(persistenceMapper.toCitiesDto(cities)));
     }
 
     @Test

@@ -5,6 +5,7 @@ import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,6 +20,13 @@ public interface DepartmentService {
      * @return The pages of departments
      */
     PageDto<DepartmentDto> getDepartments(PageOptions pageOptions);
+
+    /**
+     * Retrieve all departments.
+     *
+     * @return The pages of departments
+     */
+    List<DepartmentDto> getDepartments();
 
     /**
      * Retrieve a department.

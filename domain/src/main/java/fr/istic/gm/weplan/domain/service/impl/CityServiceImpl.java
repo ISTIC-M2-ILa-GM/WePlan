@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -40,6 +41,12 @@ public class CityServiceImpl extends PatchService<City> implements CityService, 
 
         Page<City> cities = cityAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
         return persistenceMapper.toCitiesPageDto(cities);
+    }
+
+    @Override
+    public List<CityDto> getCities() {
+        List<City> cities = cityAdapter.findAllByDeletedAtIsNull();
+        return persistenceMapper.toCitiesDto(cities);
     }
 
     @Override

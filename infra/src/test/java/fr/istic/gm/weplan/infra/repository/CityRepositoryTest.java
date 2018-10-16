@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 import static fr.istic.gm.weplan.infra.TestData.someCity;
@@ -45,7 +46,7 @@ public class CityRepositoryTest {
     }
 
     @Test
-    public void shouldFindAll() {
+    public void shouldFindAllPage() {
 
         Page<City> cities = cityRepository.findAll(PageRequest.of(0, 10));
 
@@ -56,7 +57,7 @@ public class CityRepositoryTest {
     }
 
     @Test
-    public void shouldFindAllByDeletedAtIsNull() {
+    public void shouldFindAllByDeletedAtIsNullPage() {
 
         entity1.setDeletedAt(Instant.now());
         entity1 = cityRepository.save(entity1);
@@ -67,6 +68,18 @@ public class CityRepositoryTest {
         assertThat(cities.getTotalPages(), equalTo(1));
         assertThat(cities.getContent(), hasSize(1));
         assertThat(cities.getSize(), equalTo(10));
+    }
+
+    @Test
+    public void shouldFindAllByDeletedAtIsNull() {
+
+        entity1.setDeletedAt(Instant.now());
+        entity1 = cityRepository.save(entity1);
+
+        List<City> cities = cityRepository.findAllByDeletedAtIsNull();
+
+        assertThat(cities, notNullValue());
+        assertThat(cities, hasSize(1));
     }
 
     @Test

@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -48,6 +49,13 @@ public class RegionServiceImpl extends PatchService<Region> implements RegionSer
         Page<Region> regions = regionAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
 
         return persistenceMapper.toRegionsPageDto(regions);
+    }
+
+    @Override
+    public List<RegionDto> getRegions() {
+
+        List<Region> regions = regionAdapter.findAllByDeletedAtIsNull();
+        return persistenceMapper.toRegionsDto(regions);
     }
 
     @Override
