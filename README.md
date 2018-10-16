@@ -1,6 +1,7 @@
 # WePlan
 Weekend Planning Project
-GPL v3 - Copyright Gauthier and Gwénolé
+
+GPL v3 - Copyright Gautier and Gwénolé
 
 This project was created within the ISTIC Rennes school for the TAA and GLI modules.
 
