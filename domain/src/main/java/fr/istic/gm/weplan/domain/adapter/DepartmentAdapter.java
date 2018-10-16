@@ -4,6 +4,7 @@ import fr.istic.gm.weplan.domain.model.entities.Department;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,6 +27,13 @@ public interface DepartmentAdapter {
      * @return the department page
      */
     Page<Department> findAllByDeletedAtIsNull(Pageable pageable);
+
+    /**
+     * Find all department which is not deleted.
+     *
+     * @return the departments
+     */
+    List<Department> findAllByDeletedAtIsNull();
 
     /**
      * Find a department by id.

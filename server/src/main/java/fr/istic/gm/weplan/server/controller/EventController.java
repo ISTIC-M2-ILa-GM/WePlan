@@ -2,7 +2,7 @@ package fr.istic.gm.weplan.server.controller;
 
 import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.service.EventService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +33,7 @@ public class EventController {
     /**
      * Retrieve all events.
      *
-     * @param pageOptions the page options
+     * @param pageRequest the page options
      * @return the events pageable
      */
     @ApiOperation("Get events")
@@ -41,8 +41,8 @@ public class EventController {
             @ApiResponse(code = 200, message = "Get events")
     })
     @GetMapping
-    public PageDto<EventDto> getEvents(@ApiParam(value = "Page request", required = true) @RequestBody PageOptions pageOptions) {
-        return eventService.getEvents(pageOptions);
+    public PageDto<EventDto> getEvents(@ApiParam(value = "Page request", required = true) @RequestBody PageRequest pageRequest) {
+        return eventService.getEvents(pageRequest);
     }
 
 

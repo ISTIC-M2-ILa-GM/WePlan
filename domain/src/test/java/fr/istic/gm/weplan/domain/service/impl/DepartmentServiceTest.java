@@ -4,11 +4,11 @@ import fr.istic.gm.weplan.domain.adapter.DepartmentAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.service.RegionDaoService;
 import org.junit.Before;
 import org.junit.Rule;
@@ -20,12 +20,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -123,16 +123,16 @@ public class DepartmentServiceTest {
     }
 
     @Test
-    public void shouldGetDepartments() {
+    public void shouldGetDepartmentsPage() {
 
-        PageOptions pageOptions = somePageOptions();
-        Page<Department> departments = new PageImpl<>(Collections.singletonList(someDepartment()), PageRequest.of(1, 1), 2);
+        PageRequest pageRequest = somePageOptions();
+        Page<Department> departments = new PageImpl<>(Collections.singletonList(someDepartment()), org.springframework.data.domain.PageRequest.of(1, 1), 2);
 
         when(mockDepartmentAdapter.findAllByDeletedAtIsNull(any())).thenReturn(departments);
 
-        PageDto<DepartmentDto> results = service.getDepartments(pageOptions);
+        PageDto<DepartmentDto> results = service.getDepartments(pageRequest);
 
-        PageRequest expectedPageable = PageRequest.of(pageOptions.getPage(), pageOptions.getSize());
+        org.springframework.data.domain.PageRequest expectedPageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize());
 
         verify(mockDepartmentAdapter).findAllByDeletedAtIsNull(expectedPageable);
 
@@ -140,6 +140,38 @@ public class DepartmentServiceTest {
         assertThat(results.getResults(), equalTo(persistenceMapper.toDepartmentsDto(departments.getContent())));
         assertThat(results.getTotalPages(), equalTo(2));
         assertThat(results.getSize(), equalTo(1));
+    }
+
+    @Test
+    public void shouldGetDepartmentsPageWithoutPage() {
+
+        List<Department> departments = Collections.singletonList(someDepartment());
+
+        when(mockDepartmentAdapter.findAllByDeletedAtIsNull()).thenReturn(departments);
+
+        PageDto<DepartmentDto> results = service.getDepartments(null);
+
+        verify(mockDepartmentAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(results, notNullValue());
+        assertThat(results.getResults(), equalTo(persistenceMapper.toDepartmentsDto(departments)));
+        assertThat(results.getTotalPages(), equalTo(1));
+        assertThat(results.getSize(), equalTo(1));
+    }
+
+    @Test
+    public void shouldGetDepartments() {
+
+        List<Department> departments = Collections.singletonList(someDepartment());
+
+        when(mockDepartmentAdapter.findAllByDeletedAtIsNull()).thenReturn(departments);
+
+        List<DepartmentDto> results = service.getDepartments();
+
+        verify(mockDepartmentAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(results, notNullValue());
+        assertThat(results, equalTo(persistenceMapper.toDepartmentsDto(departments)));
     }
 
     @Test

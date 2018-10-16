@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 import static fr.istic.gm.weplan.infra.TestData.someRegion;
@@ -50,7 +51,7 @@ public class RegionRepositoryTest {
     }
 
     @Test
-    public void shouldFindAllByDeletedAtIsNull() {
+    public void shouldFindAllByDeletedAtIsNullPage() {
 
         entity1.setDeletedAt(Instant.now());
         entity1 = regionRepository.save(entity1);
@@ -61,6 +62,18 @@ public class RegionRepositoryTest {
         assertThat(regions.getTotalPages(), equalTo(1));
         assertThat(regions.getContent(), hasSize(1));
         assertThat(regions.getSize(), equalTo(10));
+    }
+
+    @Test
+    public void shouldFindAllByDeletedAtIsNull() {
+
+        entity1.setDeletedAt(Instant.now());
+        entity1 = regionRepository.save(entity1);
+
+        List<Region> regions = regionRepository.findAllByDeletedAtIsNull();
+
+        assertThat(regions, notNullValue());
+        assertThat(regions, hasSize(1));
     }
 
     @Test

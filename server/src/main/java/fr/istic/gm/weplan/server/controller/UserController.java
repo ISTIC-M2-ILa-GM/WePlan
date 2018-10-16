@@ -1,8 +1,8 @@
 package fr.istic.gm.weplan.server.controller;
 
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.UserDto;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.request.UserRequest;
 import fr.istic.gm.weplan.domain.service.UserService;
 import io.swagger.annotations.Api;
@@ -48,7 +48,7 @@ public class UserController {
     /**
      * Retrieve all users.
      *
-     * @param pageOptions the page options
+     * @param pageRequest the page options
      * @return the users pageable
      */
     @ApiOperation("Get users")
@@ -56,8 +56,8 @@ public class UserController {
             @ApiResponse(code = 200, message = "Get users")
     })
     @GetMapping
-    public PageDto<UserDto> getUsers(@ApiParam(value = "Page request", required = true) @RequestBody PageOptions pageOptions) {
-        return userService.getUsers(pageOptions);
+    public PageDto<UserDto> getUsers(@ApiParam(value = "Page request", required = true) @RequestBody PageRequest pageRequest) {
+        return userService.getUsers(pageRequest);
     }
 
 

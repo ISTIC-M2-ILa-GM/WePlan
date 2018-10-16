@@ -125,4 +125,48 @@ public interface PersistenceMapper {
         eventsDto.setResults(toEventsDto(events.getContent()));
         return eventsDto;
     }
+
+    default PageDto<CityDto> toCitiesPageDto(List<City> cities) {
+        if (cities == null) {
+            return null;
+        }
+        PageDto<CityDto> pageDto = new PageDto<>();
+        pageDto.setResults(toCitiesDto(cities));
+        pageDto.setSize(cities.size());
+        pageDto.setTotalPages(1);
+        return pageDto;
+    }
+
+    default PageDto<DepartmentDto> toDepartmentsPageDto(List<Department> departments) {
+        if (departments == null) {
+            return null;
+        }
+        PageDto<DepartmentDto> pageDto = new PageDto<>();
+        pageDto.setResults(toDepartmentsDto(departments));
+        pageDto.setSize(departments.size());
+        pageDto.setTotalPages(1);
+        return pageDto;
+    }
+
+    default PageDto<ActivityDto> toActivitiesPageDto(List<Activity> activities) {
+        if (activities == null) {
+            return null;
+        }
+        PageDto<ActivityDto> pageDto = new PageDto<>();
+        pageDto.setResults(toActivitiesDto(activities));
+        pageDto.setSize(activities.size());
+        pageDto.setTotalPages(1);
+        return pageDto;
+    }
+
+    default PageDto<RegionDto> toRegionsPageDto(List<Region> regions) {
+        if (regions == null) {
+            return null;
+        }
+        PageDto<RegionDto> pageDto = new PageDto<>();
+        pageDto.setResults(toRegionsDto(regions));
+        pageDto.setSize(regions.size());
+        pageDto.setTotalPages(1);
+        return pageDto;
+    }
 }

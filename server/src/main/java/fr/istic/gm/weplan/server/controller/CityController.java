@@ -2,8 +2,8 @@ package fr.istic.gm.weplan.server.controller;
 
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.service.CityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,7 +42,7 @@ public class CityController {
     /**
      * Retrieve all cities.
      *
-     * @param pageOptions the page options
+     * @param pageRequest the page options
      * @return the cities pageable
      */
     @ApiOperation("Get cities")
@@ -50,8 +50,8 @@ public class CityController {
             @ApiResponse(code = 200, message = "Get cities")
     })
     @GetMapping
-    public PageDto<CityDto> getCities(@ApiParam(value = "Page request", required = true) @RequestBody PageOptions pageOptions) {
-        return cityService.getCities(pageOptions);
+    public PageDto<CityDto> getCities(@ApiParam(value = "Page request") @RequestBody(required = false) PageRequest pageRequest) {
+        return cityService.getCities(pageRequest);
     }
 
 

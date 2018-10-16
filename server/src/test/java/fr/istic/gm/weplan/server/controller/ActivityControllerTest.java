@@ -2,8 +2,8 @@ package fr.istic.gm.weplan.server.controller;
 
 import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.service.ActivityService;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,16 +40,16 @@ public class ActivityControllerTest {
     }
 
     @Test
-    public void shouldGetActivities() {
+    public void shouldGetActivitiesPage() {
 
-        PageOptions pageOptions = somePageOptions();
+        PageRequest pageRequest = somePageOptions();
         PageDto<ActivityDto> pageActivities = somePageActivities();
 
         when(mockActivityService.getActivities(any())).thenReturn(pageActivities);
 
-        PageDto<ActivityDto> result = controller.getActivities(pageOptions);
+        PageDto<ActivityDto> result = controller.getActivities(pageRequest);
 
-        verify(mockActivityService).getActivities(pageOptions);
+        verify(mockActivityService).getActivities(pageRequest);
 
         assertThat(result, notNullValue());
         assertThat(result, equalTo(pageActivities));
