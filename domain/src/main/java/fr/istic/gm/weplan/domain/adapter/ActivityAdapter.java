@@ -4,6 +4,7 @@ import fr.istic.gm.weplan.domain.model.entities.Activity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,6 +27,13 @@ public interface ActivityAdapter {
      * @return the activity page
      */
     Page<Activity> findAllByDeletedAtIsNull(Pageable pageable);
+
+    /**
+     * Find all activities which is not deleted.
+     *
+     * @return the activity page
+     */
+    List<Activity> findAllByDeletedAtIsNull();
 
     /**
      * Find an activity by id.

@@ -3,7 +3,6 @@ package fr.istic.gm.weplan.domain.service.impl;
 import fr.istic.gm.weplan.domain.adapter.UserAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.RoleDto;
 import fr.istic.gm.weplan.domain.model.dto.UserDto;
 import fr.istic.gm.weplan.domain.model.entities.Activity;
@@ -14,6 +13,7 @@ import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.entities.Role;
 import fr.istic.gm.weplan.domain.model.entities.User;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.request.UserRequest;
 import fr.istic.gm.weplan.domain.service.ActivityDaoService;
 import fr.istic.gm.weplan.domain.service.CityDaoService;
@@ -30,7 +30,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -152,14 +151,14 @@ public class UserServiceTest {
     @Test
     public void shouldGetUsers() {
 
-        PageOptions pageOptions = somePageOptions();
-        Page<User> users = new PageImpl<>(Collections.singletonList(someUser()), PageRequest.of(1, 1), 2);
+        PageRequest pageRequest = somePageOptions();
+        Page<User> users = new PageImpl<>(Collections.singletonList(someUser()), org.springframework.data.domain.PageRequest.of(1, 1), 2);
 
         when(mockUserAdapter.findAllByDeletedAtIsNull(any())).thenReturn(users);
 
-        PageDto<UserDto> results = service.getUsers(pageOptions);
+        PageDto<UserDto> results = service.getUsers(pageRequest);
 
-        PageRequest expectedPageable = PageRequest.of(pageOptions.getPage(), pageOptions.getSize());
+        org.springframework.data.domain.PageRequest expectedPageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize());
 
         verify(mockUserAdapter).findAllByDeletedAtIsNull(expectedPageable);
 

@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 import static fr.istic.gm.weplan.infra.TestData.someDepartment;
@@ -56,7 +57,7 @@ public class DepartmentRepositoryTest {
     }
 
     @Test
-    public void shouldFindAllByDeletedAtIsNull() {
+    public void shouldFindAllByDeletedAtIsNullPage() {
 
         entity1.setDeletedAt(Instant.now());
         entity1 = departmentRepository.save(entity1);
@@ -67,6 +68,18 @@ public class DepartmentRepositoryTest {
         assertThat(departments.getTotalPages(), equalTo(1));
         assertThat(departments.getContent(), hasSize(1));
         assertThat(departments.getSize(), equalTo(10));
+    }
+
+    @Test
+    public void shouldFindAllByDeletedAtIsNull() {
+
+        entity1.setDeletedAt(Instant.now());
+        entity1 = departmentRepository.save(entity1);
+
+        List<Department> departments = departmentRepository.findAllByDeletedAtIsNull();
+
+        assertThat(departments, notNullValue());
+        assertThat(departments, hasSize(1));
     }
 
     @Test

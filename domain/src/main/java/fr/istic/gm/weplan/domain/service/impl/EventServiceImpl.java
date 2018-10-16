@@ -4,14 +4,13 @@ import fr.istic.gm.weplan.domain.adapter.EventAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.entities.Event;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.service.EventDaoService;
 import fr.istic.gm.weplan.domain.service.EventService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -31,9 +30,9 @@ public class EventServiceImpl extends PatchService<Event> implements EventServic
     private Clock clock;
 
     @Override
-    public PageDto<EventDto> getEvents(PageOptions pageOptions) {
+    public PageDto<EventDto> getEvents(PageRequest pageRequest) {
 
-        Page<Event> events = eventAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
+        Page<Event> events = eventAdapter.findAllByDeletedAtIsNull(org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize()));
         return persistenceMapper.toEventsPageDto(events);
     }
 

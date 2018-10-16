@@ -64,7 +64,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable()
+        http
+                .csrf().disable()
                 .formLogin()
                 .loginProcessingUrl(LOGIN)
                 .successHandler(ajaxAuthSuccessHandler)
@@ -80,7 +81,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(WS_ALL).permitAll()
                 .antMatchers(STOMP_ALL).permitAll()
-                .antMatchers(HttpMethod.GET, LOGIN).permitAll()
+                .antMatchers(HttpMethod.POST, LOGIN).permitAll()
                 .antMatchers(HttpMethod.POST, USER).permitAll()
                 .antMatchers(HttpMethod.PATCH, USER_ALL).authenticated()
                 .antMatchers(HttpMethod.DELETE, USER_ALL).authenticated()
@@ -91,6 +92,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, EVENT_ALL).authenticated()
                 .antMatchers(HttpMethod.GET, USER_ALL).authenticated()
                 .antMatchers(HttpMethod.GET, LOGOUT).authenticated()
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().hasAuthority(Role.ADMIN.name());
     }
 

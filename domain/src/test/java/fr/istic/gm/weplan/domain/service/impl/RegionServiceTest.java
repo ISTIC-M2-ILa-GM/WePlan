@@ -3,10 +3,10 @@ package fr.istic.gm.weplan.domain.service.impl;
 import fr.istic.gm.weplan.domain.adapter.RegionAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 import org.junit.Before;
 import org.junit.Rule;
@@ -18,12 +18,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -117,16 +117,16 @@ public class RegionServiceTest {
     }
 
     @Test
-    public void shouldGetRegions() {
+    public void shouldGetRegionsPage() {
 
-        PageOptions pageOptions = somePageOptions();
-        Page<Region> regions = new PageImpl<>(Collections.singletonList(someRegion()), PageRequest.of(1, 1), 2);
+        PageRequest pageRequest = somePageOptions();
+        Page<Region> regions = new PageImpl<>(Collections.singletonList(someRegion()), org.springframework.data.domain.PageRequest.of(1, 1), 2);
 
         when(mockRegionAdapter.findAllByDeletedAtIsNull(any())).thenReturn(regions);
 
-        PageDto<RegionDto> results = service.getRegions(pageOptions);
+        PageDto<RegionDto> results = service.getRegions(pageRequest);
 
-        PageRequest expectedPageable = PageRequest.of(pageOptions.getPage(), pageOptions.getSize());
+        org.springframework.data.domain.PageRequest expectedPageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize());
 
         verify(mockRegionAdapter).findAllByDeletedAtIsNull(expectedPageable);
 
@@ -134,6 +134,38 @@ public class RegionServiceTest {
         assertThat(results.getResults(), equalTo(persistenceMapper.toRegionsDto(regions.getContent())));
         assertThat(results.getTotalPages(), equalTo(2));
         assertThat(results.getSize(), equalTo(1));
+    }
+
+    @Test
+    public void shouldGetRegionsPageWithout() {
+
+        List<Region> regions = Collections.singletonList(someRegion());
+
+        when(mockRegionAdapter.findAllByDeletedAtIsNull()).thenReturn(regions);
+
+        PageDto<RegionDto> results = service.getRegions(null);
+
+        verify(mockRegionAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(results, notNullValue());
+        assertThat(results.getResults(), equalTo(persistenceMapper.toRegionsDto(regions)));
+        assertThat(results.getTotalPages(), equalTo(1));
+        assertThat(results.getSize(), equalTo(1));
+    }
+
+    @Test
+    public void shouldGetRegions() {
+
+        List<Region> regions = Collections.singletonList(someRegion());
+
+        when(mockRegionAdapter.findAllByDeletedAtIsNull()).thenReturn(regions);
+
+        List<RegionDto> results = service.getRegions();
+
+        verify(mockRegionAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(results, notNullValue());
+        assertThat(results, equalTo(persistenceMapper.toRegionsDto(regions)));
     }
 
     @Test

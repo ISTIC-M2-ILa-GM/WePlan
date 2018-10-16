@@ -1,8 +1,8 @@
 package fr.istic.gm.weplan.server.controller;
 
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.UserDto;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.request.UserRequest;
 import fr.istic.gm.weplan.domain.service.UserService;
 import org.junit.Before;
@@ -44,14 +44,14 @@ public class UserControllerTest {
     @Test
     public void shouldGetUsers() {
 
-        PageOptions pageOptions = somePageOptions();
+        PageRequest pageRequest = somePageOptions();
         PageDto<UserDto> pageUsers = somePageUsers();
 
         when(mockUserService.getUsers(any())).thenReturn(pageUsers);
 
-        PageDto<UserDto> result = controller.getUsers(pageOptions);
+        PageDto<UserDto> result = controller.getUsers(pageRequest);
 
-        verify(mockUserService).getUsers(pageOptions);
+        verify(mockUserService).getUsers(pageRequest);
 
         assertThat(result, notNullValue());
         assertThat(result, equalTo(pageUsers));

@@ -2,7 +2,7 @@ package fr.istic.gm.weplan.server.controller;
 
 import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.service.EventService;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,14 +37,14 @@ public class EventControllerTest {
     @Test
     public void shouldGetEvents() {
 
-        PageOptions pageOptions = somePageOptions();
+        PageRequest pageRequest = somePageOptions();
         PageDto<EventDto> pageEvents = somePageEvents();
 
         when(mockEventService.getEvents(any())).thenReturn(pageEvents);
 
-        PageDto<EventDto> result = controller.getEvents(pageOptions);
+        PageDto<EventDto> result = controller.getEvents(pageRequest);
 
-        verify(mockEventService).getEvents(pageOptions);
+        verify(mockEventService).getEvents(pageRequest);
 
         assertThat(result, notNullValue());
         assertThat(result, equalTo(pageEvents));

@@ -1,10 +1,10 @@
 package fr.istic.gm.weplan.server.controller;
 
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.RoleDto;
 import fr.istic.gm.weplan.domain.model.dto.UserDto;
 import fr.istic.gm.weplan.domain.model.entities.User;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.request.UserRequest;
 import fr.istic.gm.weplan.infra.repository.UserRepository;
 import fr.istic.gm.weplan.server.App;
@@ -68,12 +68,12 @@ public class UserControllerIT {
     @WithMockUser
     public void shouldGetUsers() throws Exception {
 
-        PageOptions pageOptions = new PageOptions();
-        pageOptions.setPage(0);
-        pageOptions.setSize(10);
+        PageRequest pageRequest = new PageRequest();
+        pageRequest.setPage(0);
+        pageRequest.setSize(10);
 
         MvcResult mvcResult = mockMvc.perform(get(USER)
-                .content(parseToJson(pageOptions))
+                .content(parseToJson(pageRequest))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

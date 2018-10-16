@@ -3,20 +3,20 @@ package fr.istic.gm.weplan.domain.service.impl;
 import fr.istic.gm.weplan.domain.adapter.RegionAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 import fr.istic.gm.weplan.domain.service.RegionDaoService;
 import fr.istic.gm.weplan.domain.service.RegionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -44,10 +44,21 @@ public class RegionServiceImpl extends PatchService<Region> implements RegionSer
     }
 
     @Override
-    public PageDto<RegionDto> getRegions(PageOptions pageOptions) {
-        Page<Region> regions = regionAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
+    public PageDto<RegionDto> getRegions(PageRequest pageRequest) {
 
+        if (pageRequest != null) {
+            Page<Region> regions = regionAdapter.findAllByDeletedAtIsNull(org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize()));
+            return persistenceMapper.toRegionsPageDto(regions);
+        }
+        List<Region> regions = regionAdapter.findAllByDeletedAtIsNull();
         return persistenceMapper.toRegionsPageDto(regions);
+    }
+
+    @Override
+    public List<RegionDto> getRegions() {
+
+        List<Region> regions = regionAdapter.findAllByDeletedAtIsNull();
+        return persistenceMapper.toRegionsDto(regions);
     }
 
     @Override

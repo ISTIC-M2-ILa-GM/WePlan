@@ -2,11 +2,11 @@ package fr.istic.gm.weplan.server.controller;
 
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.infra.repository.CityRepository;
 import fr.istic.gm.weplan.infra.repository.DepartmentRepository;
 import fr.istic.gm.weplan.server.App;
@@ -91,12 +91,12 @@ public class CityControllerIT {
     @WithMockUser
     public void shouldGetCities() throws Exception {
 
-        PageOptions pageOptions = new PageOptions();
-        pageOptions.setPage(0);
-        pageOptions.setSize(10);
+        PageRequest pageRequest = new PageRequest();
+        pageRequest.setPage(0);
+        pageRequest.setSize(10);
 
         MvcResult mvcResult = mockMvc.perform(get(CITY)
-                .content(parseToJson(pageOptions))
+                .content(parseToJson(pageRequest))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -107,6 +107,23 @@ public class CityControllerIT {
         assertThat(response, notNullValue());
         assertThat(response.getTotalPages(), equalTo(1));
         assertThat(response.getSize(), equalTo(10));
+        assertThat(response.getResults(), hasSize(2));
+    }
+
+    @Test
+    @WithMockUser
+    public void shouldGetCitiesWithoutPage() throws Exception {
+
+        MvcResult mvcResult = mockMvc.perform(get(CITY)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        PageDto<CityDto> response = (PageDto<CityDto>) JsonUtils.fromJson(mvcResult, PageDto.class);
+
+        assertThat(response, notNullValue());
+        assertThat(response.getTotalPages(), equalTo(1));
+        assertThat(response.getSize(), equalTo(2));
         assertThat(response.getResults(), hasSize(2));
     }
 

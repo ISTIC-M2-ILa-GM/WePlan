@@ -88,6 +88,23 @@ public class RegionControllerIT {
     }
 
     @Test
+    @WithMockUser
+    public void shouldGetRegionsWithoutPage() throws Exception {
+
+        MvcResult mvcResult = mockMvc.perform(get(REGION)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        PageDto<RegionDto> response = (PageDto<RegionDto>) JsonUtils.fromJson(mvcResult, PageDto.class);
+
+        assertThat(response, notNullValue());
+        assertThat(response.getTotalPages(), equalTo(1));
+        assertThat(response.getSize(), equalTo(2));
+        assertThat(response.getResults(), hasSize(2));
+    }
+
+    @Test
     public void shouldNotGetRegionsWhenNotLogged() throws Exception {
 
         MvcResult mvcResult = mockMvc.perform(get(REGION)

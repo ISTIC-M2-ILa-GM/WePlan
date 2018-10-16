@@ -2,8 +2,8 @@ package fr.istic.gm.weplan.server.controller;
 
 import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.service.DepartmentService;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,16 +40,16 @@ public class DepartmentControllerTest {
     }
 
     @Test
-    public void shouldGetDepartments() {
+    public void shouldGetDepartmentsPage() {
 
-        PageOptions pageOptions = somePageOptions();
+        PageRequest pageRequest = somePageOptions();
         PageDto<DepartmentDto> pageDepartments = somePageDepartments();
 
         when(mockDepartmentService.getDepartments(any())).thenReturn(pageDepartments);
 
-        PageDto<DepartmentDto> result = controller.getDepartments(pageOptions);
+        PageDto<DepartmentDto> result = controller.getDepartments(pageRequest);
 
-        verify(mockDepartmentService).getDepartments(pageOptions);
+        verify(mockDepartmentService).getDepartments(pageRequest);
 
         assertThat(result, notNullValue());
         assertThat(result, equalTo(pageDepartments));

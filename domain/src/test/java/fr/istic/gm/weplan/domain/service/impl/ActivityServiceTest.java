@@ -4,11 +4,11 @@ import fr.istic.gm.weplan.domain.adapter.ActivityAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.entities.Activity;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.service.ActivityService;
 import fr.istic.gm.weplan.domain.service.CityDaoService;
 import org.junit.Before;
@@ -21,11 +21,11 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 
 import java.time.Clock;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -72,16 +72,16 @@ public class ActivityServiceTest {
     }
 
     @Test
-    public void shouldGetActivities() {
+    public void shouldGetActivitiesPage() {
 
-        PageOptions pageOptions = somePageOptions();
-        Page<Activity> activities = new PageImpl<>(singletonList(someActivity()), PageRequest.of(1, 1), 2);
+        PageRequest pageRequest = somePageOptions();
+        Page<Activity> activities = new PageImpl<>(singletonList(someActivity()), org.springframework.data.domain.PageRequest.of(1, 1), 2);
 
         when(mockActivityAdapter.findAllByDeletedAtIsNull(any())).thenReturn(activities);
 
-        PageDto<ActivityDto> results = service.getActivities(pageOptions);
+        PageDto<ActivityDto> results = service.getActivities(pageRequest);
 
-        PageRequest expectedPageable = PageRequest.of(pageOptions.getPage(), pageOptions.getSize());
+        org.springframework.data.domain.PageRequest expectedPageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize());
 
         verify(mockActivityAdapter).findAllByDeletedAtIsNull(expectedPageable);
 
@@ -89,6 +89,38 @@ public class ActivityServiceTest {
         assertThat(results.getResults(), equalTo(persistenceMapper.toActivitiesDto(activities.getContent())));
         assertThat(results.getTotalPages(), equalTo(2));
         assertThat(results.getSize(), equalTo(1));
+    }
+
+    @Test
+    public void shouldGetActivitiesPageWithoutPage() {
+
+        List<Activity> activities = singletonList(someActivity());
+
+        when(mockActivityAdapter.findAllByDeletedAtIsNull()).thenReturn(activities);
+
+        PageDto<ActivityDto> results = service.getActivities(null);
+
+        verify(mockActivityAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(results, notNullValue());
+        assertThat(results.getResults(), equalTo(persistenceMapper.toActivitiesDto(activities)));
+        assertThat(results.getTotalPages(), equalTo(1));
+        assertThat(results.getSize(), equalTo(1));
+    }
+
+    @Test
+    public void shouldGetActivities() {
+
+        List<Activity> activities = singletonList(someActivity());
+
+        when(mockActivityAdapter.findAllByDeletedAtIsNull()).thenReturn(activities);
+
+        List<ActivityDto> results = service.getActivities();
+
+        verify(mockActivityAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(results, notNullValue());
+        assertThat(results, equalTo(persistenceMapper.toActivitiesDto(activities)));
     }
 
     @Test

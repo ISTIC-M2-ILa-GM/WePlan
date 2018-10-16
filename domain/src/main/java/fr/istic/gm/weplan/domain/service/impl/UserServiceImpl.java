@@ -3,7 +3,6 @@ package fr.istic.gm.weplan.domain.service.impl;
 import fr.istic.gm.weplan.domain.adapter.UserAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.dto.UserDto;
 import fr.istic.gm.weplan.domain.model.entities.Activity;
 import fr.istic.gm.weplan.domain.model.entities.City;
@@ -13,6 +12,7 @@ import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.entities.Role;
 import fr.istic.gm.weplan.domain.model.entities.User;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.request.UserRequest;
 import fr.istic.gm.weplan.domain.service.ActivityDaoService;
 import fr.istic.gm.weplan.domain.service.CityDaoService;
@@ -24,7 +24,6 @@ import fr.istic.gm.weplan.domain.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -78,9 +77,9 @@ public class UserServiceImpl extends PatchService<User> implements UserService, 
     }
 
     @Override
-    public PageDto<UserDto> getUsers(PageOptions pageOptions) {
+    public PageDto<UserDto> getUsers(PageRequest pageRequest) {
 
-        Page<User> users = userAdapter.findAllByDeletedAtIsNull(PageRequest.of(pageOptions.getPage(), pageOptions.getSize()));
+        Page<User> users = userAdapter.findAllByDeletedAtIsNull(org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize()));
         return persistenceMapper.toUsersPageDto(users);
     }
 

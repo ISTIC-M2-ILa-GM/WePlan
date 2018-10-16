@@ -2,9 +2,10 @@ package fr.istic.gm.weplan.domain.service;
 
 import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.dto.PageOptions;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,10 +16,17 @@ public interface ActivityService {
     /**
      * Retrieve all activities.
      *
-     * @param pageOptions the page options
+     * @param pageRequest the page options
      * @return The pages of Activities
      */
-    PageDto<ActivityDto> getActivities(PageOptions pageOptions);
+    PageDto<ActivityDto> getActivities(PageRequest pageRequest);
+
+    /**
+     * Retrieve all activities.
+     *
+     * @return The pages of Activities
+     */
+    List<ActivityDto> getActivities();
 
     /**
      * Retrieve an activity.
