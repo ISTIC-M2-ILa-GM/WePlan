@@ -31,7 +31,7 @@ import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ID;
 /**
  * Department Controller
  */
-@Api(tags = "Department Controller", description = "Department API")
+@Api(tags = "Department Controller")
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = DEPARTMENT, produces = "application/json")

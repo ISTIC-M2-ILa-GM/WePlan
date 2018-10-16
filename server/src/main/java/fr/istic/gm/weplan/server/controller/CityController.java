@@ -31,7 +31,7 @@ import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ID;
 /**
  * City Controller
  */
-@Api(tags = "City Controller", description = "City API")
+@Api(tags = "City Controller")
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = CITY, produces = "application/json")

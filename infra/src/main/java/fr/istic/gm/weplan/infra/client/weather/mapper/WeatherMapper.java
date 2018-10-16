@@ -7,7 +7,6 @@ import fr.istic.gm.weplan.infra.client.weather.generated.api.model.ForecastHourl
 import fr.istic.gm.weplan.infra.utils.DateUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
 import java.time.Instant;
 
@@ -23,9 +22,7 @@ public interface WeatherMapper {
      * @param forecastHourly the api data
      * @return the week data
      */
-    @Mappings({
-            @Mapping(source = "data", target = "weathers")
-    })
+    @Mapping(source = "data", target = "weathers")
     Week toWeek(ForecastHourly forecastHourly);
 
     /**
@@ -34,11 +31,9 @@ public interface WeatherMapper {
      * @param forecastHour the api data
      * @return the week data
      */
-    @Mappings({
-            @Mapping(source = "weather.icon", target = "icon"),
-            @Mapping(source = "weather.code", target = "code"),
-            @Mapping(source = "weather.description", target = "description"),
-            @Mapping(target = "date", expression = "java(DateUtils.WEATHER_DATE_FORMAT.parse(forecastHour.getDatetime(), Instant::from))")
-    })
+    @Mapping(source = "weather.icon", target = "icon")
+    @Mapping(source = "weather.code", target = "code")
+    @Mapping(source = "weather.description", target = "description")
+    @Mapping(target = "date", expression = "java(DateUtils.WEATHER_DATE_FORMAT.parse(forecastHour.getDatetime(), Instant::from))")
     Weather toWeather(ForecastHour forecastHour);
 }

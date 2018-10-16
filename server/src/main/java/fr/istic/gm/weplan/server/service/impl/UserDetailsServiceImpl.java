@@ -8,7 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -25,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserDaoService userDaoService;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) {
 
         User user = userDaoService.getUserDaoByEmail(email);
         Set<GrantedAuthority> authorities = singleton(new SimpleGrantedAuthority(user.getRole().name()));

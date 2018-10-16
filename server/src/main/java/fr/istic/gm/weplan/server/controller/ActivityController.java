@@ -32,7 +32,7 @@ import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ID;
 /**
  * The Activity API
  */
-@Api(tags = "Activity Controller", description = "Activity API")
+@Api(tags = "Activity Controller")
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = ACTIVITY, produces = "application/json")
