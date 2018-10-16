@@ -2,8 +2,8 @@ package fr.istic.gm.weplan.server.controller;
 
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.service.CityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

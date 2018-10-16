@@ -2,7 +2,6 @@ package fr.istic.gm.weplan.domain;
 
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.entities.Activity;
 import fr.istic.gm.weplan.domain.model.entities.ActivityType;
 import fr.istic.gm.weplan.domain.model.entities.City;
@@ -13,6 +12,7 @@ import fr.istic.gm.weplan.domain.model.entities.User;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 import fr.istic.gm.weplan.domain.model.request.UserRequest;
 import uk.co.jemos.podam.api.PodamFactory;

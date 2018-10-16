@@ -1,10 +1,10 @@
 package fr.istic.gm.weplan.server.controller;
 
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.dto.RoleDto;
 import fr.istic.gm.weplan.domain.model.dto.UserDto;
 import fr.istic.gm.weplan.domain.model.entities.User;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.request.UserRequest;
 import fr.istic.gm.weplan.infra.repository.UserRepository;
 import fr.istic.gm.weplan.server.App;

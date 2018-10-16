@@ -2,8 +2,8 @@ package fr.istic.gm.weplan.domain.service;
 
 import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 
 import java.util.List;
 import java.util.Map;

@@ -1,8 +1,8 @@
 package fr.istic.gm.weplan.domain.service;
 
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 
 import java.util.List;

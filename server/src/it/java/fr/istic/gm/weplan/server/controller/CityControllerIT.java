@@ -2,11 +2,11 @@ package fr.istic.gm.weplan.server.controller;
 
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.infra.repository.CityRepository;
 import fr.istic.gm.weplan.infra.repository.DepartmentRepository;
 import fr.istic.gm.weplan.server.App;
