@@ -1,6 +1,7 @@
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserRequest } from '../../models/dto/user.request';
 
 @Component({
   selector: 'app-register',
@@ -20,16 +21,17 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit = () => {
-    const post_user = {
+    const user: UserRequest = {
       firstName: this.firstName,
       lastName: this.lastName,
       email: this.email,
-      password: this.password
+      password: this.password,
     };
-    // console.log(`First name: ${this.firstName} Last name: ${this.lastName}`);
-    // console.log(`Email: ${this.email}`);
-    // console.log(`Password: ${this.password} Repeat: ${this.repeat}`);
-    this.userService.post(post_user).subscribe((o: Object) => {
+    console.log(user);
+
+    this.userService.post(user).subscribe(response => {
+      console.log(response);
+      console.log('Success !');
       this.router.navigate(['/login']);
     }, error => {
       console.error('Something went wrong while registering user.');
