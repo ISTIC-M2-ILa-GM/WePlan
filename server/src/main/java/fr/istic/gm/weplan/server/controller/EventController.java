@@ -22,7 +22,7 @@ import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ID;
 /**
  * Event Controller
  */
-@Api(tags = "Event Controller", description = "Event API")
+@Api(tags = "Event Controller")
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = EVENT, produces = "application/json")

@@ -24,6 +24,7 @@ public class TestData {
 
     public static final Long ID = 10L;
     public static final String EMAIL = "an@email.com";
+    public static final String SOME_STRING = "some-string";
 
     private static final PodamFactory FACTORY = new PodamFactoryImpl();
 

@@ -37,7 +37,7 @@ import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.USER;
 /**
  * User Controller
  */
-@Api(tags = "User Controller", description = "User API")
+@Api(tags = "User Controller")
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = USER, produces = "application/json")

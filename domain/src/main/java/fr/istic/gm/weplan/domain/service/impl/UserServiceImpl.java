@@ -1,5 +1,6 @@
 package fr.istic.gm.weplan.domain.service.impl;
 
+import fr.istic.gm.weplan.domain.adapter.PasswordEncoderAdapter;
 import fr.istic.gm.weplan.domain.adapter.UserAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
@@ -54,6 +55,8 @@ public class UserServiceImpl extends PatchService<User> implements UserService, 
 
     private PersistenceMapper persistenceMapper;
 
+    private PasswordEncoderAdapter passwordEncoderAdapter;
+
     private Clock clock;
 
     @Override
@@ -102,6 +105,7 @@ public class UserServiceImpl extends PatchService<User> implements UserService, 
 
         User user = persistenceMapper.toUser(userRequest);
         user.setRole(Role.USER);
+        user.setPassword(passwordEncoderAdapter.encode(user.getPassword()));
         User result = userAdapter.save(user);
         return persistenceMapper.toUserDto(result);
     }

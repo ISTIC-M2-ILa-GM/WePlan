@@ -54,7 +54,7 @@
         <aspectj.version>1.9.1</aspectj.version>
         <springfox.version>2.9.2</springfox.version>
         <spring.version>5.0.9.RELEASE</spring.version>
-        <spring-security.version>5.1.0.RELEASE</spring-security.version>
+        <spring-security.version>5.0.9.RELEASE</spring-security.version>
 
         <hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
         <mariadb.version>2.3.0</mariadb.version>
@@ -151,6 +151,11 @@
                 <groupId>org.mariadb.jdbc</groupId>
                 <artifactId>mariadb-java-client</artifactId>
                 <version>${mariadb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>${spring-security.version}</version>
             </dependency>
 
             <!-- Swagger -->
@@ -281,12 +286,12 @@
                             <exclude>src/main/java/fr/istic/gm/weplan/domain/model/entity/*</exclude>
                             <exclude>src/main/java/fr/istic/gm/weplan/domain/model/request/*</exclude>
                             <exclude>src/main/java/fr/istic/gm/weplan/domain/model/weather/*</exclude>
+                            <exclude>src/main/java/fr/istic/gm/weplan/server/model/*</exclude>
                             <exclude>**/*Exception.java</exclude>
                             <exclude>**/*DTO.java</exclude>
                             <exclude>**/*Request.java</exclude>
                             <exclude>**/*Response.java</exclude>
                             <exclude>**/*Configuration.java</exclude>
-                            <exclude>**/LoggingHandler.java</exclude>
                         </excludes>
                     </configuration>
                     <executions>

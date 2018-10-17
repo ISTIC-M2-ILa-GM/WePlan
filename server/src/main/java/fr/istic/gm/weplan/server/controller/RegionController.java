@@ -32,7 +32,7 @@ import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.REGION;
 /**
  * The Region API
  */
-@Api(tags = "Region Controller", description = "Region API")
+@Api(tags = "Region Controller")
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = REGION, produces = "application/json")

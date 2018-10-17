@@ -28,8 +28,7 @@ public class LoggingHandler {
 
     private HttpServletRequest request;
 
-    private String findUserId() {
-        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+    String findUserId(RequestAttributes requestAttributes) {
         if (!(requestAttributes instanceof NativeWebRequest) || request.getUserPrincipal() == null) {
             return "";
         }
@@ -78,7 +77,7 @@ public class LoggingHandler {
      */
     @Before("restController() && loggingPublicOperation() && args(..)")
     public void logControllerBefore(JoinPoint joinPoint) {
-        String id = findUserId();
+        String id = findUserId(RequestContextHolder.getRequestAttributes());
         log.info("CONTROLLER REQUEST({}) {} {}: {}", id, request.getMethod(), request.getRequestURI(), Arrays.toString(joinPoint.getArgs()));
     }
 
@@ -89,7 +88,7 @@ public class LoggingHandler {
      */
     @Before("service() && loggingPublicOperation() && args(..)")
     public void logServiceBefore(JoinPoint joinPoint) {
-        String id = findUserId();
+        String id = findUserId(RequestContextHolder.getRequestAttributes());
         log.info("SERVICE REQUEST({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
     }
 
@@ -100,7 +99,7 @@ public class LoggingHandler {
      */
     @Before("component() && loggingPublicOperation() && args(..)")
     public void logComponentBefore(JoinPoint joinPoint) {
-        String id = findUserId();
+        String id = findUserId(RequestContextHolder.getRequestAttributes());
         log.info("COMPONENT REQUEST({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
     }
 
@@ -112,7 +111,7 @@ public class LoggingHandler {
      */
     @AfterReturning(pointcut = "component() && loggingPublicOperation()", returning = "result")
     public void logComponentAfter(JoinPoint joinPoint, Object result) {
-        String id = findUserId();
+        String id = findUserId(RequestContextHolder.getRequestAttributes());
         log.info("COMPONENT RESPONSE({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), result);
     }
 
@@ -124,7 +123,7 @@ public class LoggingHandler {
      */
     @AfterReturning(pointcut = "service() && loggingPublicOperation()", returning = "result")
     public void logServiceAfter(JoinPoint joinPoint, Object result) {
-        String id = findUserId();
+        String id = findUserId(RequestContextHolder.getRequestAttributes());
         log.info("SERVICE RESPONSE({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), result);
     }
 
@@ -136,7 +135,7 @@ public class LoggingHandler {
      */
     @AfterReturning(pointcut = "restController() && loggingPublicOperation()", returning = "result")
     public void logControllerAfter(JoinPoint joinPoint, Object result) {
-        String id = findUserId();
+        String id = findUserId(RequestContextHolder.getRequestAttributes());
         log.info("CONTROLLER RESPONSE({}) {} {}: {}", id, request.getMethod(), request.getRequestURI(), result);
     }
 
@@ -148,7 +147,7 @@ public class LoggingHandler {
      */
     @AfterThrowing(pointcut = "restController() && loggingPublicOperation()", throwing = "exception")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable exception) {
-        String id = findUserId();
+        String id = findUserId(RequestContextHolder.getRequestAttributes());
         log.error("ERROR({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), exception.getMessage(), exception);
     }
 }
