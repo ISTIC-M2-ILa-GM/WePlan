@@ -18,6 +18,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UserService } from './services/user.service';
+import { PreferenceComponent } from "./components/preference/preference.component";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { UserService } from './services/user.service';
     NotFoundComponent,
     LoginComponent,
     RegisterComponent,
-    ProfileComponent
+    ProfileComponent,
+    PreferenceComponent
 
     // Forms
     // LoginFormComponent

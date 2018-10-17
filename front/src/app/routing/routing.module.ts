@@ -1,17 +1,19 @@
-import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
+import {RouterModule} from '@angular/router';
+import {NgModule} from '@angular/core';
 
-import { NotFoundComponent } from '../components/not-found/not-found.component';
-import { HomeComponent } from '../components/home/home.component';
-import { LoginComponent } from './../components/login/login.component';
-import { RegisterComponent } from './../components/register/register.component';
-import { ProfileComponent } from './../components/profile/profile.component';
+import {NotFoundComponent} from '../components/not-found/not-found.component';
+import {HomeComponent} from '../components/home/home.component';
+import {LoginComponent} from './../components/login/login.component';
+import {RegisterComponent} from './../components/register/register.component';
+import {ProfileComponent} from './../components/profile/profile.component';
+import {PreferenceComponent} from "../components/preference/preference.component";
 
 const appRoutes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'preference', component: PreferenceComponent },
   { path: 'home', component: HomeComponent },
   { path: '**', component: NotFoundComponent }
 ];
@@ -26,4 +28,5 @@ const appRoutes = [
     RouterModule
   ]
 })
-export class RoutingModule { }
+export class RoutingModule {
+}
