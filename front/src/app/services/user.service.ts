@@ -15,21 +15,14 @@ export class UserService {
   constructor(private restService: RestService) { }
 
   get() {
-    return this.restService.get(`${API.endpoint}${API.entities.users}/0`);
+    return this.restService.get(`${API.endpoint}${API.entities.users}`);
   }
 
-  post(user: UserRequest) {
-    return this.restService.post(`${API.endpoint}${API.entities.users}`, user);
+  getOne(userId: number) {
+    return this.restService.get(`${API.endpoint}${API.entities.users}/${userId}`);
   }
 
-  login(login: LoginRequest) {
-    const body = new URLSearchParams();
-    body.set('email', login.email);
-    body.set('password', login.password);
-
-    const options = {
-      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
-    };
-    return this.restService.post(`${API.endpoint}${API.login}`, body.toString(), options);
+  update(userId: number, user: UserRequest) {
+    return this.restService.put(`${API.endpoint}${API.entities.users}/${userId}`, user);
   }
 }
