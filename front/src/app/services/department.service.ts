@@ -7,9 +7,9 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 @Injectable({
   providedIn: 'root'
 })
-export class CityService {
+export class DepartmentService {
 
-  static URL = `${API.endpoint}${API.entities.city}`;
+  static URL = `${API.endpoint}${API.entities.department}`;
 
   static defaultHeaders(options) {
     let {headers = new HttpHeaders()} = options != null ? options : {};
@@ -24,23 +24,23 @@ export class CityService {
   }
 
   get(pageRequest?: PageRequest) {
-    const headers = CityService.defaultHeaders(null);
-    return this.httpClient.get(`${CityService.URL}`, {headers});
+    const headers = DepartmentService.defaultHeaders(null);
+    return this.httpClient.get(`${DepartmentService.URL}`, {headers});
   }
 
   getOne(id: number) {
-    return this.httpClient.get(`${CityService.URL}/${id}`);
+    return this.httpClient.get(`${DepartmentService.URL}/${id}`);
   }
 
   post(region: RegionRequest) {
-    return this.httpClient.post(`${CityService.URL}`, region);
+    return this.httpClient.post(`${DepartmentService.URL}`, region);
   }
 
   patch(fields: Map<string, Object>) {
-    return this.httpClient.patch(`${CityService.URL}`, fields);
+    return this.httpClient.patch(`${DepartmentService.URL}`, fields);
   }
 
   delete(id: number) {
-    return this.httpClient.delete(`${CityService.URL}/${id}`);
+    return this.httpClient.delete(`${DepartmentService.URL}/${id}`);
   }
 }
