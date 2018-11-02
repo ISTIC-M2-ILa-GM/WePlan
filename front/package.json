@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
+    "stub": "dyson stub/",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -45,6 +46,8 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
-    "typescript": "~2.9.2"
+    "typescript": "~2.9.2",
+    "dyson": "^2.0.1",
+    "faker": "^4.1.0"
   }
 }

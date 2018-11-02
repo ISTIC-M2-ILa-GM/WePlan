@@ -1,14 +1,16 @@
 export const API = {
-  endpoint: 'http://localhost:8080',
-  login: '/login',
+  endpoint: 'http://localhost:8080/api',
   entities: {
-    users: '/api/user',
-    user: {
-      events: "/events"
-    },
-    activities: '/api/activity',
-    regions: '/api/region',
-    departments: '/api/department',
-    event: '/api/event'
+    user: '/user',
+    city: "/city",
+    cities: "/cities",
+    activity: '/activity',
+    activities: '/activities',
+    region: '/region',
+    regions: '/regions',
+    department: '/department',
+    departments: '/departments',
+    event: '/event',
+    events: "/events"
   }
 };

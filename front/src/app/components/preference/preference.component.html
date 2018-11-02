@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col s12 xl6 offset-xl3">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title center">Preference</span>
+        <div class="form-group">
+          <mz-select-container>
+            <select multiple mz-select
+                    [label]="'Cities'"
+                    [placeholder]="'Select the cities you want to subscribe'"
+                    [(ngModel)]="subscribedCities">
+              <option *ngFor="let city of allCities">{{city.name}}</option>
+            </select>
+          </mz-select-container>
+          <mz-select-container>
+            <select multiple mz-select
+                    [label]="'Departments'"
+                    [placeholder]="'Select the departments you want to subscribe'">
+              <option *ngFor="let department of allDepartments">{{department.name}}</option>
+            </select>
+          </mz-select-container>
+          <mz-select-container>
+            <select multiple mz-select
+                    [label]="'Regions'"
+                    [placeholder]="'Select the Regions you want to subscribe'">
+              <option *ngFor="let region of allRegions">{{region.name}}</option>
+            </select>
+          </mz-select-container>
+          <mz-select-container>
+            <select multiple mz-select
+                    [label]="'Activities'"
+                    [placeholder]="'Select the activities you want to subscribe'">
+              <option *ngFor="let activity of allActivities">{{activity.name}}</option>
+            </select>
+          </mz-select-container>
+
+
+        </div>
+        <div class="form-group center">
+          <button mz-button
+                  (click)="cancel()">
+            Cancel
+          </button>
+          <button mz-button
+                  (click)="update()">
+            Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
