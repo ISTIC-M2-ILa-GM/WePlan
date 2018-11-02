@@ -6,6 +6,7 @@ import { HomeComponent } from '../components/home/home.component';
 import { LoginComponent } from './../components/login/login.component';
 import { RegisterComponent } from './../components/register/register.component';
 import { ProfileComponent } from './../components/profile/profile.component';
+import {EventComponent} from "../components/event/event.component";
 
 const appRoutes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -13,6 +14,7 @@ const appRoutes = [
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'event', component: EventComponent },
   { path: '**', component: NotFoundComponent }
 ];
 

@@ -3,9 +3,12 @@ export const API = {
   login: '/login',
   entities: {
     users: '/api/user',
+    user: {
+      events: "/events"
+    },
     activities: '/api/activity',
     regions: '/api/region',
     departments: '/api/department',
-    events: '/api/event'
+    event: '/api/event'
   }
 };

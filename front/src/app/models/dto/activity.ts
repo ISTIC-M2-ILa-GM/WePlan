@@ -5,6 +5,6 @@ export interface Activity extends Entity {
   name: string;
   cost: number;
   outDoor: boolean;
-  ActivityType: string;
+  activityType: string;
   cities: Array<City>
 }

@@ -18,6 +18,8 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UserService } from './services/user.service';
+import {EventService} from "./services/event.service";
+import {EventComponent} from "./components/event/event.component";
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { UserService } from './services/user.service';
     NotFoundComponent,
     LoginComponent,
     RegisterComponent,
-    ProfileComponent
+    ProfileComponent,
+    EventComponent
 
     // Forms
     // LoginFormComponent
@@ -43,7 +46,8 @@ import { UserService } from './services/user.service';
     HttpClientModule
   ],
   providers: [
-    UserService
+    UserService,
+    EventService
   ],
   bootstrap: [AppComponent]
 })
