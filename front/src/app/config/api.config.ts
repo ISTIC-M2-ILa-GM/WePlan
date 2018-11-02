@@ -6,6 +6,7 @@ export const API = {
     activity: '/activity',
     region: '/region',
     department: '/department',
-    event: '/event'
+    event: '/event',
+    events: "/events"
   }
 };

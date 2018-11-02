@@ -19,6 +19,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UserService } from './services/user.service';
 import { PreferenceComponent } from "./components/preference/preference.component";
+import {EventService} from "./services/event.service";
+import {EventComponent} from "./components/event/event.component";
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { PreferenceComponent } from "./components/preference/preference.componen
     LoginComponent,
     RegisterComponent,
     ProfileComponent,
-    PreferenceComponent
+    PreferenceComponent,
+    EventComponent
 
     // Forms
     // LoginFormComponent
@@ -45,7 +48,8 @@ import { PreferenceComponent } from "./components/preference/preference.componen
     HttpClientModule
   ],
   providers: [
-    UserService
+    UserService,
+    EventService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,4 @@
-export interface PageRequest {
+export class PageRequest {
   size: number;
   page: number;
 }
