@@ -1,9 +1,7 @@
 import { API } from './../config/api.config';
 import { RestService } from './rest.service';
 import { Injectable } from '@angular/core';
-import { User } from './../models/user';
-
-const FAKE_USER = new User('Gautier', 'Rouleau', 'contact@gautier-rouleau.fr');
+import { User } from '../models/dto/user';
 
 @Injectable({
   providedIn: 'root'
