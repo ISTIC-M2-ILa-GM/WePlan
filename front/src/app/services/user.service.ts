@@ -31,4 +31,44 @@ export class UserService {
     //TODO where is current user ?
     return this.restService.delete(`${API.endpoint}${API.entities.user}/0/${API.entities.events}`, [id]);
   }
+
+  addCitiesToCurrentUser(citiesToAdd: number[]) {
+    //TODO where is current user ?
+    return this.restService.post(`${API.endpoint}${API.entities.user}/0/${API.entities.cities}`, citiesToAdd);
+  }
+
+  removeCitiesToCurrentUser(citiesToDelete: number[]) {
+    //TODO where is current user ?
+    return this.restService.delete(`${API.endpoint}${API.entities.user}/0/${API.entities.cities}`, citiesToDelete);
+  }
+
+  addDepartmentsToCurrentUser(departmentsToAdd: number[]) {
+    //TODO where is current user ?
+    return this.restService.post(`${API.endpoint}${API.entities.user}/0/${API.entities.departments}`, departmentsToAdd);
+  }
+
+  removeDepartmentsToCurrentUser(departmentsToDelete: number[]) {
+    //TODO where is current user ?
+    return this.restService.delete(`${API.endpoint}${API.entities.user}/0/${API.entities.departments}`, departmentsToDelete);
+  }
+
+  addRegionsToCurrentUser(regionsToAdd: number[]) {
+    //TODO where is current user ?
+    return this.restService.post(`${API.endpoint}${API.entities.user}/0/${API.entities.regions}`, regionsToAdd);
+  }
+
+  removeRegionsToCurrentUser(regionsToDelete: number[]) {
+    //TODO where is current user ?
+    return this.restService.delete(`${API.endpoint}${API.entities.user}/0/${API.entities.regions}`, regionsToDelete);
+  }
+
+  addActivitiesToCurrentUser(activitiesToAdd: number[]) {
+    //TODO where is current user ?
+    return this.restService.post(`${API.endpoint}${API.entities.user}/0/${API.entities.activities}`, activitiesToAdd);
+  }
+
+  removeActivitiesToCurrentUser(activitiesToDelete: number[]) {
+    //TODO where is current user ?
+    return this.restService.delete(`${API.endpoint}${API.entities.user}/0/${API.entities.activities}`, activitiesToDelete);
+  }
 }
