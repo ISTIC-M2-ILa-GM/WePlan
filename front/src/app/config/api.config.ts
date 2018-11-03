@@ -1,5 +1,5 @@
 export const API = {
-  endpoint: 'http://localhost:4200/ajax',
+  endpoint: '/ajax',
   login: '/login',
   entities: {
     users: '/api/user',

@@ -1,10 +1,8 @@
-import { API } from './../config/api.config';
-import { RestService } from './rest.service';
-import { Injectable } from '@angular/core';
-import { User } from './../models/user';
-import { UserRequest } from '../models/dto/user.request';
-import { LoginRequest } from '../models/dto/login.request';
-import { HttpHeaders } from '@angular/common/http';
+import {API} from './../config/api.config';
+import {RestService} from './rest.service';
+import {Injectable} from '@angular/core';
+import {User} from './../models/user';
+import {UserRequest} from '../models/dto/user.request';
 
 const FAKE_USER = new User('Gautier', 'Rouleau', 'contact@gautier-rouleau.fr');
 

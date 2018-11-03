@@ -1,7 +1,7 @@
-import { UserService } from './../../services/user.service';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { UserRequest } from '../../models/dto/user.request';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {UserRequest} from '../../models/dto/user.request';
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-register',
@@ -15,7 +15,7 @@ export class RegisterComponent implements OnInit {
   password = '';
   repeat = '';
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit = () => {
   }
@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
     };
     console.log(user);
 
-    this.userService.post(user).subscribe(response => {
+    this.authService.register(user).subscribe(response => {
       console.log(response);
       console.log('Success !');
       this.router.navigate(['/login']);
