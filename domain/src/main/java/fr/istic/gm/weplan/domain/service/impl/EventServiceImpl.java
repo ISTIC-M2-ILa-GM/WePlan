@@ -5,6 +5,7 @@ import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.entities.Event;
+import fr.istic.gm.weplan.domain.model.entities.Event;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.service.EventDaoService;
@@ -49,6 +50,12 @@ public class EventServiceImpl extends PatchService<Event> implements EventServic
         Event event = getEventDao(id);
         event.setDeletedAt(clock.instant());
         eventAdapter.save(event);
+    }
+
+    @Override
+    public EventDto createEvent(Event event) {
+        Event result = eventAdapter.save(event);
+        return persistenceMapper.toEventDto(result);
     }
 
     @Override

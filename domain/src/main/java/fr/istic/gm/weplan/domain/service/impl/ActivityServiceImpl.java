@@ -49,6 +49,11 @@ public class ActivityServiceImpl extends PatchService<Activity> implements Activ
     }
 
     @Override
+    public List<Activity> getActivitiesDao() {
+        return this.activityAdapter.findAllByDeletedAtIsNull();
+    }
+
+    @Override
     public PageDto<ActivityDto> getActivities(PageRequest pageRequest) {
 
         if (pageRequest != null) {

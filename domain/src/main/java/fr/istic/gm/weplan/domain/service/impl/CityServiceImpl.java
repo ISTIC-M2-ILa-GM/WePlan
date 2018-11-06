@@ -94,4 +94,9 @@ public class CityServiceImpl extends PatchService<City> implements CityService, 
         }
         return city.get();
     }
+
+    @Override
+    public List<City> getCitiesDao() {
+        return this.cityAdapter.findAllByDeletedAtIsNull();
+    }
 }
