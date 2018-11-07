@@ -48,8 +48,9 @@ public class ScheduledEventGenerator {
                     // returns the weather of the weekend
                     return (dayOfWeek.equals(DayOfWeek.SATURDAY) ||
                             dayOfWeek.equals(DayOfWeek.SUNDAY)) &&
-                            (zonedDateTime.getHour() >= 8 && zonedDateTime.getHour() <= 18); // returns the weather between 8h and 18h
-                }).filter(w -> (w.getCode().startsWith("80"))).collect(Collectors.toList()); // returns only clear weather
+                            zonedDateTime.getHour() >= 8 &&
+                            zonedDateTime.getHour() <= 18; // returns the weather between 8h and 18h
+                }).filter(w -> w.getCode().startsWith("80")).collect(Collectors.toList()); // returns only clear weather
 
                 clearWeather.forEach(w -> {
                     Event event = new Event();
@@ -59,8 +60,8 @@ public class ScheduledEventGenerator {
                     event.setCanceled(false);
 
                     // create and save event in DB
-                    EventDto event1 = this.eventService.createEvent(event);
-                    this.eventBrokerAdapter.sendEvent(event1);
+                    EventDto eventDto = this.eventService.createEvent(event);
+                    this.eventBrokerAdapter.sendEvent(eventDto);
                 });
             });
         });
