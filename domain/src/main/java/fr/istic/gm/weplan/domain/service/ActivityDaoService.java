@@ -1,6 +1,9 @@
 package fr.istic.gm.weplan.domain.service;
 
 import fr.istic.gm.weplan.domain.model.entities.Activity;
+import fr.istic.gm.weplan.domain.model.entities.City;
+
+import java.util.List;
 
 public interface ActivityDaoService {
 
@@ -10,4 +13,6 @@ public interface ActivityDaoService {
      * @return the activity
      */
     Activity getActivityDao(Long id);
+
+    List<Activity> getActivitiesDao();
 }

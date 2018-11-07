@@ -2,22 +2,17 @@ package fr.istic.gm.weplan.domain;
 
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.entities.Activity;
-import fr.istic.gm.weplan.domain.model.entities.ActivityType;
-import fr.istic.gm.weplan.domain.model.entities.City;
-import fr.istic.gm.weplan.domain.model.entities.Department;
-import fr.istic.gm.weplan.domain.model.entities.Event;
-import fr.istic.gm.weplan.domain.model.entities.Region;
-import fr.istic.gm.weplan.domain.model.entities.User;
-import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
-import fr.istic.gm.weplan.domain.model.request.CityRequest;
-import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
-import fr.istic.gm.weplan.domain.model.request.PageRequest;
-import fr.istic.gm.weplan.domain.model.request.RegionRequest;
-import fr.istic.gm.weplan.domain.model.request.UserRequest;
+import fr.istic.gm.weplan.domain.model.entities.*;
+import fr.istic.gm.weplan.domain.model.request.*;
+import fr.istic.gm.weplan.domain.model.weather.Weather;
+import fr.istic.gm.weplan.domain.model.weather.Week;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class TestData {
@@ -100,5 +95,34 @@ public class TestData {
 
     public static RegionRequest someRegionRequest() {
         return FACTORY.manufacturePojoWithFullData(RegionRequest.class);
+    }
+
+    public static Weather someWeather() {
+        return FACTORY.manufacturePojoWithFullData(Weather.class);
+    }
+
+    public static Week someWeek() {
+        Instant someSaturday = LocalDateTime.of(2018, 11, 3, 12, 0).toInstant(ZoneOffset.UTC);
+
+        Weather weather1 = someWeather();
+        weather1.setCode("800");
+        weather1.setDate(someSaturday);
+
+        Instant someFriday = LocalDateTime.of(2018, 11, 2, 12, 0).toInstant(ZoneOffset.UTC);
+
+        Weather weather2 = someWeather();
+        weather2.setCode("800");
+        weather2.setDate(someFriday);
+
+        Instant someSunday = LocalDateTime.of(2018, 11, 4, 12, 0).toInstant(ZoneOffset.UTC);
+
+        Weather weather3 = someWeather();
+        weather3.setCode("500");
+        weather3.setDate(someSunday);
+
+        Week week = new Week();
+        week.setWeathers(Arrays.asList(weather1, weather2, weather3));
+
+        return week;
     }
 }

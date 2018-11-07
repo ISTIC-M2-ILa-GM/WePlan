@@ -52,6 +52,12 @@ public class EventServiceImpl extends PatchService<Event> implements EventServic
     }
 
     @Override
+    public EventDto createEvent(Event event) {
+        Event result = eventAdapter.save(event);
+        return persistenceMapper.toEventDto(result);
+    }
+
+    @Override
     public Event getEventDao(Long id) {
 
         Optional<Event> event = id != null ? eventAdapter.findById(id) : Optional.empty();
