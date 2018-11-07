@@ -23,9 +23,7 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.Optional;
 
-import static fr.istic.gm.weplan.domain.TestData.ID;
-import static fr.istic.gm.weplan.domain.TestData.someEvent;
-import static fr.istic.gm.weplan.domain.TestData.somePageOptions;
+import static fr.istic.gm.weplan.domain.TestData.*;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -37,17 +35,13 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class EventServiceTest {
 
-    private EventServiceImpl service;
-
-    @Mock
-    private EventAdapter mockEventAdapter;
-
-    @Mock
-    private Clock mockClock;
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-
+    private EventServiceImpl service;
+    @Mock
+    private EventAdapter mockEventAdapter;
+    @Mock
+    private Clock mockClock;
     private PersistenceMapper persistenceMapper;
 
     @Before

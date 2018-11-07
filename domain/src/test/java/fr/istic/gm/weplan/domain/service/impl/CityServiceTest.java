@@ -4,7 +4,6 @@ import fr.istic.gm.weplan.domain.adapter.CityAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.entities.Activity;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
@@ -24,16 +23,10 @@ import org.springframework.data.domain.PageImpl;
 
 import java.time.Clock;
 import java.time.Instant;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static fr.istic.gm.weplan.domain.TestData.*;
-import static fr.istic.gm.weplan.domain.exception.DomainException.NOTHING_TO_PATCH;
-import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
-import static fr.istic.gm.weplan.domain.exception.DomainException.WRONG_DATA_TO_PATCH;
+import static fr.istic.gm.weplan.domain.exception.DomainException.*;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -46,20 +39,15 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class CityServiceTest {
 
-    private CityServiceImpl service;
-
-    @Mock
-    private CityAdapter mockCityAdapter;
-
-    @Mock
-    private DepartmentDaoService mockDepartmentService;
-
-    @Mock
-    private Clock mockClock;
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-
+    private CityServiceImpl service;
+    @Mock
+    private CityAdapter mockCityAdapter;
+    @Mock
+    private DepartmentDaoService mockDepartmentService;
+    @Mock
+    private Clock mockClock;
     private PersistenceMapper persistenceMapper;
 
     @Before
