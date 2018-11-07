@@ -19,6 +19,9 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The Event generator
+ */
 @Component
 @AllArgsConstructor
 public class ScheduledEventGenerator {

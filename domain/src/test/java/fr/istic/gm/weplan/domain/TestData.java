@@ -1,7 +1,9 @@
 package fr.istic.gm.weplan.domain;
 
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
+import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
+import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.*;
 import fr.istic.gm.weplan.domain.model.request.*;
 import fr.istic.gm.weplan.domain.model.weather.Weather;
@@ -85,6 +87,14 @@ public class TestData {
 
     public static CityDto someCityDto() {
         return FACTORY.manufacturePojoWithFullData(CityDto.class);
+    }
+
+    public static RegionDto someRegionDto() {
+        return FACTORY.manufacturePojoWithFullData(RegionDto.class);
+    }
+
+    public static DepartmentDto someDepartmentDto() {
+        return FACTORY.manufacturePojoWithFullData(DepartmentDto.class);
     }
 
     public static City someCity() {
