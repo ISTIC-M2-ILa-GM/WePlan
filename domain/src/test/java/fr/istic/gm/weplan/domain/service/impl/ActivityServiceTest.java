@@ -42,6 +42,7 @@ import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -49,7 +50,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ActivityServiceTest {
 
-    private ActivityService service;
+    private ActivityServiceImpl service;
 
     @Mock
     private ActivityAdapter mockActivityAdapter;
@@ -372,5 +373,16 @@ public class ActivityServiceTest {
         thrown.expectMessage(WRONG_DATA_TO_PATCH);
 
         service.patchActivity(ID, patch);
+    }
+
+    @Test
+    public void shouldGetActivitiesDao() {
+        when(mockActivityAdapter.findAllByDeletedAtIsNull()).thenReturn(singletonList(someActivity()));
+
+        List<Activity> activitiesDao = this.service.getActivitiesDao();
+        verify(mockActivityAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(activitiesDao, notNullValue());
+        assertThat(activitiesDao, hasSize(1));
     }
 }

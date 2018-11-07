@@ -4,6 +4,7 @@ import fr.istic.gm.weplan.domain.adapter.CityAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
+import fr.istic.gm.weplan.domain.model.entities.Activity;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
@@ -29,17 +30,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static fr.istic.gm.weplan.domain.TestData.ID;
-import static fr.istic.gm.weplan.domain.TestData.someCity;
-import static fr.istic.gm.weplan.domain.TestData.someCityRequest;
-import static fr.istic.gm.weplan.domain.TestData.someDepartment;
-import static fr.istic.gm.weplan.domain.TestData.somePageOptions;
+import static fr.istic.gm.weplan.domain.TestData.*;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOTHING_TO_PATCH;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
 import static fr.istic.gm.weplan.domain.exception.DomainException.WRONG_DATA_TO_PATCH;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -392,5 +391,16 @@ public class CityServiceTest {
         thrown.expectMessage(WRONG_DATA_TO_PATCH);
 
         service.patchCity(ID, patch);
+    }
+
+    @Test
+    public void shouldGetCitiesDao() {
+        when(mockCityAdapter.findAllByDeletedAtIsNull()).thenReturn(singletonList(someCity()));
+
+        List<City> citiesDao = this.service.getCitiesDao();
+        verify(mockCityAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(citiesDao, notNullValue());
+        assertThat(citiesDao, hasSize(1));
     }
 }

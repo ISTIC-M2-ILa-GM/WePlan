@@ -206,4 +206,14 @@ public class EventServiceTest {
 
         service.deleteEvent(ID);
     }
+
+    @Test
+    public void shouldCreateEvent() {
+        Event event = someEvent();
+        when(this.mockEventAdapter.save(any())).thenReturn(event);
+
+        EventDto result = this.service.createEvent(event);
+        verify(this.mockEventAdapter).save(event);
+        assertThat(result, equalTo(this.persistenceMapper.toEventDto(event)));
+    }
 }
