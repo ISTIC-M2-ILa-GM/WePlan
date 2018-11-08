@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {LoginRequest} from 'src/app/models/dto/login.request';
-import {AuthService} from "../../services/auth.service";
+import { Component, OnInit } from '@angular/core';
+import { LoginRequest } from 'src/app/models/dto/login.request';
+import { AuthService } from './../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,10 +11,15 @@ export class LoginComponent implements OnInit {
   email: string;
 
   password: string;
-  ngOnInit = () => {
+
+  constructor(private authService: AuthService) { }
+
+  ngOnInit() {
     this.email = '';
     this.password = '';
+    this.authService.check();
   }
+
   onSubmit = () => {
     console.log(`email: ${this.email} pwd: ${this.password}`);
     const login: LoginRequest = {
@@ -27,8 +32,5 @@ export class LoginComponent implements OnInit {
     }, e => {
       console.error(e);
     });
-  }
-
-  constructor(private authService: AuthService) {
   }
 }

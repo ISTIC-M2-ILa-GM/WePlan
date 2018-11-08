@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { MaterializeComponentModule } from './materialize-css.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 // Application imports
 import { AppComponent } from './app.component';
@@ -43,7 +44,8 @@ import { UserService } from './services/user.service';
     HttpClientModule
   ],
   providers: [
-    UserService
+    UserService,
+    CookieService
   ],
   bootstrap: [AppComponent]
 })
