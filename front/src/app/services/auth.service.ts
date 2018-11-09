@@ -18,17 +18,17 @@ export class AuthService {
     private router: Router
   ) { }
 
-  check(): Promise<boolean> {
-    return new Promise<boolean>((resolve) => {
+  check(): Promise<Object> {
+    return new Promise<Object>((resolve, reject) => {
       this.restService.get(`${API.endpoint}${API.auth}${API.current}`).subscribe((user: Object) => {
         this.setUser(user);
-        resolve(true);
+        resolve(user);
       }, error => {
         console.error("y'a eu une bourde");
         console.error(error);
         this.cookieService.deleteAll();
         this.router.navigateByUrl('/login');
-        resolve(false);
+        reject();
       });
     });
   }

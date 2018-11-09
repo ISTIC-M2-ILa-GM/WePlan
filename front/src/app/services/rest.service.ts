@@ -14,7 +14,7 @@ export class RestService {
 
   post(url, body, options?) { return this.httpClient.post(url, body, options); }
 
-  patch(url, body, options?) { return this.httpClient.post(url, body, options); }
+  patch(url, body, options?) { return this.httpClient.patch(url, body, options); }
 
   delete(url, options?) { return this.httpClient.delete(url, options); }
 }

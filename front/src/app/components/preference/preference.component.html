@@ -9,28 +9,31 @@
                     [label]="'Cities'"
                     [placeholder]="'Select the cities you want to subscribe'"
                     [(ngModel)]="subscribedCities">
-              <option *ngFor="let city of allCities">{{city.name}}</option>
+              <option *ngFor="let city of allCities" value={{city.id}}>{{city.name}}</option>
             </select>
           </mz-select-container>
           <mz-select-container>
             <select multiple mz-select
                     [label]="'Departments'"
-                    [placeholder]="'Select the departments you want to subscribe'">
-              <option *ngFor="let department of allDepartments">{{department.name}}</option>
+                    [placeholder]="'Select the departments you want to subscribe'"
+                    [(ngModel)]="subscribedDepartments">
+              <option *ngFor="let department of allDepartments" value={{department.id}}>{{department.name}}</option>
             </select>
           </mz-select-container>
           <mz-select-container>
             <select multiple mz-select
                     [label]="'Regions'"
-                    [placeholder]="'Select the Regions you want to subscribe'">
-              <option *ngFor="let region of allRegions">{{region.name}}</option>
+                    [placeholder]="'Select the Regions you want to subscribe'"
+                    [(ngModel)]="subscribedRegions">
+              <option *ngFor="let region of allRegions" value={{region.id}}>{{region.name}}</option>
             </select>
           </mz-select-container>
           <mz-select-container>
             <select multiple mz-select
                     [label]="'Activities'"
-                    [placeholder]="'Select the activities you want to subscribe'">
-              <option *ngFor="let activity of allActivities">{{activity.name}}</option>
+                    [placeholder]="'Select the activities you want to subscribe'"
+                    [(ngModel)]="subscribedActivities">
+              <option *ngFor="let activity of allActivities" value={{activity.id}}>{{activity.name}}</option>
             </select>
           </mz-select-container>
 

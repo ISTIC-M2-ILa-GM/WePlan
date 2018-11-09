@@ -19,4 +19,5 @@ public class UserDto extends BaseDto {
     private List<DepartmentDto> departments;
     private List<RegionDto> regions;
     private List<EventDto> events;
+    private List<ActivityDto> activities;
 }

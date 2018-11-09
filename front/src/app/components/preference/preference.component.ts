@@ -10,6 +10,7 @@ import {DepartmentService} from "../../services/department.service";
 import {ActivityService} from "../../services/activity.service";
 import {User} from "../../models/dto/user";
 import {UserService} from "../../services/user.service";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-preference',
@@ -24,21 +25,29 @@ export class PreferenceComponent implements OnInit {
   allActivities: Array<Activity> = [];
   user: User;
 
-  subscribedCities: Array<City> = [];
-  subscribedDepartments: Array<Department> = [];
-  subscribedRegions: Array<Region> = [];
-  subscribedActivities: Array<Activity> = [];
+  subscribedCities: Array<string> = [];
+  subscribedDepartments: Array<string> = [];
+  subscribedRegions: Array<string> = [];
+  subscribedActivities: Array<string> = [];
 
   constructor(
     private cityService: CityService,
     private departmentService: DepartmentService,
     private regionService: RegionService,
     private activityService: ActivityService,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthService
   ) {
   }
 
   ngOnInit() {
+    this.authService.check().then((u: User) => {
+      this.user = u;
+      this.initData();
+    });
+  }
+
+  private initData() {
     this.cityService.get().subscribe((c: PageResponse<City>) => {
       this.allCities = c.results.sort((c1, c2) => c1.name.substr(0, 1) < c2.name.substr(0, 1) ? 0 : 1);
     });
@@ -59,13 +68,10 @@ export class PreferenceComponent implements OnInit {
     this.subscribedDepartments = [];
     this.subscribedRegions = [];
     this.subscribedActivities = [];
-    // this.userService.getCurrentUser().subscribe((r) => {
-      //TODO userService
-      // this.subscribedCities = r.cities;
-      // this.subscribedDepartments = r.departments;
-      // this.subscribedRegions = r.regions;
-      // this.subscribedActivities = r.activities;
-    // });
+    this.subscribedCities = this.user.cities.map(c => c.id.toString());
+    this.subscribedDepartments = this.user.departments.map(c => c.id.toString());
+    this.subscribedRegions = this.user.regions.map(c => c.id.toString());
+    this.subscribedActivities = this.user.activities.map(c => c.id.toString());
   }
 
   update() {
@@ -76,46 +82,60 @@ export class PreferenceComponent implements OnInit {
   }
 
   private updateCities() {
-    if (this.subscribedCities !== this.user.cities) {
-      const currentCities = this.user.cities.map(c => c.id);
-      const newCities = this.subscribedCities.map(c => c.id);
-      const citiesToAdd = newCities.filter(c => !currentCities.includes(c));
-      const citiesToDelete = currentCities.filter(c => !newCities.includes(c));
-      this.userService.addCitiesToCurrentUser(citiesToAdd);
-      this.userService.removeCitiesToCurrentUser(citiesToDelete);
+    const currentCities = this.user.cities.map(c => c.id.toString());
+    if (this.subscribedCities !== currentCities) {
+      const toAdd = this.subscribedCities.filter(c => !currentCities.includes(c));
+      const toDelete = currentCities.filter(c => !this.subscribedCities.includes(c));
+      if (toAdd.length > 0) {
+        this.userService.addCitiesToCurrentUser(toAdd).subscribe((u: any) => this.user = u);
+      }
+      if (toDelete.length > 0) {
+        this.userService.removeCitiesToCurrentUser(toDelete).subscribe((u: any) => this.user = u);
+      }
     }
   }
 
   private updateDepartments() {
-    if (this.subscribedDepartments !== this.user.departments) {
-      const currentDepartments = this.user.departments.map(c => c.id);
-      const newDepartments = this.subscribedDepartments.map(c => c.id);
-      const departmentsToAdd = newDepartments.filter(c => !currentDepartments.includes(c));
-      const departmentsToDelete = currentDepartments.filter(c => !newDepartments.includes(c));
-      this.userService.addDepartmentsToCurrentUser(departmentsToAdd);
-      this.userService.removeDepartmentsToCurrentUser(departmentsToDelete);
+    const currentDepartments = this.user.departments.map(c => c.id.toString());
+    if (this.subscribedDepartments !== currentDepartments) {
+      const toAdd = this.subscribedDepartments.filter(c => !currentDepartments.includes(c));
+      const toDelete = currentDepartments.filter(c => !this.subscribedDepartments.includes(c));
+      if (toAdd.length > 0) {
+        this.userService.addDepartmentsToCurrentUser(toAdd).subscribe((u: any) => this.user = u);
+      }
+      if (toDelete.length > 0) {
+        this.userService.removeDepartmentsToCurrentUser(toDelete).subscribe((u: any) => this.user = u);
+      }
     }
   }
 
   private updateRegions() {
-    if (this.subscribedRegions !== this.user.regions) {
-      const currentRegions = this.user.regions.map(c => c.id);
-      const newRegions = this.subscribedRegions.map(c => c.id);
-      const regionsToAdd = newRegions.filter(c => !currentRegions.includes(c));
-      const regionsToDelete = currentRegions.filter(c => !newRegions.includes(c));
-      this.userService.addRegionsToCurrentUser(regionsToAdd);
-      this.userService.removeRegionsToCurrentUser(regionsToDelete);
+    const currentRegions = this.user.regions.map(c => c.id.toString());
+    if (this.subscribedRegions !== currentRegions) {
+      const toAdd = this.subscribedRegions.filter(c => !currentRegions.includes(c));
+      const toDelete = currentRegions.filter(c => !this.subscribedRegions.includes(c));
+      if (toAdd.length > 0) {
+        this.userService.addRegionsToCurrentUser(toAdd).subscribe((u: any) => this.user = u);
+      }
+      if (toDelete.length > 0) {
+        this.userService.removeRegionsToCurrentUser(toDelete).subscribe((u: any) => this.user = u);
+      }
     }
   }
 
   private updateActivities() {
-    if (this.subscribedActivities !== this.user.activities) {
-      const currentActivities = this.user.activities.map(c => c.id);
-      const newActivities = this.subscribedActivities.map(c => c.id);
-      const activitiesToAdd = newActivities.filter(c => !currentActivities.includes(c));
-      const activitiesToDelete = currentActivities.filter(c => !newActivities.includes(c));
-      this.userService.addActivitiesToCurrentUser(activitiesToAdd);
-      this.userService.removeActivitiesToCurrentUser(activitiesToDelete);
+    const currentActivities = this.user.activities.map(c => c.id.toString());
+    if (this.subscribedActivities !== currentActivities) {
+      console.log(this.subscribedActivities);
+      console.log(currentActivities);
+      const toAdd = this.subscribedActivities.filter(c => !currentActivities.includes(c));
+      const toDelete = currentActivities.filter(c => !this.subscribedActivities.includes(c));
+      if (toAdd.length > 0) {
+        this.userService.addActivitiesToCurrentUser(toAdd).subscribe((u: any) => this.user = u);
+      }
+      if (toDelete.length > 0) {
+        this.userService.removeActivitiesToCurrentUser(toDelete).subscribe((u: any) => this.user = u);
+      }
     }
   }
 

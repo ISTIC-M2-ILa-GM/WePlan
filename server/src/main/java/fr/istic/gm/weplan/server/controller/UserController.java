@@ -195,7 +195,6 @@ public class UserController {
         return userService.addEvents(id, eventsId);
     }
 
-
     /**
      * Remove cities to an user.
      *
@@ -208,7 +207,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "Cities removed to the user with a given id"),
             @ApiResponse(code = 404, message = "User or city not found")
     })
-    @DeleteMapping(path = ID + CITIES)
+    @PatchMapping(path = ID + CITIES)
     public UserDto removeCities(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Cities Id", required = true) @RequestBody List<Long> citiesId) {
         return userService.removeCities(id, citiesId);
     }
@@ -225,7 +224,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "Departments removed to the user with a given id"),
             @ApiResponse(code = 404, message = "User or department not found")
     })
-    @DeleteMapping(path = ID + DEPARTMENTS)
+    @PatchMapping(path = ID + DEPARTMENTS)
     public UserDto removeDepartments(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Departments Id", required = true) @RequestBody List<Long> departmentsId) {
         return userService.removeDepartments(id, departmentsId);
     }
@@ -242,7 +241,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "Regions removed to the user with a given id"),
             @ApiResponse(code = 404, message = "User or region not found")
     })
-    @DeleteMapping(path = ID + REGIONS)
+    @PatchMapping(path = ID + REGIONS)
     public UserDto removeRegions(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Regions Id", required = true) @RequestBody List<Long> regionsId) {
         return userService.removeRegions(id, regionsId);
     }
@@ -259,7 +258,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "Activities removed to the user with a given id"),
             @ApiResponse(code = 404, message = "User or activity not found")
     })
-    @DeleteMapping(path = ID + ACTIVITIES)
+    @PatchMapping(path = ID + ACTIVITIES)
     public UserDto removeActivities(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Activities Id", required = true) @RequestBody List<Long> activitiesId) {
         return userService.removeActivities(id, activitiesId);
     }
@@ -276,7 +275,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "Events removed to the user with a given id"),
             @ApiResponse(code = 404, message = "User or event not found")
     })
-    @DeleteMapping(path = ID + EVENTS)
+    @PatchMapping(path = ID + EVENTS)
     public UserDto removeEvents(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Events Id", required = true) @RequestBody List<Long> eventsId) {
         return userService.removeEvents(id, eventsId);
     }
