@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.NOT_FOUND;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
+import static org.springframework.data.domain.PageRequest.of;
 
 @AllArgsConstructor
 @Slf4j
@@ -51,7 +52,7 @@ public class DepartmentServiceImpl extends PatchService<Department> implements D
     public PageDto<DepartmentDto> getDepartments(PageRequest pageRequest) {
 
         if (pageRequest != null) {
-            Page<Department> departments = departmentAdapter.findAllByDeletedAtIsNull(org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize()));
+            Page<Department> departments = departmentAdapter.findAllByDeletedAtIsNull(of(pageRequest.getPage(), pageRequest.getSize()));
             return persistenceMapper.toDepartmentsPageDto(departments);
         }
         List<Department> departments = departmentAdapter.findAllByDeletedAtIsNull();

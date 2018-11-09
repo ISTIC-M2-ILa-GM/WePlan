@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.NOT_FOUND;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
+import static org.springframework.data.domain.PageRequest.of;
 
 @AllArgsConstructor
 @Service
@@ -39,7 +40,7 @@ public class CityServiceImpl extends PatchService<City> implements CityService, 
     public PageDto<CityDto> getCities(PageRequest pageRequest) {
 
         if (pageRequest != null) {
-            Page<City> cities = cityAdapter.findAllByDeletedAtIsNull(org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize()));
+            Page<City> cities = cityAdapter.findAllByDeletedAtIsNull(of(pageRequest.getPage(), pageRequest.getSize()));
             return persistenceMapper.toCitiesPageDto(cities);
         }
         List<City> cities = cityAdapter.findAllByDeletedAtIsNull();
