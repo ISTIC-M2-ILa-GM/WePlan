@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import static fr.istic.gm.weplan.server.config.consts.ApiParams.EMAIL;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
@@ -32,6 +33,8 @@ public class AjaxAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandle
         UserDto user = userService.getUserByEmail(request.getParameter(EMAIL));
         String json = objectMapper.writeValueAsString(user);
         response.setHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE);
+        response.setHeader(LOCATION, "/");
+        response.setStatus(302);
         response.getWriter().print(json);
         response.getWriter().flush();
     }

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { LoginRequest } from 'src/app/models/dto/login.request';
-import { AuthService } from './../../services/auth.service';
-import { MzToastService } from 'ngx-materialize';
-import { CookieService } from 'ngx-cookie-service';
+import {Component, OnInit} from '@angular/core';
+import {LoginRequest} from 'src/app/models/dto/login.request';
+import {AuthService} from './../../services/auth.service';
+import {MzToastService} from 'ngx-materialize';
+import {CookieService} from 'ngx-cookie-service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -21,8 +22,10 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private cookieService: CookieService,
-    private toastService: MzToastService
-  ) { }
+    private toastService: MzToastService,
+    private router: Router,
+  ) {
+  }
 
   ngOnInit() {
     this.email = '';
@@ -32,12 +35,15 @@ export class LoginComponent implements OnInit {
 
   checkLogin() {
     if (this.cookieService.check('JSESSIONID')) {
-      this.authService.check();
+      this.authService.check().then((logged: boolean) => {
+        if (logged) {
+          this.router.navigate(['/home']);
+        }
+      });
     }
   }
 
   onSubmit() {
-    console.log(`email: ${this.email} pwd: ${this.password}`);
     const login: LoginRequest = {
       email: this.email,
       password: this.password
