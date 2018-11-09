@@ -126,8 +126,6 @@ export class PreferenceComponent implements OnInit {
   private updateActivities() {
     const currentActivities = this.user.activities.map(c => c.id.toString());
     if (this.subscribedActivities !== currentActivities) {
-      console.log(this.subscribedActivities);
-      console.log(currentActivities);
       const toAdd = this.subscribedActivities.filter(c => !currentActivities.includes(c));
       const toDelete = currentActivities.filter(c => !this.subscribedActivities.includes(c));
       if (toAdd.length > 0) {
