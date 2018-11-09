@@ -106,6 +106,18 @@ public class DepartmentRepositoryTest {
     }
 
     @Test
+    public void shouldGetOneDepartmentByName() {
+
+        Optional<Department> department = departmentRepository.findByName(entity1.getName());
+
+        assertThat(department, notNullValue());
+        assertThat(department.isPresent(), equalTo(true));
+        assertThat(department.get().getName(), equalTo(entity1.getName()));
+        assertThat(department.get().getCode(), equalTo(entity1.getCode()));
+        assertThat(department.get().getId(), equalTo(entity1.getId()));
+    }
+
+    @Test
     public void shouldCreateADepartment() {
 
         Department department = someDepartment();

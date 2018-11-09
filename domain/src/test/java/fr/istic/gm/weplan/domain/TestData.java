@@ -1,7 +1,11 @@
 package fr.istic.gm.weplan.domain;
 
+import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
+import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
+import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
+import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.Activity;
 import fr.istic.gm.weplan.domain.model.entities.ActivityType;
 import fr.istic.gm.weplan.domain.model.entities.City;
@@ -15,9 +19,15 @@ import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
 import fr.istic.gm.weplan.domain.model.request.PageRequest;
 import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 import fr.istic.gm.weplan.domain.model.request.UserRequest;
+import fr.istic.gm.weplan.domain.model.weather.Weather;
+import fr.istic.gm.weplan.domain.model.weather.Week;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class TestData {
@@ -25,6 +35,7 @@ public class TestData {
     public static final Long ID = 10L;
     public static final String EMAIL = "an@email.com";
     public static final String SOME_STRING = "some-string";
+    public static final String NAME = "a-name";
 
     private static final PodamFactory FACTORY = new PodamFactoryImpl();
 
@@ -92,6 +103,22 @@ public class TestData {
         return FACTORY.manufacturePojoWithFullData(CityDto.class);
     }
 
+    public static RegionDto someRegionDto() {
+        return FACTORY.manufacturePojoWithFullData(RegionDto.class);
+    }
+
+    public static DepartmentDto someDepartmentDto() {
+        return FACTORY.manufacturePojoWithFullData(DepartmentDto.class);
+    }
+
+    public static ActivityDto someActivityDto() {
+        return FACTORY.manufacturePojoWithFullData(ActivityDto.class);
+    }
+
+    public static EventDto someEventDto() {
+        return FACTORY.manufacturePojoWithFullData(EventDto.class);
+    }
+
     public static City someCity() {
         City city = FACTORY.manufacturePojoWithFullData(City.class);
         city.setDeletedAt(null);
@@ -100,5 +127,34 @@ public class TestData {
 
     public static RegionRequest someRegionRequest() {
         return FACTORY.manufacturePojoWithFullData(RegionRequest.class);
+    }
+
+    public static Weather someWeather() {
+        return FACTORY.manufacturePojoWithFullData(Weather.class);
+    }
+
+    public static Week someWeek() {
+        Instant someSaturday = LocalDateTime.of(2018, 11, 3, 12, 0).toInstant(ZoneOffset.UTC);
+
+        Weather weather1 = someWeather();
+        weather1.setCode("800");
+        weather1.setDate(someSaturday);
+
+        Instant someFriday = LocalDateTime.of(2018, 11, 2, 12, 0).toInstant(ZoneOffset.UTC);
+
+        Weather weather2 = someWeather();
+        weather2.setCode("800");
+        weather2.setDate(someFriday);
+
+        Instant someSunday = LocalDateTime.of(2018, 11, 4, 12, 0).toInstant(ZoneOffset.UTC);
+
+        Weather weather3 = someWeather();
+        weather3.setCode("500");
+        weather3.setDate(someSunday);
+
+        Week week = new Week();
+        week.setWeathers(Arrays.asList(weather1, weather2, weather3));
+
+        return week;
     }
 }

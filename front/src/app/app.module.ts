@@ -1,3 +1,7 @@
+import { ActivityService } from './services/activity.service';
+import { CityService } from './services/city.service';
+import { DepartmentService } from './services/department.service';
+import { RegionService } from './services/region.service';
 // framwork + libraries related imports
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,6 +23,9 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UserService } from './services/user.service';
+import { PreferenceComponent } from './components/preference/preference.component';
+import {EventService} from './services/event.service';
+import {EventComponent} from './components/event/event.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +37,9 @@ import { UserService } from './services/user.service';
     NotFoundComponent,
     LoginComponent,
     RegisterComponent,
-    ProfileComponent
+    ProfileComponent,
+    PreferenceComponent,
+    EventComponent
 
     // Forms
     // LoginFormComponent
@@ -45,7 +54,12 @@ import { UserService } from './services/user.service';
   ],
   providers: [
     UserService,
-    CookieService
+    CookieService,
+    EventService,
+    RegionService,
+    DepartmentService,
+    CityService,
+    ActivityService
   ],
   bootstrap: [AppComponent]
 })

@@ -15,6 +15,8 @@ public interface RegionService {
 
     RegionDto getRegion(Long id);
 
+    RegionDto getRegion(String name);
+
     RegionDto createRegion(RegionRequest region);
 
     RegionDto patchRegion(Long id, Map<String, Object> map);

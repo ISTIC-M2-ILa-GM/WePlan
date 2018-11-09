@@ -9,7 +9,6 @@ import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
 import fr.istic.gm.weplan.domain.model.request.PageRequest;
-import fr.istic.gm.weplan.domain.service.ActivityService;
 import fr.istic.gm.weplan.domain.service.CityDaoService;
 import org.junit.Before;
 import org.junit.Rule;
@@ -29,19 +28,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static fr.istic.gm.weplan.domain.TestData.ID;
-import static fr.istic.gm.weplan.domain.TestData.someActivity;
-import static fr.istic.gm.weplan.domain.TestData.someActivityRequest;
-import static fr.istic.gm.weplan.domain.TestData.someCity;
-import static fr.istic.gm.weplan.domain.TestData.somePageOptions;
-import static fr.istic.gm.weplan.domain.exception.DomainException.NOTHING_TO_PATCH;
-import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
-import static fr.istic.gm.weplan.domain.exception.DomainException.WRONG_DATA_TO_PATCH;
+import static fr.istic.gm.weplan.domain.TestData.*;
+import static fr.istic.gm.weplan.domain.exception.DomainException.*;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -49,20 +43,15 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ActivityServiceTest {
 
-    private ActivityService service;
-
-    @Mock
-    private ActivityAdapter mockActivityAdapter;
-
-    @Mock
-    private CityDaoService mockCityService;
-
-    @Mock
-    private Clock mockClock;
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-
+    private ActivityServiceImpl service;
+    @Mock
+    private ActivityAdapter mockActivityAdapter;
+    @Mock
+    private CityDaoService mockCityService;
+    @Mock
+    private Clock mockClock;
     private PersistenceMapper persistenceMapper;
 
     @Before
@@ -173,7 +162,60 @@ public class ActivityServiceTest {
         thrown.expect(DomainException.class);
         thrown.expectMessage(String.format(NOT_FOUND_MSG, Activity.class.getSimpleName()));
 
-        service.getActivity(null);
+        service.getActivity((Long) null);
+    }
+
+    @Test
+    public void shouldGetActivityByName() {
+
+        Activity activity = someActivity();
+        Optional<Activity> optionalActivity = Optional.of(activity);
+
+        when(mockActivityAdapter.findByName(any())).thenReturn(optionalActivity);
+
+        ActivityDto results = service.getActivity(NAME);
+
+        verify(mockActivityAdapter).findByName(NAME);
+
+        assertThat(results, notNullValue());
+        assertThat(results, equalTo(persistenceMapper.toActivityDto(activity)));
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetANullActivityByName() {
+
+        Optional<Activity> optionalActivity = Optional.empty();
+
+        when(mockActivityAdapter.findByName(any())).thenReturn(optionalActivity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Activity.class.getSimpleName()));
+
+        service.getActivity(NAME);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetADeletedActivityByName() {
+
+        Activity activity = someActivity();
+        activity.setDeletedAt(Instant.now());
+        Optional<Activity> optionalActivity = Optional.of(activity);
+
+        when(mockActivityAdapter.findByName(any())).thenReturn(optionalActivity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Activity.class.getSimpleName()));
+
+        service.getActivity(NAME);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetAActivityWithNullName() {
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Activity.class.getSimpleName()));
+
+        service.getActivity((String) null);
     }
 
     @Test
@@ -372,5 +414,16 @@ public class ActivityServiceTest {
         thrown.expectMessage(WRONG_DATA_TO_PATCH);
 
         service.patchActivity(ID, patch);
+    }
+
+    @Test
+    public void shouldGetActivitiesDao() {
+        when(mockActivityAdapter.findAllByDeletedAtIsNull()).thenReturn(singletonList(someActivity()));
+
+        List<Activity> activitiesDao = this.service.getActivitiesDao();
+        verify(mockActivityAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(activitiesDao, notNullValue());
+        assertThat(activitiesDao, hasSize(1));
     }
 }

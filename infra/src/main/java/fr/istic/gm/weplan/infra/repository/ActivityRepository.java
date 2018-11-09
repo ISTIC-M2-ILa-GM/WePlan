@@ -29,5 +29,8 @@ public interface ActivityRepository extends JpaRepository<Activity, Long>, Activ
     Optional<Activity> findById(Long id);
 
     @Override
+    Optional<Activity> findByName(String name);
+
+    @Override
     Activity save(Activity activity);
 }

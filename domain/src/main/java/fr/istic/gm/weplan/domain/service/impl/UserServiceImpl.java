@@ -35,6 +35,7 @@ import java.util.Optional;
 import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.NOT_FOUND;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
 import static java.util.stream.Collectors.toList;
+import static org.springframework.data.domain.PageRequest.of;
 
 @AllArgsConstructor
 @Slf4j
@@ -82,7 +83,7 @@ public class UserServiceImpl extends PatchService<User> implements UserService, 
     @Override
     public PageDto<UserDto> getUsers(PageRequest pageRequest) {
 
-        Page<User> users = userAdapter.findAllByDeletedAtIsNull(org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize()));
+        Page<User> users = userAdapter.findAllByDeletedAtIsNull(of(pageRequest.getPage(), pageRequest.getSize()));
         return persistenceMapper.toUsersPageDto(users);
     }
 

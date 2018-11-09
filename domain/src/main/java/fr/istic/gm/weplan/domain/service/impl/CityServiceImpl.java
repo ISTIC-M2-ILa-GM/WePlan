@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.NOT_FOUND;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
+import static org.springframework.data.domain.PageRequest.of;
 
 @AllArgsConstructor
 @Service
@@ -39,7 +40,7 @@ public class CityServiceImpl extends PatchService<City> implements CityService, 
     public PageDto<CityDto> getCities(PageRequest pageRequest) {
 
         if (pageRequest != null) {
-            Page<City> cities = cityAdapter.findAllByDeletedAtIsNull(org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize()));
+            Page<City> cities = cityAdapter.findAllByDeletedAtIsNull(of(pageRequest.getPage(), pageRequest.getSize()));
             return persistenceMapper.toCitiesPageDto(cities);
         }
         List<City> cities = cityAdapter.findAllByDeletedAtIsNull();
@@ -57,6 +58,16 @@ public class CityServiceImpl extends PatchService<City> implements CityService, 
 
         City city = getCityDao(id);
         return persistenceMapper.toCityDto(city);
+    }
+
+    @Override
+    public CityDto getCity(String name) {
+
+        Optional<City> city = name != null ? cityAdapter.findByName(name) : Optional.empty();
+        if (!city.isPresent() || city.get().getDeletedAt() != null) {
+            throw new DomainException(NOT_FOUND_MSG, City.class.getSimpleName(), NOT_FOUND);
+        }
+        return persistenceMapper.toCityDto(city.get());
     }
 
     @Override
@@ -93,5 +104,10 @@ public class CityServiceImpl extends PatchService<City> implements CityService, 
             throw new DomainException(NOT_FOUND_MSG, City.class.getSimpleName(), NOT_FOUND);
         }
         return city.get();
+    }
+
+    @Override
+    public List<City> getCitiesDao() {
+        return this.cityAdapter.findAllByDeletedAtIsNull();
     }
 }

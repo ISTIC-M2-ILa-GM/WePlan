@@ -107,6 +107,19 @@ public class CityRepositoryTest {
     }
 
     @Test
+    public void shouldGetOneCityByName() {
+
+        Optional<City> city = cityRepository.findByName(entity1.getName());
+
+        assertThat(city, notNullValue());
+        assertThat(city.isPresent(), equalTo(true));
+        assertThat(city.get().getName(), equalTo(entity1.getName()));
+        assertThat(city.get().getDepartment(), equalTo(entity1.getDepartment()));
+        assertThat(city.get().getPostalCode(), equalTo(entity1.getPostalCode()));
+        assertThat(city.get().getId(), equalTo(entity1.getId()));
+    }
+
+    @Test
     public void shouldCreateACity() {
 
         City city = someCity();

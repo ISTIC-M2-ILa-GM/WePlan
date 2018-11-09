@@ -46,8 +46,8 @@ export class LoginComponent implements OnInit {
 
   submitCookie() {
     this.authService.setCookie(this.cookie);
-    this.authService.login().then(isLoggedIn => {
-      this.toastService.show('Successfully logged id !', 4000, 'green');
-    });
+    // this.authService.login().then(isLoggedIn => {
+    //   this.toastService.show('Successfully logged id !', 4000, 'green');
+    // });
   }
 }

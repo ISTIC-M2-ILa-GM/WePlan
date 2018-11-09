@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './../../services/user.service';
 
@@ -12,13 +13,12 @@ export class ProfileComponent implements OnInit {
   email = '';
   password = '';
   repeat = '';
+  user: any;
 
-  constructor(private userService: UserService) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.userService.get().subscribe((o: Object) => {
-      console.log(o);
-    });
+    this.user = this.authService.getUser();
     // for testing purpose only
     /*
     const user = this.userService.get();

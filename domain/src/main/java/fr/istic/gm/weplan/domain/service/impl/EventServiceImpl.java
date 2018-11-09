@@ -18,6 +18,7 @@ import java.util.Optional;
 
 import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.NOT_FOUND;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
+import static org.springframework.data.domain.PageRequest.of;
 
 @AllArgsConstructor
 @Service
@@ -32,7 +33,7 @@ public class EventServiceImpl extends PatchService<Event> implements EventServic
     @Override
     public PageDto<EventDto> getEvents(PageRequest pageRequest) {
 
-        Page<Event> events = eventAdapter.findAllByDeletedAtIsNull(org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize()));
+        Page<Event> events = eventAdapter.findAllByDeletedAtIsNull(of(pageRequest.getPage(), pageRequest.getSize()));
         return persistenceMapper.toEventsPageDto(events);
     }
 
@@ -49,6 +50,12 @@ public class EventServiceImpl extends PatchService<Event> implements EventServic
         Event event = getEventDao(id);
         event.setDeletedAt(clock.instant());
         eventAdapter.save(event);
+    }
+
+    @Override
+    public EventDto createEvent(Event event) {
+        Event result = eventAdapter.save(event);
+        return persistenceMapper.toEventDto(result);
     }
 
     @Override

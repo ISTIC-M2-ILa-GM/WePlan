@@ -12,6 +12,8 @@ public interface RegionAdapter {
 
     Optional<Region> findById(Long id);
 
+    Optional<Region> findByName(String name);
+
     Region save(Region region);
 
     Page<Region> findAllByDeletedAtIsNull(Pageable pageable);

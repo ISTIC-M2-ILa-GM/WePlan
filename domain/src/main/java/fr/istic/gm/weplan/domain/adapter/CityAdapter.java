@@ -44,6 +44,14 @@ public interface CityAdapter {
     Optional<City> findById(Long id);
 
     /**
+     * Find a city by name.
+     *
+     * @param name the name to search
+     * @return the optional city
+     */
+    Optional<City> findByName(String name);
+
+    /**
      * Save a city.
      *
      * @param city the city to save

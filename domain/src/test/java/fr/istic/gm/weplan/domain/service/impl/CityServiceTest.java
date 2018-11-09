@@ -23,23 +23,15 @@ import org.springframework.data.domain.PageImpl;
 
 import java.time.Clock;
 import java.time.Instant;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
-import static fr.istic.gm.weplan.domain.TestData.ID;
-import static fr.istic.gm.weplan.domain.TestData.someCity;
-import static fr.istic.gm.weplan.domain.TestData.someCityRequest;
-import static fr.istic.gm.weplan.domain.TestData.someDepartment;
-import static fr.istic.gm.weplan.domain.TestData.somePageOptions;
-import static fr.istic.gm.weplan.domain.exception.DomainException.NOTHING_TO_PATCH;
-import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
-import static fr.istic.gm.weplan.domain.exception.DomainException.WRONG_DATA_TO_PATCH;
+import static fr.istic.gm.weplan.domain.TestData.*;
+import static fr.istic.gm.weplan.domain.exception.DomainException.*;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -47,20 +39,15 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class CityServiceTest {
 
-    private CityServiceImpl service;
-
-    @Mock
-    private CityAdapter mockCityAdapter;
-
-    @Mock
-    private DepartmentDaoService mockDepartmentService;
-
-    @Mock
-    private Clock mockClock;
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-
+    private CityServiceImpl service;
+    @Mock
+    private CityAdapter mockCityAdapter;
+    @Mock
+    private DepartmentDaoService mockDepartmentService;
+    @Mock
+    private Clock mockClock;
     private PersistenceMapper persistenceMapper;
 
     @Before
@@ -201,7 +188,60 @@ public class CityServiceTest {
         thrown.expect(DomainException.class);
         thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
 
-        service.getCity(null);
+        service.getCity((Long) null);
+    }
+
+    @Test
+    public void shouldGetCityByName() {
+
+        City city = someCity();
+        Optional<City> optionalCity = Optional.of(city);
+
+        when(mockCityAdapter.findByName(any())).thenReturn(optionalCity);
+
+        CityDto results = service.getCity(NAME);
+
+        verify(mockCityAdapter).findByName(NAME);
+
+        assertThat(results, notNullValue());
+        assertThat(results, equalTo(persistenceMapper.toCityDto(city)));
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetANullCityByName() {
+
+        Optional<City> optionalCity = Optional.empty();
+
+        when(mockCityAdapter.findByName(any())).thenReturn(optionalCity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
+
+        service.getCity(NAME);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetADeletedCityByName() {
+
+        City city = someCity();
+        city.setDeletedAt(Instant.now());
+        Optional<City> optionalCity = Optional.of(city);
+
+        when(mockCityAdapter.findByName(any())).thenReturn(optionalCity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
+
+        service.getCity(NAME);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetACityWithNullName() {
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
+
+        service.getCity((String) null);
     }
 
     @Test
@@ -392,5 +432,16 @@ public class CityServiceTest {
         thrown.expectMessage(WRONG_DATA_TO_PATCH);
 
         service.patchCity(ID, patch);
+    }
+
+    @Test
+    public void shouldGetCitiesDao() {
+        when(mockCityAdapter.findAllByDeletedAtIsNull()).thenReturn(singletonList(someCity()));
+
+        List<City> citiesDao = this.service.getCitiesDao();
+        verify(mockCityAdapter).findAllByDeletedAtIsNull();
+
+        assertThat(citiesDao, notNullValue());
+        assertThat(citiesDao, hasSize(1));
     }
 }

@@ -15,18 +15,6 @@
             <p style="text-align: justify">
               In order to login, please go to the login page using the link below then come back to this page.
             </p><br />
-            <div class="form-group">
-                <mz-input-container>
-                    <i mz-icon-mdi mz-input-prefix [icon]="'lock-clock'"></i>
-                    <input mz-input [label]="'Cookie'" name="cookie" id="cookie" type="text" [(ngModel)]="cookie">
-                </mz-input-container>
-                <mz-input-container class="text-center">
-                    <button mz-button (click)="submitCookie()">
-                      <i mz-icon-mdi [icon]="'cookie'"></i>
-                      Set cookie
-                    </button>
-                </mz-input-container>
-            </div>
           </mz-card-content>
         </mz-card>
         <!--        <form (ngSubmit)="onSubmit()">

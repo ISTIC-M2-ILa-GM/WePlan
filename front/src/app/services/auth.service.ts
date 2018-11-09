@@ -1,3 +1,4 @@
+import { User } from './../models/dto/user';
 import { Injectable } from '@angular/core';
 import { RestService } from './rest.service';
 import { UserRequest } from '../models/dto/user.request';
@@ -19,10 +20,12 @@ export class AuthService {
 
   check(): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
-      this.restService.get(`${API.endpoint}${API.entities.users}/current`).subscribe((user: Object) => {
-        console.log(user);
+      this.restService.get(`${API.endpoint}${API.auth}${API.current}`).subscribe((user: Object) => {
+        this.setUser(user);
         resolve(true);
       }, error => {
+        console.error("y'a eu une bourde");
+        console.error(error);
         this.cookieService.deleteAll();
         this.router.navigateByUrl('/login');
         resolve(false);
@@ -38,12 +41,12 @@ export class AuthService {
     this.cookieService.set('user', JSON.stringify(user));
   }
 
-  getUser(): Object {
+  getUser(): User {
     return JSON.parse(this.cookieService.get('user'));
   }
 
   register(user: UserRequest): Observable<ArrayBuffer> {
-    return this.restService.post(`${API.endpoint}${API.entities.users}`, user);
+    return this.restService.post(`${API.endpoint}${API.entities.user}`, user);
   }
 
   /*

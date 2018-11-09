@@ -99,6 +99,17 @@ public class RegionRepositoryTest {
     }
 
     @Test
+    public void shouldGetOneRegionByName() {
+
+        Optional<Region> region = regionRepository.findByName(entity1.getName());
+
+        assertThat(region, notNullValue());
+        assertThat(region.isPresent(), equalTo(true));
+        assertThat(region.get().getName(), equalTo(entity1.getName()));
+        assertThat(region.get().getId(), equalTo(entity1.getId()));
+    }
+
+    @Test
     public void shouldCreateARegion() {
 
         Region region = someRegion();

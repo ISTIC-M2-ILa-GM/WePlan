@@ -1,7 +1,5 @@
-import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { isNullOrUndefined } from 'util';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +13,8 @@ export class RestService {
   put(url, body, options?) { return this.httpClient.put(url, body, options); }
 
   post(url, body, options?) { return this.httpClient.post(url, body, options); }
+
+  patch(url, body, options?) { return this.httpClient.post(url, body, options); }
 
   delete(url, options?) { return this.httpClient.delete(url, options); }
 }

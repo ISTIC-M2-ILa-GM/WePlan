@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.NOT_FOUND;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
+import static org.springframework.data.domain.PageRequest.of;
 
 @AllArgsConstructor
 @Slf4j
@@ -49,10 +50,15 @@ public class ActivityServiceImpl extends PatchService<Activity> implements Activ
     }
 
     @Override
+    public List<Activity> getActivitiesDao() {
+        return this.activityAdapter.findAllByDeletedAtIsNull();
+    }
+
+    @Override
     public PageDto<ActivityDto> getActivities(PageRequest pageRequest) {
 
         if (pageRequest != null) {
-            Page<Activity> activities = activityAdapter.findAllByDeletedAtIsNull(org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize()));
+            Page<Activity> activities = activityAdapter.findAllByDeletedAtIsNull(of(pageRequest.getPage(), pageRequest.getSize()));
             return persistenceMapper.toActivitiesPageDto(activities);
         }
         List<Activity> activities = activityAdapter.findAllByDeletedAtIsNull();
@@ -71,6 +77,17 @@ public class ActivityServiceImpl extends PatchService<Activity> implements Activ
         Activity activity = this.getActivityDao(id);
 
         return this.persistenceMapper.toActivityDto(activity);
+    }
+
+    @Override
+    public ActivityDto getActivity(String name) {
+
+        Optional<Activity> activity = name != null ? activityAdapter.findByName(name) : Optional.empty();
+        if (!activity.isPresent() || activity.get().getDeletedAt() != null) {
+            throw new DomainException(NOT_FOUND_MSG, Activity.class.getSimpleName(), NOT_FOUND);
+        }
+
+        return this.persistenceMapper.toActivityDto(activity.get());
     }
 
     @Override

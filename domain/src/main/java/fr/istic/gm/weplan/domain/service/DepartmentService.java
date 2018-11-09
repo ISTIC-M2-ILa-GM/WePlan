@@ -37,6 +37,14 @@ public interface DepartmentService {
     DepartmentDto getDepartment(Long id);
 
     /**
+     * Retrieve a department.
+     *
+     * @param name the name of the department
+     * @return the department
+     */
+    DepartmentDto getDepartment(String name);
+
+    /**
      * Create a department.
      *
      * @param departmentRequest the department to create

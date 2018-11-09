@@ -37,6 +37,14 @@ public interface CityService {
     CityDto getCity(Long id);
 
     /**
+     * Retrieve a city.
+     *
+     * @param name the name of the city
+     * @return the city
+     */
+    CityDto getCity(String name);
+
+    /**
      * Create a city.
      *
      * @param cityRequest the city to create
