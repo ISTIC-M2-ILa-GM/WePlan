@@ -20,6 +20,7 @@ import static fr.istic.gm.weplan.infra.broker.impl.EventBrokerImpl.STOMP;
 import static fr.istic.gm.weplan.infra.broker.impl.EventBrokerImpl.WS;
 import static fr.istic.gm.weplan.server.config.consts.ApiParams.EMAIL;
 import static fr.istic.gm.weplan.server.config.consts.ApiParams.PASWORD;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.API;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.CITY;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.DEPARTMENT;
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.LOGIN;
@@ -33,6 +34,7 @@ import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.USER;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static final String ALL = "/**";
+    private static final String API_ALL = API + ALL;
     private static final String CITY_ALL = CITY + ALL;
     private static final String DEPARTMENT_ALL = DEPARTMENT + ALL;
     private static final String REGION_ALL = REGION + ALL;
@@ -88,7 +90,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, USER_ALL).authenticated()
                 .antMatchers(HttpMethod.GET, LOGOUT).authenticated()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .anyRequest().hasAuthority(Role.ADMIN.name());
+                .antMatchers(API_ALL).hasAuthority(Role.ADMIN.name())
+                .anyRequest().permitAll();
     }
 
 
