@@ -29,5 +29,8 @@ public interface CityRepository extends JpaRepository<City, Long>, CityAdapter {
     Optional<City> findById(Long id);
 
     @Override
+    Optional<City> findByName(String name);
+
+    @Override
     City save(City city);
 }

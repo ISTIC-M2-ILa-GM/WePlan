@@ -29,5 +29,8 @@ public interface DepartmentRepository extends JpaRepository<Department, Long>, D
     Optional<Department> findById(Long id);
 
     @Override
+    Optional<Department> findByName(String name);
+
+    @Override
     Department save(Department department);
 }

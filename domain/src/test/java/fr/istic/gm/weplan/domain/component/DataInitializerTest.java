@@ -98,10 +98,6 @@ public class DataInitializerTest {
         pageDto.setResults(Collections.singletonList(someEventDto()));
         when(mockEventService.getEvents(any())).thenReturn(pageDto);
 
-        when(mockRegionService.createRegion(any())).thenReturn(someRegionDto());
-        when(mockDepartmentService.createDepartment(any())).thenReturn(someDepartmentDto());
-        when(mockCityService.createCity(any())).thenReturn(someCityDto());
-
         dataInitializer.onApplicationEvent(null);
 
         verify(mockRegionService, never()).createRegion(any());

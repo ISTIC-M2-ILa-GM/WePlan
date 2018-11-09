@@ -23,6 +23,9 @@ public interface RegionRepository extends JpaRepository<Region, Long>, RegionAda
     Optional<Region> findById(Long id);
 
     @Override
+    Optional<Region> findByName(String name);
+
+    @Override
     Region save(Region region);
 
     @Override
