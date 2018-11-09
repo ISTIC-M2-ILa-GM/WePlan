@@ -15,6 +15,8 @@ public final class ApiRoutes {
     public static final String ACTIVITY = API + "/activity";
     public static final String EVENT = API + "/event";
     public static final String USER = API + "/user";
+    public static final String AUTH = API + "/auth";
+    public static final String USER_CURRENT = "/current";
     public static final String CITIES = "/cities";
     public static final String DEPARTMENTS = "/departments";
     public static final String REGIONS = "/regions";

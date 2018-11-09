@@ -59,13 +59,13 @@ export class PreferenceComponent implements OnInit {
     this.subscribedDepartments = [];
     this.subscribedRegions = [];
     this.subscribedActivities = [];
-    this.userService.getCurrentUser().subscribe((r) => {
+    // this.userService.getCurrentUser().subscribe((r) => {
       //TODO userService
       // this.subscribedCities = r.cities;
       // this.subscribedDepartments = r.departments;
       // this.subscribedRegions = r.regions;
       // this.subscribedActivities = r.activities;
-    });
+    // });
   }
 
   update() {

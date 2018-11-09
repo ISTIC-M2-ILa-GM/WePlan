@@ -1,3 +1,7 @@
+import { ActivityService } from './services/activity.service';
+import { CityService } from './services/city.service';
+import { DepartmentService } from './services/department.service';
+import { RegionService } from './services/region.service';
 // framwork + libraries related imports
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -5,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { MaterializeComponentModule } from './materialize-css.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 // Application imports
 import { AppComponent } from './app.component';
@@ -18,9 +23,9 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UserService } from './services/user.service';
-import { PreferenceComponent } from "./components/preference/preference.component";
-import {EventService} from "./services/event.service";
-import {EventComponent} from "./components/event/event.component";
+import { PreferenceComponent } from './components/preference/preference.component';
+import {EventService} from './services/event.service';
+import {EventComponent} from './components/event/event.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +54,12 @@ import {EventComponent} from "./components/event/event.component";
   ],
   providers: [
     UserService,
-    EventService
+    CookieService,
+    EventService,
+    RegionService,
+    DepartmentService,
+    CityService,
+    ActivityService
   ],
   bootstrap: [AppComponent]
 })

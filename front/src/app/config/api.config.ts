@@ -1,9 +1,11 @@
 export const API = {
-  endpoint: 'http://localhost:8080/api',
+  endpoint: '/api',
+  auth: '/auth',
+  current: '/current',
   entities: {
     user: '/user',
-    city: "/city",
-    cities: "/cities",
+    city: '/city',
+    cities: '/cities',
     activity: '/activity',
     activities: '/activities',
     region: '/region',
@@ -11,6 +13,6 @@ export const API = {
     department: '/department',
     departments: '/departments',
     event: '/event',
-    events: "/events"
+    events: '/events'
   }
 };

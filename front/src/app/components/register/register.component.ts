@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {UserRequest} from '../../models/dto/user.request';
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-register',
@@ -12,14 +15,27 @@ export class RegisterComponent implements OnInit {
   password = '';
   repeat = '';
 
-  constructor() { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit = () => {
   }
 
   onSubmit = () => {
-    console.log(`First name: ${this.firstName} Last name: ${this.lastName}`);
-    console.log(`Email: ${this.email}`);
-    console.log(`Password: ${this.password} Repeat: ${this.repeat}`);
+    const user: UserRequest = {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      password: this.password,
+    };
+    console.log(user);
+
+    this.authService.register(user).subscribe(response => {
+      console.log(response);
+      console.log('Success !');
+      this.router.navigate(['/login']);
+    }, error => {
+      console.error('Something went wrong while registering user.');
+      console.error(error);
+    });
   }
 }

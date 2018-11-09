@@ -1,9 +1,11 @@
+import { UserService } from './../../services/user.service';
+import { AuthService } from './../../services/auth.service';
 import {Component, OnInit} from '@angular/core';
 import {EventService} from "../../services/event.service";
 import {PageRequest} from "../../models/request/page.request";
 import {Event} from "../../models/dto/event";
 import {PageResponse} from "../../models/response/page.response";
-import {UserService} from "../../services/user.service";
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-event',
@@ -18,14 +20,11 @@ export class EventComponent implements OnInit {
   size: number;
   totalItems: number;
 
-
-  private eventService: EventService = null;
-  private userService: UserService = null;
-
-  constructor(eventService: EventService, userService: UserService) {
-    this.eventService = eventService;
-    this.userService = userService;
-  }
+  constructor(
+    private eventService: EventService,
+    private userService: UserService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.totalItems = 1;
@@ -43,12 +42,12 @@ export class EventComponent implements OnInit {
       this.size = r.size;
       this.totalItems = r.totalPages * r.size;
     });
-    this.userService.getCurrentUser().subscribe(this.refreshEventUser);
+    this.refreshEventUser();
   }
 
-  private refreshEventUser(user) {
-    //TODO refactor userService without restService
-    //this.subscribedEvents = r.events;
+  private refreshEventUser() {
+    // TODO refactor userService without restService
+    // this.subscribedEvents = r.events;
   }
 
   onPageChange(event) {
