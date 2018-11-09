@@ -4,12 +4,29 @@
       <div class="card-content center">
         <span class="card-title">Authentication</span>
         <mz-card class="grey lighten-2" [horizontal]="true" [hoverable]="false">
-          <mz-card-title>
-            Login page is still in the backlog :-/
+          <mz-card-title class="red-text">
+              Login page is still in the backlog :-/
           </mz-card-title>
           <mz-card-content>
-            Due to a lack of time, the team decided to focus on the business logic of the application
-            rather than to waste time over the fine configuration of a proxy or the setup of JWT on Spring.
+            <p style="text-align: justify">
+              Due to a lack of time, the team decided to focus on the business logic of the application
+              rather than to waste time over the fine configuration of a proxy or the setup of JWT on Spring.
+            </p><br />
+            <p style="text-align: justify">
+              In order to login, please go to the login page using the link below then come back to this page.
+            </p><br />
+            <div class="form-group">
+                <mz-input-container>
+                    <i mz-icon-mdi mz-input-prefix [icon]="'lock-clock'"></i>
+                    <input mz-input [label]="'Cookie'" name="cookie" id="cookie" type="text" [(ngModel)]="cookie">
+                </mz-input-container>
+                <mz-input-container class="text-center">
+                    <button mz-button (click)="submitCookie()">
+                      <i mz-icon-mdi [icon]="'cookie'"></i>
+                      Set cookie
+                    </button>
+                </mz-input-container>
+            </div>
           </mz-card-content>
         </mz-card>
         <!--        <form (ngSubmit)="onSubmit()">
