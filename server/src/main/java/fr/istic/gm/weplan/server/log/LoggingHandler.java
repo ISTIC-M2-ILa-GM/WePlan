@@ -100,7 +100,7 @@ public class LoggingHandler {
     @Before("component() && loggingPublicOperation() && args(..)")
     public void logComponentBefore(JoinPoint joinPoint) {
         String id = findUserId(RequestContextHolder.getRequestAttributes());
-        log.info("COMPONENT REQUEST({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
+        log.info("COMPONENT REQUEST({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()).replace("\n", ""));
     }
 
     /**
@@ -112,7 +112,7 @@ public class LoggingHandler {
     @AfterReturning(pointcut = "component() && loggingPublicOperation()", returning = "result")
     public void logComponentAfter(JoinPoint joinPoint, Object result) {
         String id = findUserId(RequestContextHolder.getRequestAttributes());
-        log.info("COMPONENT RESPONSE({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), result);
+        log.info("COMPONENT RESPONSE({}) {} {}: {}", id, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName(), result != null ? result.toString().replace("\n", ""): "");
     }
 
     /**

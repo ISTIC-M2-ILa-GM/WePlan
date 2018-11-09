@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static fr.istic.gm.weplan.domain.TestData.ID;
+import static fr.istic.gm.weplan.domain.TestData.NAME;
 import static fr.istic.gm.weplan.domain.TestData.somePageOptions;
 import static fr.istic.gm.weplan.domain.TestData.someRegion;
 import static fr.istic.gm.weplan.domain.TestData.someRegionRequest;
@@ -218,7 +219,60 @@ public class RegionServiceTest {
         thrown.expect(DomainException.class);
         thrown.expectMessage(String.format(NOT_FOUND_MSG, Region.class.getSimpleName()));
 
-        service.getRegion(null);
+        service.getRegion((Long) null);
+    }
+
+    @Test
+    public void shouldGetRegionByName() {
+
+        Region region = someRegion();
+        Optional<Region> optionalRegion = Optional.of(region);
+
+        when(mockRegionAdapter.findByName(any())).thenReturn(optionalRegion);
+
+        RegionDto results = service.getRegion(NAME);
+
+        verify(mockRegionAdapter).findByName(NAME);
+
+        assertThat(results, notNullValue());
+        assertThat(results, equalTo(persistenceMapper.toRegionDto(region)));
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetANullRegionByName() {
+
+        Optional<Region> optionalRegion = Optional.empty();
+
+        when(mockRegionAdapter.findByName(any())).thenReturn(optionalRegion);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Region.class.getSimpleName()));
+
+        service.getRegion(NAME);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetADeletedRegionByName() {
+
+        Region region = someRegion();
+        region.setDeletedAt(Instant.now());
+        Optional<Region> optionalRegion = Optional.of(region);
+
+        when(mockRegionAdapter.findByName(any())).thenReturn(optionalRegion);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Region.class.getSimpleName()));
+
+        service.getRegion(NAME);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetARegionWithNullName() {
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Region.class.getSimpleName()));
+
+        service.getRegion((String) null);
     }
 
     @Test

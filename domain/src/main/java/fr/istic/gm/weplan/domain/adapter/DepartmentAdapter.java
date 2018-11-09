@@ -44,6 +44,14 @@ public interface DepartmentAdapter {
     Optional<Department> findById(Long id);
 
     /**
+     * Find a department by name
+     *
+     * @param name the name to search
+     * @return the optional department
+     */
+    Optional<Department> findByName(String name);
+
+    /**
      * Save a department.
      *
      * @param department the department to save

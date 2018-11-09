@@ -73,6 +73,16 @@ public class DepartmentServiceImpl extends PatchService<Department> implements D
     }
 
     @Override
+    public DepartmentDto getDepartment(String name) {
+
+        Optional<Department> department = name != null ? departmentAdapter.findByName(name) : Optional.empty();
+        if (!department.isPresent() || department.get().getDeletedAt() != null) {
+            throw new DomainException(NOT_FOUND_MSG, Department.class.getSimpleName(), NOT_FOUND);
+        }
+        return persistenceMapper.toDepartmentDto(department.get());
+    }
+
+    @Override
     public DepartmentDto createDepartment(DepartmentRequest departmentRequest) {
 
         Department department = persistenceMapper.toDepartment(departmentRequest);

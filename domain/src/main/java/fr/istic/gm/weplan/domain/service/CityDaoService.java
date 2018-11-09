@@ -14,5 +14,10 @@ public interface CityDaoService {
      */
     City getCityDao(Long id);
 
+    /**
+     * Get all cities dao
+     *
+     * @return the cities dao
+     */
     List<City> getCitiesDao();
 }

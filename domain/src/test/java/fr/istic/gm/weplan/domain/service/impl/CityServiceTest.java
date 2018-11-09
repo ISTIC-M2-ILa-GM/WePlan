@@ -188,7 +188,60 @@ public class CityServiceTest {
         thrown.expect(DomainException.class);
         thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
 
-        service.getCity(null);
+        service.getCity((Long) null);
+    }
+
+    @Test
+    public void shouldGetCityByName() {
+
+        City city = someCity();
+        Optional<City> optionalCity = Optional.of(city);
+
+        when(mockCityAdapter.findByName(any())).thenReturn(optionalCity);
+
+        CityDto results = service.getCity(NAME);
+
+        verify(mockCityAdapter).findByName(NAME);
+
+        assertThat(results, notNullValue());
+        assertThat(results, equalTo(persistenceMapper.toCityDto(city)));
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetANullCityByName() {
+
+        Optional<City> optionalCity = Optional.empty();
+
+        when(mockCityAdapter.findByName(any())).thenReturn(optionalCity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
+
+        service.getCity(NAME);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetADeletedCityByName() {
+
+        City city = someCity();
+        city.setDeletedAt(Instant.now());
+        Optional<City> optionalCity = Optional.of(city);
+
+        when(mockCityAdapter.findByName(any())).thenReturn(optionalCity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
+
+        service.getCity(NAME);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetACityWithNullName() {
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, City.class.getSimpleName()));
+
+        service.getCity((String) null);
     }
 
     @Test

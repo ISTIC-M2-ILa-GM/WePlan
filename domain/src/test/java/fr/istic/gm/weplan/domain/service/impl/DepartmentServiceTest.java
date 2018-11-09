@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static fr.istic.gm.weplan.domain.TestData.ID;
+import static fr.istic.gm.weplan.domain.TestData.NAME;
 import static fr.istic.gm.weplan.domain.TestData.someDepartment;
 import static fr.istic.gm.weplan.domain.TestData.someDepartmentRequest;
 import static fr.istic.gm.weplan.domain.TestData.somePageOptions;
@@ -224,7 +225,60 @@ public class DepartmentServiceTest {
         thrown.expect(DomainException.class);
         thrown.expectMessage(String.format(NOT_FOUND_MSG, Department.class.getSimpleName()));
 
-        service.getDepartment(null);
+        service.getDepartment((Long) null);
+    }
+
+    @Test
+    public void shouldGetDepartmentByName() {
+
+        Department department = someDepartment();
+        Optional<Department> optionalDepartment = Optional.of(department);
+
+        when(mockDepartmentAdapter.findByName(any())).thenReturn(optionalDepartment);
+
+        DepartmentDto results = service.getDepartment(NAME);
+
+        verify(mockDepartmentAdapter).findByName(NAME);
+
+        assertThat(results, notNullValue());
+        assertThat(results, equalTo(persistenceMapper.toDepartmentDto(department)));
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetANullDepartmentByName() {
+
+        Optional<Department> optionalDepartment = Optional.empty();
+
+        when(mockDepartmentAdapter.findByName(any())).thenReturn(optionalDepartment);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Department.class.getSimpleName()));
+
+        service.getDepartment(NAME);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetADeletedDepartmentByName() {
+
+        Department department = someDepartment();
+        department.setDeletedAt(Instant.now());
+        Optional<Department> optionalDepartment = Optional.of(department);
+
+        when(mockDepartmentAdapter.findByName(any())).thenReturn(optionalDepartment);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Department.class.getSimpleName()));
+
+        service.getDepartment(NAME);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetADepartmentWithNullName() {
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Department.class.getSimpleName()));
+
+        service.getDepartment((String) null);
     }
 
     @Test

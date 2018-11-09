@@ -37,6 +37,14 @@ public interface ActivityService {
     ActivityDto getActivity(Long id);
 
     /**
+     * Retrieve an activity.
+     *
+     * @param name the name of the activity
+     * @return the activity
+     */
+    ActivityDto getActivity(String name);
+
+    /**
      * Create an activity.
      *
      * @param activityRequest the activity to create

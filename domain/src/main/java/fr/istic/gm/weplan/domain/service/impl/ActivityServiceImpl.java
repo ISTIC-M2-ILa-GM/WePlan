@@ -79,6 +79,17 @@ public class ActivityServiceImpl extends PatchService<Activity> implements Activ
     }
 
     @Override
+    public ActivityDto getActivity(String name) {
+
+        Optional<Activity> activity = name != null ? activityAdapter.findByName(name) : Optional.empty();
+        if (!activity.isPresent() || activity.get().getDeletedAt() != null) {
+            throw new DomainException(NOT_FOUND_MSG, Activity.class.getSimpleName(), NOT_FOUND);
+        }
+
+        return this.persistenceMapper.toActivityDto(activity.get());
+    }
+
+    @Override
     public ActivityDto createActivity(ActivityRequest activityRequest) {
         Activity input = this.persistenceMapper.toActivity(activityRequest);
 
