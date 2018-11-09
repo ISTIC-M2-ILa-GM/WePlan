@@ -44,6 +44,14 @@ public interface ActivityAdapter {
     Optional<Activity> findById(Long id);
 
     /**
+     * Find an activity by name.
+     *
+     * @param name the name to search
+     * @return the optional activity
+     */
+    Optional<Activity> findByName(String name);
+
+    /**
      * Save a activity.
      *
      * @param activity the activity to save

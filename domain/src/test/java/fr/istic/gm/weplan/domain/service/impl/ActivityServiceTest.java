@@ -162,7 +162,60 @@ public class ActivityServiceTest {
         thrown.expect(DomainException.class);
         thrown.expectMessage(String.format(NOT_FOUND_MSG, Activity.class.getSimpleName()));
 
-        service.getActivity(null);
+        service.getActivity((Long) null);
+    }
+
+    @Test
+    public void shouldGetActivityByName() {
+
+        Activity activity = someActivity();
+        Optional<Activity> optionalActivity = Optional.of(activity);
+
+        when(mockActivityAdapter.findByName(any())).thenReturn(optionalActivity);
+
+        ActivityDto results = service.getActivity(NAME);
+
+        verify(mockActivityAdapter).findByName(NAME);
+
+        assertThat(results, notNullValue());
+        assertThat(results, equalTo(persistenceMapper.toActivityDto(activity)));
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetANullActivityByName() {
+
+        Optional<Activity> optionalActivity = Optional.empty();
+
+        when(mockActivityAdapter.findByName(any())).thenReturn(optionalActivity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Activity.class.getSimpleName()));
+
+        service.getActivity(NAME);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetADeletedActivityByName() {
+
+        Activity activity = someActivity();
+        activity.setDeletedAt(Instant.now());
+        Optional<Activity> optionalActivity = Optional.of(activity);
+
+        when(mockActivityAdapter.findByName(any())).thenReturn(optionalActivity);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Activity.class.getSimpleName()));
+
+        service.getActivity(NAME);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetAActivityWithNullName() {
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Activity.class.getSimpleName()));
+
+        service.getActivity((String) null);
     }
 
     @Test

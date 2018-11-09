@@ -69,6 +69,17 @@ public class RegionServiceImpl extends PatchService<Region> implements RegionSer
     }
 
     @Override
+    public RegionDto getRegion(String name) {
+
+        Optional<Region> region = name != null ? regionAdapter.findByName(name) : Optional.empty();
+        if (!region.isPresent() || region.get().getDeletedAt() != null) {
+            throw new DomainException(NOT_FOUND_MSG, Region.class.getSimpleName(), NOT_FOUND);
+        }
+
+        return this.persistenceMapper.toRegionDto(region.get());
+    }
+
+    @Override
     public RegionDto createRegion(RegionRequest regionRequest) {
         Region input = this.persistenceMapper.toRegion(regionRequest);
 

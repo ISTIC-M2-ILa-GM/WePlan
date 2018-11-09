@@ -60,6 +60,16 @@ public class CityServiceImpl extends PatchService<City> implements CityService, 
     }
 
     @Override
+    public CityDto getCity(String name) {
+
+        Optional<City> city = name != null ? cityAdapter.findByName(name) : Optional.empty();
+        if (!city.isPresent() || city.get().getDeletedAt() != null) {
+            throw new DomainException(NOT_FOUND_MSG, City.class.getSimpleName(), NOT_FOUND);
+        }
+        return persistenceMapper.toCityDto(city.get());
+    }
+
+    @Override
     public CityDto createCity(CityRequest cityRequest) {
 
         City city = persistenceMapper.toCity(cityRequest);

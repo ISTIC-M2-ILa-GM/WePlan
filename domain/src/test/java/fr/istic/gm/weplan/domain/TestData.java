@@ -1,11 +1,24 @@
 package fr.istic.gm.weplan.domain;
 
+import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
+import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
-import fr.istic.gm.weplan.domain.model.entities.*;
-import fr.istic.gm.weplan.domain.model.request.*;
+import fr.istic.gm.weplan.domain.model.entities.Activity;
+import fr.istic.gm.weplan.domain.model.entities.ActivityType;
+import fr.istic.gm.weplan.domain.model.entities.City;
+import fr.istic.gm.weplan.domain.model.entities.Department;
+import fr.istic.gm.weplan.domain.model.entities.Event;
+import fr.istic.gm.weplan.domain.model.entities.Region;
+import fr.istic.gm.weplan.domain.model.entities.User;
+import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
+import fr.istic.gm.weplan.domain.model.request.CityRequest;
+import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
+import fr.istic.gm.weplan.domain.model.request.PageRequest;
+import fr.istic.gm.weplan.domain.model.request.RegionRequest;
+import fr.istic.gm.weplan.domain.model.request.UserRequest;
 import fr.istic.gm.weplan.domain.model.weather.Weather;
 import fr.istic.gm.weplan.domain.model.weather.Week;
 import uk.co.jemos.podam.api.PodamFactory;
@@ -22,6 +35,7 @@ public class TestData {
     public static final Long ID = 10L;
     public static final String EMAIL = "an@email.com";
     public static final String SOME_STRING = "some-string";
+    public static final String NAME = "a-name";
 
     private static final PodamFactory FACTORY = new PodamFactoryImpl();
 
@@ -95,6 +109,14 @@ public class TestData {
 
     public static DepartmentDto someDepartmentDto() {
         return FACTORY.manufacturePojoWithFullData(DepartmentDto.class);
+    }
+
+    public static ActivityDto someActivityDto() {
+        return FACTORY.manufacturePojoWithFullData(ActivityDto.class);
+    }
+
+    public static EventDto someEventDto() {
+        return FACTORY.manufacturePojoWithFullData(EventDto.class);
     }
 
     public static City someCity() {
