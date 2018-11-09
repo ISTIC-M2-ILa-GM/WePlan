@@ -1,9 +1,9 @@
-package fr.istic.gm.weplan.domain.component;
+package fr.istic.gm.weplan.server.component;
 
+import fr.istic.gm.weplan.domain.component.ScheduledEventGenerator;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
-import fr.istic.gm.weplan.domain.model.entities.Event;
 import fr.istic.gm.weplan.domain.service.ActivityService;
 import fr.istic.gm.weplan.domain.service.CityService;
 import fr.istic.gm.weplan.domain.service.DepartmentService;
@@ -17,11 +17,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Collections;
 
-import static fr.istic.gm.weplan.domain.TestData.someActivityDto;
-import static fr.istic.gm.weplan.domain.TestData.someCityDto;
-import static fr.istic.gm.weplan.domain.TestData.someDepartmentDto;
-import static fr.istic.gm.weplan.domain.TestData.someEventDto;
-import static fr.istic.gm.weplan.domain.TestData.someRegionDto;
+import static fr.istic.gm.weplan.server.TestData.someActivity;
+import static fr.istic.gm.weplan.server.TestData.someCity;
+import static fr.istic.gm.weplan.server.TestData.someDepartment;
+import static fr.istic.gm.weplan.server.TestData.someEvent;
+import static fr.istic.gm.weplan.server.TestData.someRegion;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
@@ -73,9 +73,9 @@ public class DataInitializerTest {
         doThrow(DomainException.class).when(mockCityService).getCity(anyString());
         doThrow(DomainException.class).when(mockActivityService).getActivity(anyString());
 
-        when(mockRegionService.createRegion(any())).thenReturn(someRegionDto());
-        when(mockDepartmentService.createDepartment(any())).thenReturn(someDepartmentDto());
-        when(mockCityService.createCity(any())).thenReturn(someCityDto());
+        when(mockRegionService.createRegion(any())).thenReturn(someRegion());
+        when(mockDepartmentService.createDepartment(any())).thenReturn(someDepartment());
+        when(mockCityService.createCity(any())).thenReturn(someCity());
 
         dataInitializer.onApplicationEvent(null);
 
@@ -90,12 +90,12 @@ public class DataInitializerTest {
     @Test
     public void shouldNotSaveDataWhenTheyAreAlreadyHere() {
 
-        when(mockRegionService.getRegion(anyString())).thenReturn(someRegionDto());
-        when(mockDepartmentService.getDepartment(anyString())).thenReturn(someDepartmentDto());
-        when(mockCityService.getCity(anyString())).thenReturn(someCityDto());
-        when(mockActivityService.getActivity(anyString())).thenReturn(someActivityDto());
+        when(mockRegionService.getRegion(anyString())).thenReturn(someRegion());
+        when(mockDepartmentService.getDepartment(anyString())).thenReturn(someDepartment());
+        when(mockCityService.getCity(anyString())).thenReturn(someCity());
+        when(mockActivityService.getActivity(anyString())).thenReturn(someActivity());
         PageDto<EventDto> pageDto = new PageDto<>();
-        pageDto.setResults(Collections.singletonList(someEventDto()));
+        pageDto.setResults(Collections.singletonList(someEvent()));
         when(mockEventService.getEvents(any())).thenReturn(pageDto);
 
         dataInitializer.onApplicationEvent(null);

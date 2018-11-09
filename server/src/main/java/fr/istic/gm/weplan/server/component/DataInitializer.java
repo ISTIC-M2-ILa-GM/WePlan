@@ -1,5 +1,6 @@
-package fr.istic.gm.weplan.domain.component;
+package fr.istic.gm.weplan.server.component;
 
+import fr.istic.gm.weplan.domain.component.ScheduledEventGenerator;
 import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
