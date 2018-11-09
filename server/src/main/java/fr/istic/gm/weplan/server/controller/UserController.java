@@ -280,18 +280,4 @@ public class UserController {
     public UserDto removeEvents(@ApiParam(value = "User id", required = true) @PathVariable Long id, @ApiParam(value = "Events Id", required = true) @RequestBody List<Long> eventsId) {
         return userService.removeEvents(id, eventsId);
     }
-
-    @ApiOperation("Retrieve current user")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Current user")
-    })
-    @GetMapping(path = USER_CURRENT, produces = "application/json")
-    public UserDto currentUser(Authentication authentication) {
-
-        if (authentication instanceof SecurityUser) {
-            SecurityUser securityUser = (SecurityUser) authentication;
-            return this.userService.getUser(securityUser.getId());
-        }
-        return null;
-    }
 }
