@@ -1,6 +1,9 @@
+import { UserRequest } from './../../models/dto/user.request';
+import { User } from './../../models/dto/user';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './../../services/user.service';
+import { MzToastService } from 'ngx-materialize';
 
 @Component({
   selector: 'app-profile',
@@ -8,30 +11,32 @@ import { UserService } from './../../services/user.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  firstName = '';
-  lastName = '';
-  email = '';
-  password = '';
-  repeat = '';
-  user: any;
+  public user: any;
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private toastService: MzToastService
+  ) {
+    this.user = { firstName: '', lastName: '', email: '' };
+  }
 
   ngOnInit() {
-    this.user = this.authService.getUser();
-    // for testing purpose only
-    /*
-    const user = this.userService.get();
-    console.log(user);
-    this.firstName = user.firstName;
-    this.lastName = user.lastName;
-    this.email = user.email;
-    */
+    this.authService.check().then(user => {
+      this.user = this.authService.getUser();
+    }, error => {
+      console.warn('You\'ve got nothing to do here, please login first.');
+    });
   }
 
   onSubmit = () => {
-    console.log(`First name: ${this.firstName} Last name: ${this.lastName}`);
-    console.log(`Email: ${this.email}`);
-    console.log(`Password: ${this.password} Repeat: ${this.repeat}`);
+    const user = {
+      firstName: this.user.firstName,
+      lastName: this.user.lastName,
+      email: this.user.email
+    };
+    this.userService.patch(user).subscribe(truc => {
+      this.toastService.show('Updated user details successfully !', 4000, 'green');
+    });
   }
 }

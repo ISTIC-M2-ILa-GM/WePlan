@@ -1,3 +1,5 @@
+import { User } from './../../models/dto/user';
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./side-nav.component.css']
 })
 export class SideNavComponent implements OnInit {
-
-  constructor() { }
+  public user: User;
+  constructor(
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
+    this.user = this.authService.getUser();
   }
-
 }

@@ -34,10 +34,12 @@ export class LoginComponent implements OnInit {
   checkLogin() {
     if (this.cookieService.check('JSESSIONID')) {
       this.authService.check().then(user => {
-        this.router. navigateByUrl('/preference');
+        this.router. navigateByUrl('/profile');
       }, error => {
         this.toastService.show('Something went wrong while trying to log you in :/', 4000, 'red');
       });
+    } else {
+      this.toastService.show('Cookie not found. Please login first.', 3000, 'orange');
     }
   }
 }
