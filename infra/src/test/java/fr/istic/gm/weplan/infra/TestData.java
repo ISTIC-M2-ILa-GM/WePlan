@@ -1,6 +1,7 @@
 package fr.istic.gm.weplan.infra;
 
 import fr.istic.gm.weplan.domain.model.dto.EventDto;
+import fr.istic.gm.weplan.domain.model.entities.Activity;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
 import fr.istic.gm.weplan.domain.model.entities.Event;
@@ -58,6 +59,12 @@ public class TestData {
         City city = FACTORY.manufacturePojoWithFullData(City.class);
         city.setDeletedAt(null);
         return city;
+    }
+
+    public static Activity someActivity() {
+        Activity activity = FACTORY.manufacturePojoWithFullData(Activity.class);
+        activity.setDeletedAt(null);
+        return activity;
     }
 
     public static String getWeatherApiKey() throws IOException {

@@ -5,6 +5,7 @@ public final class AppError {
     public static final String DOMAIN_ENTITY_NOT_FOUND = "weplan.error.domain.not_found";
     public static final String DOMAIN_BAD_REQUEST = "weplan.error.domain.bad_request";
     public static final String DOMAIN_INTERNAL_ERROR = "weplan.error.domain.internal_error";
+    public static final String DOMAIN_FORBIDDEN = "weplan.error.domain.forbidden";
 
     private AppError() {
     }

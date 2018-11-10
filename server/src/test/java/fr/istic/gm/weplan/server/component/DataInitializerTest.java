@@ -4,16 +4,19 @@ import fr.istic.gm.weplan.domain.component.ScheduledEventGenerator;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
+import fr.istic.gm.weplan.domain.model.entities.Event;
 import fr.istic.gm.weplan.domain.service.ActivityService;
 import fr.istic.gm.weplan.domain.service.CityService;
 import fr.istic.gm.weplan.domain.service.DepartmentService;
-import fr.istic.gm.weplan.domain.service.EventService;
+import fr.istic.gm.weplan.domain.service.EventDaoService;
 import fr.istic.gm.weplan.domain.service.RegionService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import java.util.Collections;
 
@@ -21,7 +24,9 @@ import static fr.istic.gm.weplan.server.TestData.someActivity;
 import static fr.istic.gm.weplan.server.TestData.someCity;
 import static fr.istic.gm.weplan.server.TestData.someDepartment;
 import static fr.istic.gm.weplan.server.TestData.someEvent;
+import static fr.istic.gm.weplan.server.TestData.someEventDao;
 import static fr.istic.gm.weplan.server.TestData.someRegion;
+import static fr.istic.gm.weplan.server.TestData.someUserDao;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
@@ -48,7 +53,7 @@ public class DataInitializerTest {
     private ActivityService mockActivityService;
 
     @Mock
-    private EventService mockEventService;
+    private EventDaoService mockEventDaoService;
 
     @Mock
     private ScheduledEventGenerator mockScheduledEventGenerator;
@@ -60,7 +65,7 @@ public class DataInitializerTest {
                 mockDepartmentService,
                 mockRegionService,
                 mockActivityService,
-                mockEventService,
+                mockEventDaoService,
                 mockScheduledEventGenerator
         );
     }
@@ -94,9 +99,8 @@ public class DataInitializerTest {
         when(mockDepartmentService.getDepartment(anyString())).thenReturn(someDepartment());
         when(mockCityService.getCity(anyString())).thenReturn(someCity());
         when(mockActivityService.getActivity(anyString())).thenReturn(someActivity());
-        PageDto<EventDto> pageDto = new PageDto<>();
-        pageDto.setResults(Collections.singletonList(someEvent()));
-        when(mockEventService.getEvents(any())).thenReturn(pageDto);
+        Page<Event> page = new PageImpl<>(Collections.singletonList(someEventDao()));
+        when(mockEventDaoService.getEventsDao(any())).thenReturn(page);
 
         dataInitializer.onApplicationEvent(null);
 

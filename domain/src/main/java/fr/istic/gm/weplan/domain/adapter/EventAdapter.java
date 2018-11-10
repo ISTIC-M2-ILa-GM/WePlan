@@ -1,10 +1,13 @@
 package fr.istic.gm.weplan.domain.adapter;
 
+import fr.istic.gm.weplan.domain.model.entities.Activity;
+import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Event;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
-import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -21,12 +24,14 @@ public interface EventAdapter {
     Page<Event> findAll(Pageable pageable);
 
     /**
-     * Find all events which is not deleted with pageable.
+     * Find all event by cities and activities with pageable.
      *
-     * @param pageable the pageable
+     * @param pageable   the pageable
+     * @param cities     the cities
+     * @param activities the activities
      * @return the event page
      */
-    Page<Event> findAllByDeletedAtIsNullAndDateAfterOrderByDateAsc(Pageable pageable, Instant date);
+    Page<Event> findAllByCitiesAndActivities(Pageable pageable, List<City> cities, @Param("activities") List<Activity> activities);
 
     /**
      * Find an event by id.
@@ -42,5 +47,5 @@ public interface EventAdapter {
      * @param event the event to save
      * @return the saved event.
      */
-    Event save(Event event);
+    <S extends Event> S save(S event);
 }

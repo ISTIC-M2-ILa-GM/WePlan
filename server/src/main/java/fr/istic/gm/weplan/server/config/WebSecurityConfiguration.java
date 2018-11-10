@@ -19,7 +19,17 @@ import static fr.istic.gm.weplan.infra.broker.impl.EventBrokerImpl.STOMP;
 import static fr.istic.gm.weplan.infra.broker.impl.EventBrokerImpl.WS;
 import static fr.istic.gm.weplan.server.config.consts.ApiParams.EMAIL;
 import static fr.istic.gm.weplan.server.config.consts.ApiParams.PASWORD;
-import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.*;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.ACTIVITY;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.API;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.AUTH;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.CITY;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.DEPARTMENT;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.EVENT;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.LOGIN;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.LOGOUT;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.REGION;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.USER;
+import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.USER_CURRENT;
 
 @RequiredArgsConstructor
 @Configuration

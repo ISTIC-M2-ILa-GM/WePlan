@@ -7,6 +7,7 @@ import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
 import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
+import fr.istic.gm.weplan.domain.model.entities.Event;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
 import fr.istic.gm.weplan.domain.model.request.CityRequest;
 import fr.istic.gm.weplan.domain.model.request.DepartmentRequest;
@@ -15,12 +16,13 @@ import fr.istic.gm.weplan.domain.model.request.RegionRequest;
 import fr.istic.gm.weplan.domain.service.ActivityService;
 import fr.istic.gm.weplan.domain.service.CityService;
 import fr.istic.gm.weplan.domain.service.DepartmentService;
-import fr.istic.gm.weplan.domain.service.EventService;
+import fr.istic.gm.weplan.domain.service.EventDaoService;
 import fr.istic.gm.weplan.domain.service.RegionService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -44,7 +46,7 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
 
     private ActivityService activityService;
 
-    private EventService eventService;
+    private EventDaoService eventDaoService;
 
     private ScheduledEventGenerator scheduledEventGenerator;
 
@@ -75,8 +77,8 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
     }
 
     private void createEvents() {
-        PageDto<EventDto> events = eventService.getEvents(PageRequest.builder().page(0).size(1).build());
-        if (events == null || events.getResults() == null || events.getResults().isEmpty()) {
+        Page<Event> events = eventDaoService.getEventsDao(PageRequest.builder().page(0).size(1).build());
+        if (events == null || events.getContent() == null || events.getContent().isEmpty()) {
             scheduledEventGenerator.checkWeatherThenGenerateEvents();
         }
     }

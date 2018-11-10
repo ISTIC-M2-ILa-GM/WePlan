@@ -1,5 +1,7 @@
 package fr.istic.gm.weplan.infra.repository;
 
+import fr.istic.gm.weplan.domain.model.entities.Activity;
+import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Event;
 import fr.istic.gm.weplan.infra.TestConfiguration;
 import org.junit.Before;
@@ -13,10 +15,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.Optional;
 
+import static fr.istic.gm.weplan.infra.TestData.someActivity;
+import static fr.istic.gm.weplan.infra.TestData.someCity;
 import static fr.istic.gm.weplan.infra.TestData.someEvent;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,21 +33,40 @@ public class EventRepositoryTest {
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    private CityRepository cityRepository;
+
+    @Autowired
+    private ActivityRepository activityRepository;
+
     private Event entity1;
     private Event entity2;
+    private City city;
+    private Activity activity;
 
     @Before
     public void setUp() {
 
         eventRepository.deleteAll();
+        cityRepository.deleteAll();
+        activityRepository.deleteAll();
+
+        activity = someActivity();
+        activity.setCities(null);
+        activity.setId(null);
+        city = someCity();
+        city.setDepartment(null);
+        city.setId(null);
 
         entity1 = someEvent();
-        entity1.setCity(null);
-        entity1.setActivity(null);
+        entity1.setCity(city);
+        entity1.setActivity(activity);
         entity2 = someEvent();
-        entity2.setCity(null);
-        entity2.setActivity(null);
+        entity2.setCity(city);
+        entity2.setActivity(activity);
 
+        city = cityRepository.save(city);
+        activity = activityRepository.save(activity);
         entity1 = eventRepository.save(entity1);
         entity2 = eventRepository.save(entity2);
     }
@@ -65,8 +88,7 @@ public class EventRepositoryTest {
         entity1.setDeletedAt(Instant.now());
         entity1 = eventRepository.save(entity1);
 
-        Instant date = Instant.now().minus(1, ChronoUnit.DAYS);
-        Page<Event> events = eventRepository.findAllByDeletedAtIsNullAndDateAfterOrderByDateAsc(PageRequest.of(0, 10), date);
+        Page<Event> events = eventRepository.findAllByCitiesAndActivities(PageRequest.of(0, 10), singletonList(city), singletonList(activity));
 
         assertThat(events, notNullValue());
         assertThat(events.getTotalPages(), equalTo(1));
@@ -80,8 +102,7 @@ public class EventRepositoryTest {
         entity1.setDate(Instant.now().minus(2, ChronoUnit.DAYS));
         entity1 = eventRepository.save(entity1);
 
-        Instant date = Instant.now().minus(1, ChronoUnit.DAYS);
-        Page<Event> events = eventRepository.findAllByDeletedAtIsNullAndDateAfterOrderByDateAsc(PageRequest.of(0, 10), date);
+        Page<Event> events = eventRepository.findAllByCitiesAndActivities(PageRequest.of(0, 10), singletonList(city), singletonList(activity));
 
         assertThat(events, notNullValue());
         assertThat(events.getTotalPages(), equalTo(1));
@@ -90,19 +111,34 @@ public class EventRepositoryTest {
     }
 
     @Test
-    public void shouldNotFindAllDateAsc() {
+    public void shouldFindAllDateAsc() {
 
         entity1.setDate(Instant.now().plus(3, ChronoUnit.DAYS));
         entity1 = eventRepository.save(entity1);
 
-        Instant date = Instant.now().minus(1, ChronoUnit.DAYS);
-        Page<Event> events = eventRepository.findAllByDeletedAtIsNullAndDateAfterOrderByDateAsc(PageRequest.of(0, 10), date);
+        Page<Event> events = eventRepository.findAllByCitiesAndActivities(PageRequest.of(0, 10), singletonList(city), singletonList(activity));
 
         assertThat(events, notNullValue());
         assertThat(events.getTotalPages(), equalTo(1));
         assertThat(events.getContent(), hasSize(2));
         assertThat(events.getContent().get(0).getId(), equalTo(entity2.getId()));
         assertThat(events.getContent().get(1).getId(), equalTo(entity1.getId()));
+        assertThat(events.getSize(), equalTo(10));
+    }
+
+    @Test
+    public void shouldFindAllByCitiesAndActivity() {
+
+        entity1.setCity(null);
+        entity1.setActivity(null);
+        entity1 = eventRepository.save(entity1);
+
+        Page<Event> events = eventRepository.findAllByCitiesAndActivities(PageRequest.of(0, 10), singletonList(city), singletonList(activity));
+
+        assertThat(events, notNullValue());
+        assertThat(events.getTotalPages(), equalTo(1));
+        assertThat(events.getContent(), hasSize(1));
+        assertThat(events.getContent().get(0).getId(), equalTo(entity2.getId()));
         assertThat(events.getSize(), equalTo(10));
     }
 
@@ -125,8 +161,8 @@ public class EventRepositoryTest {
         assertThat(event, notNullValue());
         assertThat(event.isPresent(), equalTo(true));
         assertThat(event.get().getId(), equalTo(entity1.getId()));
-        assertThat(event.get().getActivity(), equalTo(entity1.getActivity()));
-        assertThat(event.get().getCity(), equalTo(entity1.getCity()));
+        assertThat(event.get().getActivity().getId(), equalTo(entity1.getActivity().getId()));
+        assertThat(event.get().getCity().getId(), equalTo(entity1.getCity().getId()));
         assertThat(event.get().getId(), equalTo(entity1.getId()));
     }
 

@@ -1,12 +1,16 @@
 package fr.istic.gm.weplan.domain.service.impl;
 
+import fr.istic.gm.weplan.domain.adapter.AuthAdapter;
 import fr.istic.gm.weplan.domain.adapter.EventAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
 import fr.istic.gm.weplan.domain.model.dto.EventDto;
 import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.entities.Event;
+import fr.istic.gm.weplan.domain.model.entities.User;
 import fr.istic.gm.weplan.domain.model.mapper.PersistenceMapper;
 import fr.istic.gm.weplan.domain.model.request.PageRequest;
+import fr.istic.gm.weplan.domain.service.EventDaoService;
+import fr.istic.gm.weplan.domain.service.UserDaoService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,7 +27,10 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.Optional;
 
-import static fr.istic.gm.weplan.domain.TestData.*;
+import static fr.istic.gm.weplan.domain.TestData.ID;
+import static fr.istic.gm.weplan.domain.TestData.someEvent;
+import static fr.istic.gm.weplan.domain.TestData.somePageOptions;
+import static fr.istic.gm.weplan.domain.TestData.someUser;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -31,71 +38,62 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.data.domain.PageRequest.of;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EventServiceTest {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
     private EventServiceImpl service;
+
     @Mock
     private EventAdapter mockEventAdapter;
+
+    @Mock
+    private AuthAdapter mockAuthAdapter;
+
+    @Mock
+    private EventDaoService mockEventDaoService;
+
+    @Mock
+    private UserDaoService mockUserDaoService;
+
     @Mock
     private Clock mockClock;
+
     private PersistenceMapper persistenceMapper;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     private Instant now;
 
     @Before
     public void setUp() {
         persistenceMapper = Mappers.getMapper(PersistenceMapper.class);
-        service = new EventServiceImpl(mockEventAdapter, persistenceMapper, mockClock);
+        service = new EventServiceImpl(mockEventAdapter, mockEventDaoService, mockUserDaoService, mockAuthAdapter, persistenceMapper, mockClock);
 
         now = Instant.now();
         when(mockClock.instant()).thenReturn(now);
     }
 
     @Test
-    public void shouldGetEventDao() {
-
-        Event event = someEvent();
-        Optional<Event> optionalEvent = Optional.of(event);
-
-        when(mockEventAdapter.findById(any())).thenReturn(optionalEvent);
-
-        Event result = service.getEventDao(ID);
-
-        verify(mockEventAdapter).findById(ID);
-
-        assertThat(result, notNullValue());
-        assertThat(result, equalTo(event));
-    }
-
-    @Test
-    public void shouldThrowDomainExceptionWhenGetANullDepartmentDao() {
-
-        Optional<Event> optionalEvent = Optional.empty();
-
-        when(mockEventAdapter.findById(any())).thenReturn(optionalEvent);
-
-        thrown.expect(DomainException.class);
-        thrown.expectMessage(String.format(NOT_FOUND_MSG, Event.class.getSimpleName()));
-
-        service.getEventDao(ID);
-    }
-
-    @Test
     public void shouldGetEvents() {
 
+        User user = someUser();
         PageRequest pageRequest = somePageOptions();
-        Page<Event> events = new PageImpl<>(Collections.singletonList(someEvent()), org.springframework.data.domain.PageRequest.of(1, 1), 2);
+        Page<Event> events = new PageImpl<>(Collections.singletonList(someEvent()), of(1, 1), 2);
 
-        when(mockEventAdapter.findAllByDeletedAtIsNullAndDateAfterOrderByDateAsc(any(), any())).thenReturn(events);
+        when(mockAuthAdapter.loggedUserId()).thenReturn(ID);
+        when(mockUserDaoService.getUserDao(any())).thenReturn(user);
+        when(mockEventAdapter.findAllByCitiesAndActivities(any(), any(), any())).thenReturn(events);
 
         PageDto<EventDto> results = service.getEvents(pageRequest);
 
-        org.springframework.data.domain.PageRequest expectedPageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize());
+        org.springframework.data.domain.PageRequest expectedPageable = of(pageRequest.getPage(), pageRequest.getSize());
 
-        verify(mockEventAdapter).findAllByDeletedAtIsNullAndDateAfterOrderByDateAsc(expectedPageable, now);
+        verify(mockAuthAdapter).loggedUserId();
+        verify(mockUserDaoService).getUserDao(ID);
+        verify(mockEventAdapter).findAllByCitiesAndActivities(expectedPageable, user.getCities(), user.getActivities());
 
         assertThat(results, notNullValue());
         assertThat(results.getResults(), equalTo(persistenceMapper.toEventsDto(events.getContent())));

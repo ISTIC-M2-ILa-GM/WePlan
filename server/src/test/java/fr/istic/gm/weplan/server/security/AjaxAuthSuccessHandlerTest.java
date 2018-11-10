@@ -61,7 +61,7 @@ public class AjaxAuthSuccessHandlerTest {
 
         assertThat(response, notNullValue());
         assertThat(response.getHeader(CONTENT_TYPE), equalTo(APPLICATION_JSON_VALUE));
-        assertThat(response.getStatus(), equalTo(HttpServletResponse.SC_OK));
+        assertThat(response.getStatus(), equalTo(HttpServletResponse.SC_FOUND));
         assertThat(response.getContentAsString(), equalTo(SOME_STRING));
     }
 }

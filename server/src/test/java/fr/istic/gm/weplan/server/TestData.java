@@ -9,6 +9,7 @@ import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.dto.UserDto;
 import fr.istic.gm.weplan.domain.model.entities.City;
 import fr.istic.gm.weplan.domain.model.entities.Department;
+import fr.istic.gm.weplan.domain.model.entities.Event;
 import fr.istic.gm.weplan.domain.model.entities.Region;
 import fr.istic.gm.weplan.domain.model.entities.User;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
@@ -154,6 +155,10 @@ public class TestData {
 
     public static ActivityDto someActivity() {
         return FACTORY.manufacturePojoWithFullData(ActivityDto.class);
+    }
+
+    public static Event someEventDao() {
+        return FACTORY.manufacturePojoWithFullData(Event.class);
     }
 
     public static PageDto<ActivityDto> somePageActivities() {

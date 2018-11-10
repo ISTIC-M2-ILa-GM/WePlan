@@ -25,6 +25,7 @@ public class DomainException extends RuntimeException {
 
     public enum ExceptionType {
         NOT_FOUND,
-        BAD_REQUEST
+        BAD_REQUEST,
+        FORBIDDEN
     }
 }

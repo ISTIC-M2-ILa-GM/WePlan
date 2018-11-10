@@ -62,7 +62,7 @@ public class WebSecurityConfigurationIT {
     public void shouldLogin() throws Exception {
 
         MvcResult mvcResult = mockMvc.perform(formLogin(LOGIN).user(EMAIL, entity1.getEmail()).password(PASWORD, FAKE_PASSWORD))
-                .andExpect(status().isOk())
+                .andExpect(status().isFound())
                 .andReturn();
 
         assertThat(mvcResult.getResponse(), notNullValue());

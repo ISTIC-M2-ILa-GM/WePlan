@@ -11,7 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AppExceptionHandlerTest {
@@ -26,13 +26,27 @@ public class AppExceptionHandlerTest {
     }
 
     @Test
-    public void shouldDomainExceptionHandler() {
+    public void shouldHandleNotFoundException() {
         ErrorResponse expectedResponse = new ErrorResponse();
         expectedResponse.setCode(AppError.DOMAIN_ENTITY_NOT_FOUND);
         expectedResponse.setObject("City");
 
         DomainException domainException =
                 new DomainException("City not found.", "City", DomainException.ExceptionType.NOT_FOUND);
+
+        ErrorResponse errorResponse =
+                this.appExceptionHandler.domainExceptionHandler(this.mockHttpServletResponse, domainException);
+
+        assertThat(errorResponse, equalTo(expectedResponse));
+    }
+
+    @Test
+    public void shouldHandleForbidden() {
+        ErrorResponse expectedResponse = new ErrorResponse();
+        expectedResponse.setCode(AppError.DOMAIN_FORBIDDEN);
+        expectedResponse.setObject("City");
+
+        DomainException domainException = new DomainException("City not found.", "City", DomainException.ExceptionType.FORBIDDEN);
 
         ErrorResponse errorResponse =
                 this.appExceptionHandler.domainExceptionHandler(this.mockHttpServletResponse, domainException);

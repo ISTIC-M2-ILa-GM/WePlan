@@ -24,6 +24,10 @@ public class AppExceptionHandler {
                 errorResponse.setCode(AppError.DOMAIN_BAD_REQUEST);
                 response.setStatus(HttpStatus.BAD_REQUEST.value());
                 break;
+            case FORBIDDEN:
+                errorResponse.setCode(AppError.DOMAIN_FORBIDDEN);
+                response.setStatus(HttpStatus.FORBIDDEN.value());
+                break;
             default:
                 errorResponse.setCode(AppError.DOMAIN_INTERNAL_ERROR);
                 response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
