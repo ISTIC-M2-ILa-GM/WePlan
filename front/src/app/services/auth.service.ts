@@ -41,23 +41,10 @@ export class AuthService {
   }
 
   getUser(): User {
-    return JSON.parse(this.cookieService.get('user'));
+    return (this.cookieService.check('user') ? JSON.parse(this.cookieService.get('user')) : null);
   }
 
   register(user: UserRequest): Observable<ArrayBuffer> {
     return this.restService.post(`${API.endpoint}${API.entities.user}`, user);
   }
-
-  /*
-  login(login: LoginRequest) {
-    let body = new URLSearchParams();
-    body.set('email', login.email);
-    body.set('password', login.password);
-
-    const options = {
-      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
-    };
-    return this.restService.post(`/backend/login`, body.toString(), options);
-  }
-  */
 }

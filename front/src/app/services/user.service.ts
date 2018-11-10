@@ -2,7 +2,7 @@ import { API } from './../config/api.config';
 import { RestService } from './rest.service';
 import { Injectable } from '@angular/core';
 import { User } from '../models/dto/user';
-import {AuthService} from "./auth.service";
+import {AuthService} from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,6 +19,11 @@ export class UserService {
 
   post(user: User) {
     return this.restService.post(`${API.endpoint}${API.entities.user}`, user);
+  }
+
+  patch(user: any) {
+    const id = this.authService.getUser().id;
+    return this.restService.patch(`${API.endpoint}${API.entities.user}/${id}`, user);
   }
 
   addEventToCurrentUser(id: number) {
