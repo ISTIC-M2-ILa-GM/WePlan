@@ -4,6 +4,7 @@ import fr.istic.gm.weplan.domain.model.entities.Event;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -25,7 +26,7 @@ public interface EventAdapter {
      * @param pageable the pageable
      * @return the event page
      */
-    Page<Event> findAllByDeletedAtIsNull(Pageable pageable);
+    Page<Event> findAllByDeletedAtIsNullAndDateAfterOrderByDateAsc(Pageable pageable, Instant date);
 
     /**
      * Find an event by id.

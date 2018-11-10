@@ -14,6 +14,8 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Properties;
 
 public class TestData {
@@ -42,6 +44,7 @@ public class TestData {
     public static Event someEvent() {
         Event event = FACTORY.manufacturePojoWithFullData(Event.class);
         event.setDeletedAt(null);
+        event.setDate(Instant.now().plus(1, ChronoUnit.DAYS));
         return event;
     }
 

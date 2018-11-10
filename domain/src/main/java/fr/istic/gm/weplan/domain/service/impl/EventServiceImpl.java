@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
+import java.time.Instant;
 import java.util.Optional;
 
 import static fr.istic.gm.weplan.domain.exception.DomainException.ExceptionType.NOT_FOUND;
@@ -33,7 +34,7 @@ public class EventServiceImpl extends PatchService<Event> implements EventServic
     @Override
     public PageDto<EventDto> getEvents(PageRequest pageRequest) {
 
-        Page<Event> events = eventAdapter.findAllByDeletedAtIsNull(of(pageRequest.getPage(), pageRequest.getSize()));
+        Page<Event> events = eventAdapter.findAllByDeletedAtIsNullAndDateAfterOrderByDateAsc(of(pageRequest.getPage(), pageRequest.getSize()), clock.instant());
         return persistenceMapper.toEventsPageDto(events);
     }
 

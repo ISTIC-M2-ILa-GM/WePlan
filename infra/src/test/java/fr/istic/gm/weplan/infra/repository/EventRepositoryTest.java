@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Optional;
 
 import static fr.istic.gm.weplan.infra.TestData.someEvent;
@@ -63,11 +65,44 @@ public class EventRepositoryTest {
         entity1.setDeletedAt(Instant.now());
         entity1 = eventRepository.save(entity1);
 
-        Page<Event> events = eventRepository.findAllByDeletedAtIsNull(PageRequest.of(0, 10));
+        Instant date = Instant.now().minus(1, ChronoUnit.DAYS);
+        Page<Event> events = eventRepository.findAllByDeletedAtIsNullAndDateAfterOrderByDateAsc(PageRequest.of(0, 10), date);
 
         assertThat(events, notNullValue());
         assertThat(events.getTotalPages(), equalTo(1));
         assertThat(events.getContent(), hasSize(1));
+        assertThat(events.getSize(), equalTo(10));
+    }
+
+    @Test
+    public void shouldNotFindAllByAfterDate() {
+
+        entity1.setDate(Instant.now().minus(2, ChronoUnit.DAYS));
+        entity1 = eventRepository.save(entity1);
+
+        Instant date = Instant.now().minus(1, ChronoUnit.DAYS);
+        Page<Event> events = eventRepository.findAllByDeletedAtIsNullAndDateAfterOrderByDateAsc(PageRequest.of(0, 10), date);
+
+        assertThat(events, notNullValue());
+        assertThat(events.getTotalPages(), equalTo(1));
+        assertThat(events.getContent(), hasSize(1));
+        assertThat(events.getSize(), equalTo(10));
+    }
+
+    @Test
+    public void shouldNotFindAllDateAsc() {
+
+        entity1.setDate(Instant.now().plus(3, ChronoUnit.DAYS));
+        entity1 = eventRepository.save(entity1);
+
+        Instant date = Instant.now().minus(1, ChronoUnit.DAYS);
+        Page<Event> events = eventRepository.findAllByDeletedAtIsNullAndDateAfterOrderByDateAsc(PageRequest.of(0, 10), date);
+
+        assertThat(events, notNullValue());
+        assertThat(events.getTotalPages(), equalTo(1));
+        assertThat(events.getContent(), hasSize(2));
+        assertThat(events.getContent().get(0).getId(), equalTo(entity2.getId()));
+        assertThat(events.getContent().get(1).getId(), equalTo(entity1.getId()));
         assertThat(events.getSize(), equalTo(10));
     }
 

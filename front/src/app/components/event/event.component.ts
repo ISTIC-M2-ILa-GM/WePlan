@@ -1,11 +1,10 @@
-import { UserService } from './../../services/user.service';
-import { AuthService } from './../../services/auth.service';
+import {UserService} from './../../services/user.service';
+import {AuthService} from './../../services/auth.service';
 import {Component, OnInit} from '@angular/core';
 import {EventService} from "../../services/event.service";
 import {PageRequest} from "../../models/request/page.request";
 import {Event} from "../../models/dto/event";
 import {PageResponse} from "../../models/response/page.response";
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-event',
@@ -37,6 +36,7 @@ export class EventComponent implements OnInit {
     const pageRequest = new PageRequest();
     pageRequest.page = this.currentPage - 1;
     pageRequest.size = this.size;
+    console.log("b" + JSON.stringify(pageRequest));
     this.eventService.get(pageRequest).subscribe((r: PageResponse<Event>) => {
       this.events = r.results;
       this.size = r.size;

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {API} from "../config/api.config";
 import {PageRequest} from "../models/request/page.request";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +22,9 @@ export class EventService {
     this.httpClient = httpClient;
   }
 
-  get(pageRequest?: PageRequest) {
+  get(pageRequest: PageRequest) {
     const headers = EventService.defaultHeaders(null);
-    return this.httpClient.get(`${EventService.URL}`, {headers});
+    const params = {size: pageRequest.size.toString(), page: pageRequest.page.toString()};
+    return this.httpClient.get(`${EventService.URL}`, {headers, params});
   }
 }

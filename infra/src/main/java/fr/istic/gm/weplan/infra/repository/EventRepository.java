@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -19,7 +20,7 @@ public interface EventRepository extends JpaRepository<Event, Long>, EventAdapte
     Page<Event> findAll(Pageable pageable);
 
     @Override
-    Page<Event> findAllByDeletedAtIsNull(Pageable pageable);
+    Page<Event> findAllByDeletedAtIsNullAndDateAfterOrderByDateAsc(Pageable pageable, Instant date);
 
     @Override
     Optional<Event> findById(Long id);

@@ -15,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import static fr.istic.gm.weplan.infra.broker.impl.EventBrokerImpl.EVENT;
 import static fr.istic.gm.weplan.infra.broker.impl.EventBrokerImpl.STOMP;
 import static fr.istic.gm.weplan.infra.broker.impl.EventBrokerImpl.WS;
 import static fr.istic.gm.weplan.server.config.consts.ApiParams.EMAIL;

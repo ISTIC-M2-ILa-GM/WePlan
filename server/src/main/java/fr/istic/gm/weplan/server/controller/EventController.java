@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static fr.istic.gm.weplan.server.config.consts.ApiRoutes.EVENT;
@@ -41,7 +42,7 @@ public class EventController {
             @ApiResponse(code = 200, message = "Get events")
     })
     @GetMapping
-    public PageDto<EventDto> getEvents(@ApiParam(value = "Page request", required = true) @RequestBody PageRequest pageRequest) {
+    public PageDto<EventDto> getEvents(@ApiParam(required = true) PageRequest pageRequest) {
         return eventService.getEvents(pageRequest);
     }
 

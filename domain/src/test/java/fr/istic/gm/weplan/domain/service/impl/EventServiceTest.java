@@ -43,11 +43,15 @@ public class EventServiceTest {
     @Mock
     private Clock mockClock;
     private PersistenceMapper persistenceMapper;
+    private Instant now;
 
     @Before
     public void setUp() {
         persistenceMapper = Mappers.getMapper(PersistenceMapper.class);
         service = new EventServiceImpl(mockEventAdapter, persistenceMapper, mockClock);
+
+        now = Instant.now();
+        when(mockClock.instant()).thenReturn(now);
     }
 
     @Test
@@ -85,13 +89,13 @@ public class EventServiceTest {
         PageRequest pageRequest = somePageOptions();
         Page<Event> events = new PageImpl<>(Collections.singletonList(someEvent()), org.springframework.data.domain.PageRequest.of(1, 1), 2);
 
-        when(mockEventAdapter.findAllByDeletedAtIsNull(any())).thenReturn(events);
+        when(mockEventAdapter.findAllByDeletedAtIsNullAndDateAfterOrderByDateAsc(any(), any())).thenReturn(events);
 
         PageDto<EventDto> results = service.getEvents(pageRequest);
 
         org.springframework.data.domain.PageRequest expectedPageable = org.springframework.data.domain.PageRequest.of(pageRequest.getPage(), pageRequest.getSize());
 
-        verify(mockEventAdapter).findAllByDeletedAtIsNull(expectedPageable);
+        verify(mockEventAdapter).findAllByDeletedAtIsNullAndDateAfterOrderByDateAsc(expectedPageable, now);
 
         assertThat(results, notNullValue());
         assertThat(results.getResults(), equalTo(persistenceMapper.toEventsDto(events.getContent())));
@@ -155,13 +159,11 @@ public class EventServiceTest {
     @Test
     public void shouldDeleteAnEvent() {
 
-        Instant now = Instant.now();
         Event event = someEvent();
         Optional<Event> optionalEvent = Optional.of(event);
 
         when(mockEventAdapter.findById(any())).thenReturn(optionalEvent);
         when(mockEventAdapter.save(any())).thenReturn(event);
-        when(mockClock.instant()).thenReturn(now);
 
         service.deleteEvent(ID);
 
