@@ -68,7 +68,7 @@ public class UserServiceImpl extends PatchService<User> implements UserService, 
 
         verifyId(id);
 
-        Optional<User> user = id != null ? userAdapter.findById(id) : Optional.empty();
+        Optional<User> user = userAdapter.findById(id);
         if (!user.isPresent() || user.get().getDeletedAt() != null) {
             throw new DomainException(NOT_FOUND_MSG, User.class.getSimpleName(), NOT_FOUND);
         }
