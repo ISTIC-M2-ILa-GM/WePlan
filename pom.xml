@@ -45,6 +45,7 @@
         <maven-compiler.version>3.1</maven-compiler.version>
         <maven-assembly.version>3.1.0</maven-assembly.version>
         <maven-clean.version>3.1.0</maven-clean.version>
+        <maven-jar.version>3.1.0</maven-jar.version>
         <maven-dependency.version>2.4</maven-dependency.version>
         <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
         <jacoco.version>0.8.2</jacoco.version>
@@ -76,6 +77,7 @@
         <mockito.core.version>2.22.0</mockito.core.version>
         <podam.version>7.2.0.RELEASE</podam.version>
         <h2.version>1.4.197</h2.version>
+        <dockerfile-maven-version>1.4.8</dockerfile-maven-version>
     </properties>
 
     <dependencyManagement>
@@ -130,7 +132,6 @@
                 <groupId>org.hibernate.javax.persistence</groupId>
                 <artifactId>hibernate-jpa-2.1-api</artifactId>
                 <version>${hibernate-jpa.version}</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>javax.validation</groupId>
@@ -259,6 +260,9 @@
                     <version>${maven-compiler.version}</version>
                 </plugin>
                 <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${failsafe.version}</version>
@@ -327,6 +331,24 @@
                     <groupId>io.swagger</groupId>
                     <artifactId>swagger-codegen-maven-plugin</artifactId>
                     <version>${swagger-codegen.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>dockerfile-maven-plugin</artifactId>
+                    <version>${dockerfile-maven-version}</version>
+                    <executions>
+                        <execution>
+                            <id>default</id>
+                            <goals>
+                                <goal>build</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
