@@ -8,16 +8,22 @@
 
 ### Front end
 
+The front end application runs with the Angular 6+ framework.
+
+The web-app sends and receives data asynchronously to the back-end server using services stored in `src/app/services`.
+
+All pages (templates) are written in HTML and stored in `src/app/components`. The app is designed using [Materialize CSS](https://materializecss.com/) wrapped in the [ngx-materialize](https://github.com/sherweb/ngx-materialize) Angular module.
+
 ### Back end
 
-The Back end application used the hexagonal architecture (also known as *Ports and Adapters*). The domain layer isn't dependents of others layers. It provides some interfaces for the infrastructure layer known as Service Provider Interfaces (SPI), we can found them at *domain/src/main/java/fr/istic/gm/weplan/domain/adapter*. It also provides others interfaces for the server layer known as Application Provider Interfaces (API), wan found them at *domain/src/main/java/fr/istic/gm/weplan/domain/service*. 
+The Back end application used the hexagonal architecture (also known as *Ports and Adapters*). The domain layer isn't depending on any other layer. It provides some interfaces for the infrastructure layer known as Service Provider Interfaces (SPI), we can found them at *domain/src/main/java/fr/istic/gm/weplan/domain/adapter*. It also provides others interfaces for the server layer known as Application Provider Interfaces (API), wan found them at *domain/src/main/java/fr/istic/gm/weplan/domain/service*. 
 
 The development is in TDD (Test Driven Development).
 
 ## Technology
 
-* Languages: JavaScript/Java
-* Front end: Angular - Singlepage Application
+* Languages: TypeScript/Java
+* Front end: Angular - Single page application (SPA)
 * Back end: Spring Boot - Restful webserver
 * Build: maven + npm
 
