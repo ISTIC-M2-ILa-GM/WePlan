@@ -4,8 +4,6 @@ import fr.istic.gm.weplan.domain.component.ScheduledEventGenerator;
 import fr.istic.gm.weplan.domain.model.dto.ActivityDto;
 import fr.istic.gm.weplan.domain.model.dto.CityDto;
 import fr.istic.gm.weplan.domain.model.dto.DepartmentDto;
-import fr.istic.gm.weplan.domain.model.dto.EventDto;
-import fr.istic.gm.weplan.domain.model.dto.PageDto;
 import fr.istic.gm.weplan.domain.model.dto.RegionDto;
 import fr.istic.gm.weplan.domain.model.entities.Event;
 import fr.istic.gm.weplan.domain.model.request.ActivityRequest;
@@ -30,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 
 //TODO To delete when admin feature will be done.
+
 /**
  * Temporary class to initialize some data
  */
