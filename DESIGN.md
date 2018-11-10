@@ -58,3 +58,26 @@ Maven will also build the front application.
 ### Quicker build without starting tests
 
     mvn install -DskipTests
+    
+### Build docker image
+
+    mvn package -DskipTests
+    
+## Start
+
+with Docker compose:
+
+    docker-compose up
+    
+connect to the docker database:
+
+    sudo mysql -uroot -pweplan -h$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' CONTAINER_ID)
+    
+    CONTAINER_ID the container_id of the mariadb container.
+  
+
+## Available profile
+
+    dev: for the development database h2
+    prod: for the production database mariadb
+    weather: always required for the weather api    
