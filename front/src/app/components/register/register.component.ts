@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {UserRequest} from '../../models/dto/user.request';
-import {AuthService} from "../../services/auth.service";
+import {AuthService} from '../../services/auth.service';
+import { MzToastService } from 'ngx-materialize';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,11 @@ export class RegisterComponent implements OnInit {
   password = '';
   repeat = '';
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private toastService: MzToastService
+  ) { }
 
   ngOnInit = () => {
   }
@@ -30,11 +35,11 @@ export class RegisterComponent implements OnInit {
     console.log(user);
 
     this.authService.register(user).subscribe(response => {
+      this.toastService.show('Successfully registered. PLease, login now.', 4000, 'green');
       console.log(response);
-      console.log('Success !');
       this.router.navigate(['/login']);
     }, error => {
-      console.error('Something went wrong while registering user.');
+      this.toastService.show('Something went wrong :/', 2000, 'red');
       console.error(error);
     });
   }

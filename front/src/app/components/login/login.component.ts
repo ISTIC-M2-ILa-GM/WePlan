@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {LoginRequest} from 'src/app/models/dto/login.request';
-import {AuthService} from './../../services/auth.service';
-import {MzToastService} from 'ngx-materialize';
-import {CookieService} from 'ngx-cookie-service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './../../services/auth.service';
+import { MzToastService } from 'ngx-materialize';
+import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -23,9 +22,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private cookieService: CookieService,
     private toastService: MzToastService,
-    private router: Router,
-  ) {
-  }
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.email = '';
@@ -35,25 +33,11 @@ export class LoginComponent implements OnInit {
 
   checkLogin() {
     if (this.cookieService.check('JSESSIONID')) {
-      this.authService.check().then((logged: boolean) => {
-        if (logged) {
-          this.router.navigate(['/home']);
-        }
+      this.authService.check().then(user => {
+        this.router. navigateByUrl('/preference');
+      }, error => {
+        this.toastService.show('Something went wrong while trying to log you in :/', 4000, 'red');
       });
     }
-  }
-
-  onSubmit() {
-    const login: LoginRequest = {
-      email: this.email,
-      password: this.password
-    };
-  }
-
-  submitCookie() {
-    this.authService.setCookie(this.cookie);
-    // this.authService.login().then(isLoggedIn => {
-    //   this.toastService.show('Successfully logged id !', 4000, 'green');
-    // });
   }
 }

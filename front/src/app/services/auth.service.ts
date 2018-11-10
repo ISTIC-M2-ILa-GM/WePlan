@@ -24,7 +24,6 @@ export class AuthService {
         this.setUser(user);
         resolve(user);
       }, error => {
-        console.error("y'a eu une bourde");
         console.error(error);
         this.cookieService.deleteAll();
         this.router.navigateByUrl('/login');

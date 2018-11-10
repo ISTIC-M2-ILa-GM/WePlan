@@ -3,44 +3,7 @@
     <div class="card">
       <div class="card-content center">
         <span class="card-title">Authentication</span>
-        <mz-card class="grey lighten-2" [horizontal]="true" [hoverable]="false">
-          <mz-card-title class="red-text">
-              Login page is still in the backlog :-/
-          </mz-card-title>
-          <mz-card-content>
-            <p style="text-align: justify">
-              Due to a lack of time, the team decided to focus on the business logic of the application
-              rather than to waste time over the fine configuration of a proxy or the setup of JWT on Spring.
-            </p><br />
-            <p style="text-align: justify">
-              In order to login, please go to the login page using the link below then come back to this page.
-            </p><br />
-          </mz-card-content>
-        </mz-card>
-        <!--        <form (ngSubmit)="onSubmit()">
-                  <div class="form-group">
-                    <mz-input-container>
-                      <i mz-icon-mdi mz-input-prefix [icon]="'email'"></i>
-                      <input mz-input [validate]="true" [label]="'Email'" name="email" id="email" type="email" [(ngModel)]="email">
-                    </mz-input-container>
-                    <mz-input-container>
-                      <i mz-icon-mdi mz-input-prefix [icon]="'key'"></i>
-                      <input mz-input [label]="'Password'" name="password" id="password" type="password" [(ngModel)]="password">
-                    </mz-input-container>
-                    <mz-input-container inline="true">
-                      <button mz-button type="submit">
-                        &lt;!&ndash; <i mz-icon-mdi mz-input-prefix [icon]="'login-variant'"></i> &ndash;&gt;
-                        Login
-                      </button>
-                    </mz-input-container>
-                    <mz-input-container inline="true">
-                      <a mz-button [routerLink]="'/register'">Register</a>
-                    </mz-input-container>
-                  </div>
-                </form>-->
-      </div>
-      <div class="card-action center">
-        <a mz-button class="orange lighten-1" href="http://localhost:8080/login">Spring login page</a>
+        <a mz-button class="orange lighten-1" href="http://localhost:8080/login">Login</a>
         <a mz-button class="green lighten-1" [routerLink]="'/register'">Register</a>
       </div>
     </div>
