@@ -5,6 +5,7 @@ import {EventService} from "../../services/event.service";
 import {PageRequest} from "../../models/request/page.request";
 import {Event} from "../../models/dto/event";
 import {PageResponse} from "../../models/response/page.response";
+import {User} from "../../models/dto/user";
 
 @Component({
   selector: 'app-event',
@@ -18,40 +19,41 @@ export class EventComponent implements OnInit {
   currentPage: number;
   size: number;
   totalItems: number;
+  user: User;
 
   constructor(
     private eventService: EventService,
     private userService: UserService,
     private authService: AuthService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.totalItems = 1;
     this.size = 10;
-    this.getAllEvents(1);
+    this.authService.check().then((u: User) => this.getAllEvents(u, 1));
   }
 
-  private getAllEvents(page: number) {
+  private getAllEvents(user: User, page: number) {
     this.currentPage = page;
     const pageRequest = new PageRequest();
     pageRequest.page = this.currentPage - 1;
     pageRequest.size = this.size;
-    console.log("b" + JSON.stringify(pageRequest));
     this.eventService.get(pageRequest).subscribe((r: PageResponse<Event>) => {
       this.events = r.results;
       this.size = r.size;
       this.totalItems = r.totalPages * r.size;
     });
-    this.refreshEventUser();
+    this.refreshEventUser(user);
   }
 
-  private refreshEventUser() {
-    // TODO refactor userService without restService
-    // this.subscribedEvents = r.events;
+  private refreshEventUser(user: User) {
+    this.user = user;
+    this.subscribedEvents = user.events;
   }
 
   onPageChange(event) {
-    this.getAllEvents(event);
+    this.getAllEvents(this.user, event);
   }
 
   isSubscribed(event: Event) {
@@ -59,10 +61,10 @@ export class EventComponent implements OnInit {
   }
 
   toggleSubscribe(event: Event) {
-    if (this.isSubscribed(event)) {
-      this.userService.addEventToCurrentUser(event.id).subscribe(this.refreshEventUser);
+    if (!this.isSubscribed(event)) {
+      this.userService.addEventToCurrentUser(event.id).subscribe((u: any) => this.refreshEventUser(u));
     } else {
-      this.userService.removeEventToCurrentUser(event.id).subscribe(this.refreshEventUser);
+      this.userService.removeEventToCurrentUser(event.id).subscribe((u: any) => this.refreshEventUser(u));
     }
   }
 }

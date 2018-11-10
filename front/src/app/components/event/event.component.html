@@ -3,12 +3,11 @@
     <div class="col s12">
       <ul class="collection">
         <li *ngFor="let event of events"
-            class="collection-item">
-          <div [class.subscribed]="isSubscribed(event)"
-               (click)="toggleSubscribe(event)">
+            class="collection-item mouse-hover"
+            [class.subscribed]="isSubscribed(event)"
+            (click)="toggleSubscribe(event)">
             <span>{{event.activity.name}}: {{event.activity.activityType}}<br>{{event.city.name}}</span>
             <span class="right">{{event.date}}</span>
-          </div>
         </li>
       </ul>
 
