@@ -1,0 +1,62 @@
+@startuml
+
+class Activity {
+    -name: String
+    -cost: Float
+    -duration: int
+    -outDoor: boolean
+}
+enum ActivityType {
+    SAILING
+}
+abstract class BaseEntity {
+    -id: Long
+    -createdAt: Instant
+    -updatedAt: Instant
+    -deletedAt: Instant
+}
+class City {
+    -name: String
+    -postalCode: Integer
+}
+class Department {
+    -name: String
+    -code: int
+}
+class User {
+    -firstName: String
+    -lastName: String
+    -email: String
+    -password: String
+}
+enum Role {
+    ADMIN,
+    USER
+}
+class Region {
+    -name: String
+}
+class Event {
+    -canceled: boolean
+    -date: Instant
+}
+
+BaseEntity <|-- Activity
+BaseEntity <|-- City
+BaseEntity <|-- Department
+BaseEntity <|-- User
+BaseEntity <|-- Region
+BaseEntity <|-- Event
+Activity --> "*" City
+Activity --> "1" ActivityType
+User --> "*" City
+User --> "*" Department
+User --> "*" Region
+Department "1" <-- City
+Region "1" <-- Department
+User --> "*" Activity
+Event --> "1" City
+Event --> "1" Activity
+User --> "*" Event
+User --> "1" Role
+@enduml

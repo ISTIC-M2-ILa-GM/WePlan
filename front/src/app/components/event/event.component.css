@@ -1,0 +1,9 @@
+.subscribed {
+  background-color: #baff7d;
+}
+li {
+  cursor: pointer;
+}
+.mouse-hover:hover {
+  border: black 3px solid;
+}
