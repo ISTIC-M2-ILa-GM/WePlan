@@ -1,5 +1,6 @@
 package fr.istic.gm.weplan.domain.service.impl;
 
+import fr.istic.gm.weplan.domain.adapter.AuthAdapter;
 import fr.istic.gm.weplan.domain.adapter.PasswordEncoderAdapter;
 import fr.istic.gm.weplan.domain.adapter.UserAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
@@ -53,6 +54,7 @@ import static fr.istic.gm.weplan.domain.TestData.somePageOptions;
 import static fr.istic.gm.weplan.domain.TestData.someRegion;
 import static fr.istic.gm.weplan.domain.TestData.someUser;
 import static fr.istic.gm.weplan.domain.TestData.someUserRequest;
+import static fr.istic.gm.weplan.domain.exception.DomainException.FORBIDDEN_MSG;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOTHING_TO_PATCH;
 import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
 import static fr.istic.gm.weplan.domain.exception.DomainException.WRONG_DATA_TO_PATCH;
@@ -95,6 +97,9 @@ public class UserServiceTest {
     @Mock
     private Clock mockClock;
 
+    @Mock
+    private AuthAdapter mockAuthAdapter;
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
@@ -113,6 +118,7 @@ public class UserServiceTest {
                 mockEventDaoService,
                 persistenceMapper,
                 mockPasswordEncoderAdapter,
+                mockAuthAdapter,
                 mockClock
         );
 
@@ -120,6 +126,7 @@ public class UserServiceTest {
     }
 
     private void stub() {
+        when(mockAuthAdapter.loggedUserId()).thenReturn(ID);
         when(mockUserAdapter.save(any())).thenAnswer(i -> i.getArguments()[0]);
 
         now = Instant.now();
@@ -137,13 +144,14 @@ public class UserServiceTest {
         User result = service.getUserDao(ID);
 
         verify(mockUserAdapter).findById(ID);
+        verify(mockAuthAdapter).loggedUserId();
 
         assertThat(result, notNullValue());
         assertThat(result, equalTo(user));
     }
 
     @Test
-    public void shouldThrowDomainExceptionWhenGetANullDepartmentDao() {
+    public void shouldThrowDomainExceptionWhenGetANullUserDao() {
 
         Optional<User> optionalUser = Optional.empty();
 
@@ -151,6 +159,17 @@ public class UserServiceTest {
 
         thrown.expect(DomainException.class);
         thrown.expectMessage(String.format(NOT_FOUND_MSG, User.class.getSimpleName()));
+
+        service.getUserDao(ID);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetNotTheLoggedUserId() {
+
+        when(mockAuthAdapter.loggedUserId()).thenReturn(ID + 1);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(FORBIDDEN_MSG, User.class.getSimpleName()));
 
         service.getUserDao(ID);
     }
@@ -223,7 +242,7 @@ public class UserServiceTest {
     public void shouldThrowDomainExceptionWhenGetAUserWithNullId() {
 
         thrown.expect(DomainException.class);
-        thrown.expectMessage(String.format(NOT_FOUND_MSG, User.class.getSimpleName()));
+        thrown.expectMessage(String.format(FORBIDDEN_MSG, User.class.getSimpleName()));
 
         service.getUser(null);
     }
@@ -279,9 +298,20 @@ public class UserServiceTest {
         verify(mockUserAdapter).findById(ID);
         verify(mockUserAdapter).save(user);
         verify(mockClock).instant();
+        verify(mockAuthAdapter).loggedUserId();
 
         assertThat(user.getDeletedAt(), notNullValue());
         assertThat(user.getDeletedAt(), equalTo(now));
+    }
+
+    @Test
+    public void shouldNotDeleteAUserWhichIsNotTheLoggedUser() {
+
+        when(mockAuthAdapter.loggedUserId()).thenReturn(ID + 1);
+
+        thrown.expect(DomainException.class);
+
+        service.deleteUser(ID);
     }
 
     @Test
@@ -329,10 +359,26 @@ public class UserServiceTest {
 
         verify(mockUserAdapter).findById(ID);
         verify(mockUserAdapter).save(user);
+        verify(mockAuthAdapter).loggedUserId();
 
         assertThat(result, notNullValue());
         assertThat(result.getId(), equalTo(ID));
         assertThat(result.getFirstName(), equalTo("a-new-name"));
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenPatchNotTheLoggedUser() {
+
+        Map<String, Object> patch = new HashMap<>();
+        patch.put("firstName", "a-new-name");
+        patch.put("id", 18);
+
+        when(mockAuthAdapter.loggedUserId()).thenReturn(ID + 1);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(DomainException.FORBIDDEN_MSG, "User"));
+
+        service.patchUser(ID, patch);
     }
 
     @Test
@@ -373,7 +419,7 @@ public class UserServiceTest {
     public void shouldThrowDomainExceptionWhenPatchANullUser() {
 
         thrown.expect(DomainException.class);
-        thrown.expectMessage(String.format(NOT_FOUND_MSG, User.class.getSimpleName()));
+        thrown.expectMessage(String.format(FORBIDDEN_MSG, User.class.getSimpleName()));
 
         service.patchUser(null, new HashMap<>());
     }
@@ -444,12 +490,28 @@ public class UserServiceTest {
         verify(mockUserAdapter).findById(ID);
         verify(mockCityDaoService).getCityDao(ID + 1);
         verify(mockUserAdapter).save(user);
+        verify(mockAuthAdapter).loggedUserId();
 
         assertThat(user, notNullValue());
         assertThat(user.getCities(), notNullValue());
         assertThat(user.getCities(), hasSize(1));
         assertThat(user.getCities().get(0), equalTo(city));
         assertThat(userDto, equalTo(persistenceMapper.toUserDto(user)));
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenAddCitiesToNotTheLoggedUser() {
+
+        User user = someUser();
+        user.setCities(new ArrayList<>());
+        List<Long> citiesId = new ArrayList<>();
+        citiesId.add(ID + 1);
+
+        when(mockAuthAdapter.loggedUserId()).thenReturn(ID + 2);
+
+        thrown.expect(DomainException.class);
+
+        service.addCities(ID, citiesId);
     }
 
     @Test
@@ -508,6 +570,7 @@ public class UserServiceTest {
         verify(mockUserAdapter).findById(ID);
         verify(mockDepartmentDaoService).getDepartmentDao(ID + 1);
         verify(mockUserAdapter).save(user);
+        verify(mockAuthAdapter).loggedUserId();
 
         assertThat(user, notNullValue());
         assertThat(user.getDepartments(), notNullValue());
@@ -572,6 +635,7 @@ public class UserServiceTest {
         verify(mockUserAdapter).findById(ID);
         verify(mockRegionDaoService).getRegionDao(ID + 1);
         verify(mockUserAdapter).save(user);
+        verify(mockAuthAdapter).loggedUserId();
 
         assertThat(user, notNullValue());
         assertThat(user.getRegions(), notNullValue());
@@ -636,6 +700,7 @@ public class UserServiceTest {
         verify(mockUserAdapter).findById(ID);
         verify(mockActivityDaoService).getActivityDao(ID + 1);
         verify(mockUserAdapter).save(user);
+        verify(mockAuthAdapter).loggedUserId();
 
         assertThat(user, notNullValue());
         assertThat(user.getActivities(), notNullValue());
@@ -700,6 +765,7 @@ public class UserServiceTest {
         verify(mockUserAdapter).findById(ID);
         verify(mockEventDaoService).getEventDao(ID + 1);
         verify(mockUserAdapter).save(user);
+        verify(mockAuthAdapter).loggedUserId();
 
         assertThat(user, notNullValue());
         assertThat(user.getEvents(), notNullValue());
@@ -764,6 +830,7 @@ public class UserServiceTest {
 
         verify(mockUserAdapter).findById(ID);
         verify(mockUserAdapter).save(user);
+        verify(mockAuthAdapter).loggedUserId();
 
         assertThat(user, notNullValue());
         assertThat(user.getCities(), notNullValue());
@@ -801,6 +868,7 @@ public class UserServiceTest {
 
         verify(mockUserAdapter).findById(ID);
         verify(mockUserAdapter).save(user);
+        verify(mockAuthAdapter).loggedUserId();
 
         assertThat(user, notNullValue());
         assertThat(user.getDepartments(), notNullValue());
@@ -839,6 +907,7 @@ public class UserServiceTest {
 
         verify(mockUserAdapter).findById(ID);
         verify(mockUserAdapter).save(user);
+        verify(mockAuthAdapter).loggedUserId();
 
         assertThat(user, notNullValue());
         assertThat(user.getRegions(), notNullValue());
@@ -876,6 +945,7 @@ public class UserServiceTest {
 
         verify(mockUserAdapter).findById(ID);
         verify(mockUserAdapter).save(user);
+        verify(mockAuthAdapter).loggedUserId();
 
         assertThat(user, notNullValue());
         assertThat(user.getActivities(), notNullValue());
@@ -913,6 +983,7 @@ public class UserServiceTest {
 
         verify(mockUserAdapter).findById(ID);
         verify(mockUserAdapter).save(user);
+        verify(mockAuthAdapter).loggedUserId();
 
         assertThat(user, notNullValue());
         assertThat(user.getEvents(), notNullValue());

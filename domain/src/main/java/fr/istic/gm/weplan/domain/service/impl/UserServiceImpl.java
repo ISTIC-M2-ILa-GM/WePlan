@@ -1,5 +1,6 @@
 package fr.istic.gm.weplan.domain.service.impl;
 
+import fr.istic.gm.weplan.domain.adapter.AuthAdapter;
 import fr.istic.gm.weplan.domain.adapter.PasswordEncoderAdapter;
 import fr.istic.gm.weplan.domain.adapter.UserAdapter;
 import fr.istic.gm.weplan.domain.exception.DomainException;
@@ -58,16 +59,26 @@ public class UserServiceImpl extends PatchService<User> implements UserService, 
 
     private PasswordEncoderAdapter passwordEncoderAdapter;
 
+    private AuthAdapter authAdapter;
+
     private Clock clock;
 
     @Override
     public User getUserDao(Long id) {
+
+        verifyId(id);
 
         Optional<User> user = id != null ? userAdapter.findById(id) : Optional.empty();
         if (!user.isPresent() || user.get().getDeletedAt() != null) {
             throw new DomainException(NOT_FOUND_MSG, User.class.getSimpleName(), NOT_FOUND);
         }
         return user.get();
+    }
+
+    private void verifyId(Long id) {
+        if (!authAdapter.loggedUserId().equals(id)) {
+            throw new DomainException(DomainException.FORBIDDEN_MSG, "User", DomainException.ExceptionType.FORBIDDEN);
+        }
     }
 
     @Override
