@@ -1,5 +1,6 @@
 package fr.istic.gm.weplan.infra;
 
+import fr.istic.gm.weplan.domain.adapter.AuthAdapter;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -19,5 +20,10 @@ public class TestConfiguration {
     @Bean
     public Clock clock() {
         return Clock.systemUTC();
+    }
+
+    @Bean
+    public AuthAdapter authAdapter() {
+        return () -> null;
     }
 }

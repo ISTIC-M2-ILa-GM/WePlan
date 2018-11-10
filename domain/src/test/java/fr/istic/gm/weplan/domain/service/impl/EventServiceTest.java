@@ -102,103 +102,36 @@ public class EventServiceTest {
     }
 
     @Test
-    public void shouldGetnEvent() {
+    public void shouldGetAnEvent() {
 
         Event event = someEvent();
-        Optional<Event> optionalEvent = Optional.of(event);
 
-        when(mockEventAdapter.findById(any())).thenReturn(optionalEvent);
+        when(mockEventDaoService.getEventDao(any())).thenReturn(event);
 
         EventDto results = service.getEvent(ID);
 
-        verify(mockEventAdapter).findById(ID);
+        verify(mockEventDaoService).getEventDao(ID);
 
         assertThat(results, notNullValue());
         assertThat(results, equalTo(persistenceMapper.toEventDto(event)));
     }
 
     @Test
-    public void shouldThrowDomainExceptionWhenGetANullEvent() {
-
-        Optional<Event> optionalEvent = Optional.empty();
-
-        when(mockEventAdapter.findById(any())).thenReturn(optionalEvent);
-
-        thrown.expect(DomainException.class);
-        thrown.expectMessage(String.format(NOT_FOUND_MSG, Event.class.getSimpleName()));
-
-        service.getEvent(ID);
-    }
-
-    @Test
-    public void shouldThrowDomainExceptionWhenGetADeletedEvent() {
-
-        Event event = someEvent();
-        event.setDeletedAt(Instant.now());
-        Optional<Event> optionalEvent = Optional.of(event);
-
-        when(mockEventAdapter.findById(any())).thenReturn(optionalEvent);
-
-        thrown.expect(DomainException.class);
-        thrown.expectMessage(String.format(NOT_FOUND_MSG, Event.class.getSimpleName()));
-
-        service.getEvent(ID);
-    }
-
-    @Test
-    public void shouldThrowDomainExceptionWhenGetAnEventWithNullId() {
-
-        thrown.expect(DomainException.class);
-        thrown.expectMessage(String.format(NOT_FOUND_MSG, Event.class.getSimpleName()));
-
-        service.getEvent(null);
-    }
-
-    @Test
     public void shouldDeleteAnEvent() {
 
         Event event = someEvent();
-        Optional<Event> optionalEvent = Optional.of(event);
 
-        when(mockEventAdapter.findById(any())).thenReturn(optionalEvent);
+        when(mockEventDaoService.getEventDao(any())).thenReturn(event);
         when(mockEventAdapter.save(any())).thenReturn(event);
 
         service.deleteEvent(ID);
 
-        verify(mockEventAdapter).findById(ID);
+        verify(mockEventDaoService).getEventDao(ID);
         verify(mockEventAdapter).save(event);
         verify(mockClock).instant();
 
         assertThat(event.getDeletedAt(), notNullValue());
         assertThat(event.getDeletedAt(), equalTo(now));
-    }
-
-    @Test
-    public void shouldThrowDomainExceptionWhenDeleteANullEvent() {
-
-        Optional<Event> optionalEvent = Optional.empty();
-
-        when(mockEventAdapter.findById(any())).thenReturn(optionalEvent);
-
-        thrown.expect(DomainException.class);
-        thrown.expectMessage(String.format(NOT_FOUND_MSG, Event.class.getSimpleName()));
-
-        service.deleteEvent(ID);
-    }
-
-    @Test
-    public void shouldThrowDomainExceptionWhenDeleteADeletedEvent() {
-
-        Event event = someEvent();
-        event.setDeletedAt(Instant.now());
-        Optional<Event> optionalEvent = Optional.of(event);
-
-        when(mockEventAdapter.findById(any())).thenReturn(optionalEvent);
-
-        thrown.expect(DomainException.class);
-        thrown.expectMessage(String.format(NOT_FOUND_MSG, Event.class.getSimpleName()));
-
-        service.deleteEvent(ID);
     }
 
     @Test

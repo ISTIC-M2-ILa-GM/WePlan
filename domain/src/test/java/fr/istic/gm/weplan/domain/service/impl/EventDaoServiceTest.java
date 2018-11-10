@@ -25,6 +25,7 @@ import static fr.istic.gm.weplan.domain.exception.DomainException.NOT_FOUND_MSG;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -63,7 +64,8 @@ public class EventDaoServiceTest {
         verify(mockEventAdapter).findAll(of(pageRequest.getPage(), pageRequest.getSize()));
 
         assertThat(result, notNullValue());
-        assertThat(result, equalTo(event));
+        assertThat(result.getContent(), hasSize(1));
+        assertThat(result.getContent().get(0), equalTo(event));
     }
 
     @Test
@@ -83,7 +85,44 @@ public class EventDaoServiceTest {
     }
 
     @Test
-    public void shouldThrowDomainExceptionWhenGetANullDepartmentDao() {
+    public void shouldThrowDomainExceptionWhenGetANullEventDao() {
+
+        Optional<Event> optionalEvent = Optional.empty();
+
+        when(mockEventAdapter.findById(any())).thenReturn(optionalEvent);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Event.class.getSimpleName()));
+
+        service.getEventDao(ID);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetAnEventWithNullId() {
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Event.class.getSimpleName()));
+
+        service.getEventDao(null);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetADeletedEvent() {
+
+        Event event = someEvent();
+        event.setDeletedAt(Instant.now());
+        Optional<Event> optionalEvent = Optional.of(event);
+
+        when(mockEventAdapter.findById(any())).thenReturn(optionalEvent);
+
+        thrown.expect(DomainException.class);
+        thrown.expectMessage(String.format(NOT_FOUND_MSG, Event.class.getSimpleName()));
+
+        service.getEventDao(ID);
+    }
+
+    @Test
+    public void shouldThrowDomainExceptionWhenGetANullEvent() {
 
         Optional<Event> optionalEvent = Optional.empty();
 
