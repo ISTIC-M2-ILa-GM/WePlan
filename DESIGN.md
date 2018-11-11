@@ -22,16 +22,23 @@ The Back end application used the hexagonal architecture (also known as *Ports a
 
 ## Technology
 
-* Languages: TypeScript/Java
-* Front end: Angular - Single page application (SPA)
-* Back end: Spring Boot - Restful webserver
-* Build: maven + npm
-* Deploy: docker
+* Languages: `TypeScript/Java`
 
+* Front end: `Angular - Single page application (SPA)`
 
-* Package: fr.istic.gm.weplan
-* Artifact: we-plan
-* Server artifact: we-plan-server
+* Back end: `Spring Boot - Restful webserver`
+
+* Build: `maven + npm`
+
+* Deploy: `docker`
+
+## Package
+
+* Package: `fr.istic.gm.weplan`
+
+* Artifact: `we-plan`
+
+* Server artifact: `we-plan-server`
 
 ## Modules
 
@@ -63,6 +70,28 @@ Maven will also build the front application and the docker image.
 ### Quicker build without starting tests
 
     mvn install -DskipTests
+    
+### Troubleshooting
+
+If build failed because it doesn't found domain / infra / front library:
+
+    cd domain
+    mvn install -DskipTests
+    cd ../infra
+    mvn install -DskipTests
+    cd ../front
+    mvn install -DskipTests
+    cd ..
+    mvn install -DskipTests
+    
+If the front failed to build with this error:
+
+    [ERROR] npm ERR! code MODULE_NOT_FOUND
+    [ERROR] npm ERR! Cannot find module 'call-limit'
+    
+you need to manually install call-limit module (not globally)
+
+    npm install call-limit
     
 ### Build docker image
 
@@ -125,6 +154,7 @@ We use a KANBAN board to manage the project.
 - [X] Use an angular front library which implement Material Design
 - [X] Create some view like login, register, user's profile, user's preference and events list
 - [X] Develop an authentication management
+- [X] Develop a mock api for development tests: `npm run stub`
 
 ### Features todo
 
