@@ -15,7 +15,7 @@ services:
     networks:
     - weplan
   web:
-    image: "gm/weplan:1.0-SNAPSHOT"
+    image: "gm/weplan:1.0"
     ports:
     - "8080:8080"
     networks:
